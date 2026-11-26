@@ -134,12 +134,16 @@ const Building: React.FC<{b: Bldg; night: number; snow: number}> = ({b, night, s
 };
 
 export const CityFiller: React.FC<{items: {x: number; z: number; w: number; d: number; h: number; c: number}[]; night: number; snow: number}> = ({items, night, snow}) => {
-  const {geo, mat, roof} = useMemo(() => {
+  const {geo, mat, mats, roof} = useMemo(() => {
     const t = facade(9, {base: '#cfcac0', frame: '#e3e3e0', glass: '#93a7b8', floors: 12, cols: 4, tile: true});
     t.map.repeat.set(1, 1);
     const m = new THREE.MeshStandardMaterial({map: t.map, emissiveMap: t.emissive, emissive: new THREE.Color('#ffffff'), emissiveIntensity: 0, roughness: 0.9});
     const g = new THREE.BoxGeometry(1, 1, 1).translate(0, 0.5, 0);
-    return {geo: g, mat: m, roof: new THREE.MeshStandardMaterial({color: '#c9d2e4', roughness: 1})};
+    // 屋上（天面）と底面は窓のないコンクリート。夜も光らない
+    const top = new THREE.MeshStandardMaterial({map: paving([3, 3], '#9a978f'), roughness: 1});
+    // BoxGeometry の面順：+x, -x, +y(屋上), -y(底面), +z, -z
+    const mats = [m, m, top, top, m, m];
+    return {geo: g, mat: m, mats, roof: new THREE.MeshStandardMaterial({color: '#c9d2e4', roughness: 1})};
   }, []);
   mat.emissiveIntensity = night * 0.9;
   const tmp = new THREE.Object3D();
@@ -147,7 +151,7 @@ export const CityFiller: React.FC<{items: {x: number; z: number; w: number; d: n
   return (
     <>
       <instancedMesh
-        args={[geo, mat, items.length]}
+        args={[geo, mats, items.length]}
         castShadow
         receiveShadow
         ref={(m) => {
