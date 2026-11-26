@@ -63,7 +63,7 @@ type Props = {
   hideSpiker?: boolean;
 };
 
-export const Court: React.FC<Props> = ({H, ball, ballHeat = 0, receivers, extraOurs = [], score = [24, 24], scoreFlash = 0, shatter = 0, hole, wallHole, netShake = 0, refPose, children, hideSpiker}) => {
+export const Court: React.FC<Props> = ({H, ball, ballHeat = 0, receivers, extraOurs = [], score = [23, 24], scoreFlash = 0, shatter = 0, hole, wallHole, netShake = 0, refPose, children, hideSpiker}) => {
   const f = useCurrentFrame();
   const sp = spiker(f, H);
   const bl = blocker(f, H);

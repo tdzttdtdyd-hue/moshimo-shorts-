@@ -423,7 +423,7 @@ export const V09: React.FC = () => {
     <AbsoluteFill>
       <Stage bg={BG}>
         <CameraRig keys={CAM9} />
-        <Court H={-200} ball={[5.2, 0.11, -1.0]} shatter={1} hole wallHole extraOurs={us} receivers={them} refPose={ref} score={flip ? [24, 25] : [24, 24]} scoreFlash={flip ? Math.max(0, 1.2 - (f - 96) / 20) : 0} hideSpiker />
+        <Court H={-200} ball={[5.2, 0.11, -1.0]} shatter={1} hole wallHole extraOurs={us} receivers={them} refPose={ref} score={flip ? [23, 25] : [23, 24]} scoreFlash={flip ? Math.max(0, 1.2 - (f - 96) / 20) : 0} hideSpiker />
       </Stage>
       <Vignette strength={0.45} />
       <Flash at={97} dur={6} max={0.3} />
