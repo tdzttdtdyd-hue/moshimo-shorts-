@@ -1,0 +1,238 @@
+{
+  "video": "out/volley/volley_final.mp4",
+  "results": [
+    {
+      "name": "解像度 1080x1920",
+      "pass": true,
+      "detail": "1080x1920"
+    },
+    {
+      "name": "30fps",
+      "pass": true,
+      "detail": "30/1"
+    },
+    {
+      "name": "尺 30〜40秒",
+      "pass": true,
+      "detail": "40.00s / 1200 frames"
+    },
+    {
+      "name": "H.264 / yuv420p",
+      "pass": true,
+      "detail": "h264 yuv420p"
+    },
+    {
+      "name": "音声トラック（BGM＋効果音）",
+      "pass": true,
+      "detail": "aac 48000Hz"
+    },
+    {
+      "name": "0.5秒以上の静止区間なし（スライドショー化していない）",
+      "pass": true,
+      "detail": "0件"
+    },
+    {
+      "name": "意図しない黒画面なし",
+      "pass": true,
+      "detail": "0件"
+    },
+    {
+      "name": "音声ピーク -1dBFS 以下（クリップなし）",
+      "pass": true,
+      "detail": "-8.2 dBFS"
+    },
+    {
+      "name": "コンタクトシート作成",
+      "pass": true,
+      "detail": "out/volley/check/contact_sheet.png"
+    },
+    {
+      "name": "テロップがセーフエリア内",
+      "pass": true,
+      "detail": "26 フレーム検査 / 違反 0"
+    },
+    {
+      "name": "テロップ同士の重なりなし",
+      "pass": true,
+      "detail": "違反 0"
+    },
+    {
+      "name": "テロップが横幅に収まる",
+      "pass": true,
+      "detail": "違反 0"
+    },
+    {
+      "name": "書体：テーマ・経過時間・語りは明朝体、その他はゴシック体",
+      "pass": true,
+      "detail": "違反 0"
+    },
+    {
+      "name": "日本語フォント（ゴシック: Noto Sans JP / 明朝: Noto Serif JP）読込",
+      "pass": true,
+      "detail": "sans 99 / serif 66 subsets"
+    },
+    {
+      "name": "コンソール / WebGL エラーなし",
+      "pass": true,
+      "detail": "0件"
+    }
+  ],
+  "frames": [
+    {
+      "frame": 30,
+      "what": "hook title",
+      "boxes": 4,
+      "issues": []
+    },
+    {
+      "frame": 90,
+      "what": "v01_first caption0",
+      "boxes": 6,
+      "issues": []
+    },
+    {
+      "frame": 95,
+      "what": "v01_first card0",
+      "boxes": 6,
+      "issues": []
+    },
+    {
+      "frame": 129,
+      "what": "v02_dig caption0",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 169,
+      "what": "v02_dig card0",
+      "boxes": 8,
+      "issues": []
+    },
+    {
+      "frame": 234,
+      "what": "v03_knock caption0",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 274,
+      "what": "v03_knock card0",
+      "boxes": 8,
+      "issues": []
+    },
+    {
+      "frame": 339,
+      "what": "v04_floor caption0",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 379,
+      "what": "v04_floor card0",
+      "boxes": 9,
+      "issues": []
+    },
+    {
+      "frame": 383,
+      "what": "v04_floor callout0",
+      "boxes": 9,
+      "issues": []
+    },
+    {
+      "frame": 444,
+      "what": "v05_sonic caption0",
+      "boxes": 6,
+      "issues": []
+    },
+    {
+      "frame": 466,
+      "what": "v05_sonic callout0",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 516,
+      "what": "v05_sonic card0",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 564,
+      "what": "v06_burn caption0",
+      "boxes": 8,
+      "issues": []
+    },
+    {
+      "frame": 573,
+      "what": "v06_burn callout0",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 630,
+      "what": "v06_burn card0",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 714,
+      "what": "v07_orbit caption0",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 760,
+      "what": "v07_orbit card0",
+      "boxes": 8,
+      "issues": []
+    },
+    {
+      "frame": 798,
+      "what": "v07_orbit caption1",
+      "boxes": 8,
+      "issues": []
+    },
+    {
+      "frame": 827,
+      "what": "v07_orbit callout0",
+      "boxes": 8,
+      "issues": []
+    },
+    {
+      "frame": 894,
+      "what": "v08_return caption0",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 970,
+      "what": "v08_return caption1",
+      "boxes": 6,
+      "issues": []
+    },
+    {
+      "frame": 985,
+      "what": "v08_return callout0",
+      "boxes": 6,
+      "issues": []
+    },
+    {
+      "frame": 1046,
+      "what": "v09_point caption0",
+      "boxes": 3,
+      "issues": []
+    },
+    {
+      "frame": 1084,
+      "what": "v09_point card0",
+      "boxes": 4,
+      "issues": []
+    },
+    {
+      "frame": 1140,
+      "what": "v09_point caption1",
+      "boxes": 5,
+      "issues": []
+    }
+  ]
+}
