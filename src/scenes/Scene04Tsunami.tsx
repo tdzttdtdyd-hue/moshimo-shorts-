@@ -90,10 +90,10 @@ export const Scene04Tsunami: React.FC = () => {
     return {h, trees};
   }, []);
   const runners = [
-    {x: -1.6, z: SHORE + 10.5, o: 0, d: 0},
-    {x: 0.9, z: SHORE + 12, o: 2, d: 3},
-    {x: 2.4, z: SHORE + 10, o: 4, d: 6},
-    {x: -3.2, z: SHORE + 11.5, o: 1, d: 9},
+    {x: -1.8, z: SHORE + 8.6, o: 0, d: 0},
+    {x: 0.9, z: SHORE + 9.4, o: 2, d: 3},
+    {x: 2.6, z: SHORE + 8.2, o: 4, d: 6},
+    {x: -3.4, z: SHORE + 9.0, o: 1, d: 9},
   ];
   const storm = interpolate(f, [0, 110], [0, 1], {extrapolateRight: 'clamp'});
   const bg = new THREE.Color('#cfe6f7').lerp(new THREE.Color('#6f7f98'), storm).getStyle();
@@ -122,7 +122,7 @@ export const Scene04Tsunami: React.FC = () => {
         <Forest trees={town.trees} seed={14} bend={(_t, i) => Math.sin(f * 0.3 + i) * 0.12} />
         {runners.map((r, i) => {
           const t = Math.max(0, f - r.d);
-          return <Human key={i} position={[r.x, 0, r.z + t * 0.05]} rotation={[0, 0.12 * (i - 1.5), 0]} scale={0.85} outfit={OUTFITS[r.o]} p={runPose(t * 0.5 + i, 1)} />;
+          return <Human key={i} position={[r.x + (r.x > 0 ? 1 : -1) * t * 0.012, 0, r.z + t * 0.018]} rotation={[0, 0.12 * (i - 1.5), 0]} scale={0.8} outfit={OUTFITS[r.o]} p={runPose(t * 0.5 + i, 1)} />;
         })}
       </Stage>
       <Vignette strength={0.5} />
