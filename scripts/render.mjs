@@ -33,9 +33,13 @@ await renderMedia({
 });
 
 // 効果音のみのステム（BGM なし）
-await renderMedia({serveUrl, composition, codec: 'wav', outputLocation: 'out/sfx_only.wav', browserExecutable, chromiumOptions, inputProps: {withSfx: true, withBgm: false}});
+const stem = async (inputProps, outputLocation) => {
+  const comp = await selectComposition({serveUrl, id: 'MoshimoShort', browserExecutable, chromiumOptions, inputProps});
+  await renderMedia({serveUrl, composition: comp, codec: 'wav', outputLocation, browserExecutable, chromiumOptions, inputProps});
+};
+await stem({withSfx: true, withBgm: false}, 'out/sfx_only.wav');
 // BGM のみのステム
-await renderMedia({serveUrl, composition, codec: 'wav', outputLocation: 'out/bgm_only.wav', browserExecutable, chromiumOptions, inputProps: {withSfx: false, withBgm: true}});
+await stem({withSfx: false, withBgm: true}, 'out/bgm_only.wav');
 
 const ff = (args) => execFileSync('ffmpeg', ['-loglevel', 'error', '-y', ...args], {stdio: 'inherit'});
 // 最終版（BGM＋効果音）

@@ -103,12 +103,13 @@ export const Clock: React.FC<{value: string; sceneFrame: number; popFrame: numbe
   return (
     <>
       <div style={{position: 'absolute', left: 92, top: 318}}>
-        <div data-telop="clock-label" style={{fontFamily: SANS, fontWeight: 500, fontSize: 30, color: 'rgba(255,255,255,0.88)', letterSpacing: '0.18em', textShadow: softShadow}}>
+        <div data-telop="clock-label" style={{display: 'table', fontFamily: SANS, fontWeight: 500, fontSize: 30, color: 'rgba(255,255,255,0.88)', letterSpacing: '0.18em', textShadow: softShadow}}>
           自転停止から
         </div>
         <div
           data-telop="clock"
           style={{
+            display: 'table',
             fontFamily: SERIF,
             fontWeight: 600,
             fontSize: 132,
@@ -177,7 +178,7 @@ export const Assumption: React.FC<{sceneFrame: number; dur: number; top?: number
       }}
     >
       <div style={{fontSize: 26, fontWeight: 500, color: 'rgba(255,255,255,0.9)'}}>想定</div>
-      <div style={{fontSize: 36, fontWeight: 900, color: C.peach, whiteSpace: 'pre'}}>自転だけが一瞬で停止</div>
+      <div style={{fontSize: 33, fontWeight: 900, color: C.peach, whiteSpace: 'pre'}}>自転だけが一瞬で停止</div>
     </div>
   );
 };

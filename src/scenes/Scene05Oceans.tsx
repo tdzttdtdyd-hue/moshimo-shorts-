@@ -43,7 +43,7 @@ export const Scene05Oceans: React.FC = () => {
         const ang = 0.35;
         const x = (c[0] * Math.cos(ang) - c[2] * Math.sin(ang)) / d;
         const z = (c[0] * Math.sin(ang) + c[2] * Math.cos(ang)) / d;
-        return <CalloutView {...project(CAM, f, [x * 2.78, -0.2, z * 2.78])} {...CALLOUTS.equator} from={64} to={118} dy={170} dx={60} />;
+        return <CalloutView {...project(CAM, f, [x * 2.78, -0.2, z * 2.78])} {...CALLOUTS.equator} from={22} to={60} dy={-150} dx={60} />;
       })()}
     </AbsoluteFill>
   );

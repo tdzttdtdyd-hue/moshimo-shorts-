@@ -25,7 +25,7 @@ ok('解像度 1080x1920', v.width === 1080 && v.height === 1920, `${v.width}x${v
 ok('30fps', n / d === 30, v.r_frame_rate);
 ok('尺 30〜40秒', dur >= 30 && dur <= 40, `${dur.toFixed(2)}s / ${v.nb_frames} frames`);
 ok('H.264 / yuv420p', v.codec_name === 'h264' && v.pix_fmt === 'yuv420p', `${v.codec_name} ${v.pix_fmt}`);
-ok('音声トラック（SEのみ）', !!a, a ? `${a.codec_name} ${a.sample_rate}Hz` : 'なし');
+ok('音声トラック（BGM＋効果音）', !!a, a ? `${a.codec_name} ${a.sample_rate}Hz` : 'なし');
 
 const ffLog = (filters) => spawnSync('ffmpeg', ['-hide_banner', '-i', VIDEO, '-vf', filters, '-an', '-f', 'null', '-'], {encoding: 'utf8'}).stderr;
 const freeze = ffLog('freezedetect=n=0.003:d=0.5');
