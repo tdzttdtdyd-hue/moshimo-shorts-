@@ -8,7 +8,7 @@ const ALL_TEXT =
     s.clock?.value ?? '',
     s.clock?.ff ?? '',
     s.assumption ?? '',
-    ...(s.cards ?? []).flatMap((c) => [c.label, c.prefix ?? '', c.text ?? '', c.unit ?? '', c.note ?? '']),
+    ...(s.cards ?? []).flatMap((c) => [c.label, c.prefix ?? '', c.text ?? '', c.unit ?? '', c.note ?? '', c.badge ?? '']),
     ...(s.callouts ?? []).flatMap((c) => [c.tag, c.text]),
   ]).join('') +
   THEME.hook.join('') +

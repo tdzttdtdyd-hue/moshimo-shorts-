@@ -240,12 +240,17 @@ export const DataCardView: React.FC<{card: DataCard; top?: number}> = ({card, to
         boxShadow: '0 10px 40px rgba(0,0,0,0.35)',
       }}
     >
-      <div style={{fontSize: 36, fontWeight: 700, color: 'rgba(255,255,255,0.95)', letterSpacing: '0.04em'}}>{card.label}</div>
+      <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 14}}>
+        <span style={{fontSize: 36, fontWeight: 700, color: 'rgba(255,255,255,0.95)', letterSpacing: '0.04em', whiteSpace: 'pre'}}>{card.label}</span>
+        {card.badge && (
+          <span style={{fontSize: 28, fontWeight: 900, color: '#fff', background: C.coral, borderRadius: 8, padding: '1px 12px 4px', whiteSpace: 'pre', transform: `scale(${1 + 0.25 * Math.max(0, 1 - Math.abs(t - countDur) / 8)})`}}>{card.badge}</span>
+        )}
+      </div>
       <div style={{display: 'flex', justifyContent: 'center', alignItems: 'baseline', marginTop: 4, textShadow: `0 0 ${30 * glow}px rgba(240,123,90,${0.8 * glow})`}}>
         {card.value !== undefined ? (
           <>
             {card.prefix && <span style={{fontSize: size * 0.42, fontWeight: 900, color: '#fff', marginRight: 10, whiteSpace: 'pre', flexShrink: 0}}>{card.prefix}</span>}
-            <span style={{fontSize: size, fontWeight: 900, color: C.coral, lineHeight: 1.12, fontVariantNumeric: 'tabular-nums', whiteSpace: 'pre', flexShrink: 0}}>{fmt(card.value * prog)}</span>
+            <span style={{fontSize: size, fontWeight: 900, color: C.coral, lineHeight: 1.12, fontVariantNumeric: 'tabular-nums', whiteSpace: 'pre', flexShrink: 0}}>{fmt((card.fromValue ?? 0) + (card.value - (card.fromValue ?? 0)) * prog)}</span>
             {card.unit && <span style={{fontSize: size * 0.6, fontWeight: 900, color: C.coral, marginLeft: 6, whiteSpace: 'pre', flexShrink: 0}}>{card.unit}</span>}
           </>
         ) : (
