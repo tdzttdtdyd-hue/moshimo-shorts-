@@ -189,7 +189,7 @@ export const V04: React.FC = () => {
     <AbsoluteFill>
       <Stage bg={BG}>
         <CameraRig keys={CAM4} shakes={[{from: H + 2, dur: 16, amp: 0.18}]} />
-        <Court H={H} ball={ball} receivers={recv} hole={t >= 2}>
+        <Court H={H} ball={ball} receivers={recv} hole={t >= 2} holeAge={t - 2}>
           {f >= H && f < H + 4 && <Streak from={HIT_POINT} to={[HOLE[0], 0.05, HOLE[2]]} width={0.1} opacity={0.6} />}
           <Burst at={H + 2} origin={[HOLE[0], 0.05, HOLE[2]]} color="#b98455" n={40} speed={0.07} up={0.25} seed={7} />
           <Ring at={H + 2} origin={HOLE} max={3.5} />
@@ -350,7 +350,8 @@ export const V07: React.FC = () => {
         <SpaceBackdrop />
         <Stars />
         <Sun position={[70, 45, -90]} size={3} />
-        <Earth radius={2.3} spin={f * 0.003} tilt={0.3} position={[0, -0.3, 0]} />
+        {/* 実際の大陸の形。日本が正面に来る向き */}
+        <Earth radius={2.3} real detail={120} spin={-2.3 + (f - 62) * 0.002} tilt={0.2} cloudOpacity={0.55} position={[0, -0.3, 0]} />
         <lineLoop geometry={trail}>
           <lineDashedMaterial color="#ffd2a0" dashSize={0.08} gapSize={0.06} transparent opacity={0.55} />
         </lineLoop>

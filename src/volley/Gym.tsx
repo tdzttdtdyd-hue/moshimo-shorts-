@@ -2,6 +2,7 @@ import React, {useMemo} from 'react';
 import * as THREE from 'three';
 import {mulberry32} from '../lib/rand';
 import {V3} from '../lib/anim';
+import {FloorHole, WallWithHole, floorWithHole} from './Holes';
 
 // 体育館：x 方向がコートの長辺（ネットは x=0）、+x が「自分たちのチーム」、-x が相手チーム。
 export const COURT = {L: 9, W: 4.5}; // 半分の長さ・幅（18m × 9m）
@@ -182,10 +183,20 @@ export const Net: React.FC<{shake?: number; t?: number}> = ({shake = 0, t = 0}) 
 };
 
 // 体育館の建物（床・壁・高窓・天井の鉄骨・照明）。窓が割れる shatter 0..1
-export const Gym: React.FC<{shatter?: number; hole?: boolean; wallHole?: boolean}> = ({shatter = 0, hole = false, wallHole = false}) => {
+export const HOLE_AT: V3 = [-4.2, 0, 1.2];
+
+export const Gym: React.FC<{shatter?: number; hole?: boolean; holeAge?: number; wallHole?: boolean}> = ({shatter = 0, hole = false, holeAge = 99, wallHole = false}) => {
   const ft = useMemo(() => floorTex(), []);
   const wt = useMemo(() => wallTex(), []);
   const {x: GX, z: GZ, h: GH} = GYM;
+  const holeFloor = useMemo(() => floorWithHole(GX, GZ, HOLE_AT), [GX, GZ]);
+  const ftHole = useMemo(() => {
+    const t = ft.clone();
+    t.repeat.set(1 / (GX * 2), 1 / (GZ * 2));
+    t.offset.set(0.5, 0.5);
+    t.needsUpdate = true;
+    return t;
+  }, [ft, GX, GZ]);
   const windows = useMemo(() => {
     const out: {x: number; z: number; ry: number}[] = [];
     for (let x = -18; x <= 18; x += 4) {
@@ -196,10 +207,17 @@ export const Gym: React.FC<{shatter?: number; hole?: boolean; wallHole?: boolean
   }, [GZ]);
   return (
     <group>
-      <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
-        <planeGeometry args={[GX * 2, GZ * 2]} />
-        <meshStandardMaterial map={ft} roughness={0.45} metalness={0.05} />
-      </mesh>
+      {hole ? (
+        // 穴の部分を本当に抜いた床（テクスチャの位置は平面の床と同じになるよう合わせる）
+        <mesh geometry={holeFloor} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
+          <meshStandardMaterial map={ftHole} roughness={0.45} metalness={0.05} />
+        </mesh>
+      ) : (
+        <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
+          <planeGeometry args={[GX * 2, GZ * 2]} />
+          <meshStandardMaterial map={ft} roughness={0.45} metalness={0.05} />
+        </mesh>
+      )}
       {/* 壁 */}
       {[
         [0, -GZ, 0, GX * 2],
@@ -208,25 +226,7 @@ export const Gym: React.FC<{shatter?: number; hole?: boolean; wallHole?: boolean
         [GX, 0, -Math.PI / 2, GZ * 2],
       ].map(([x, z, ry, w], i) =>
         wallHole && i === 3 ? (
-          <group key={i}>
-            {/* 自分たち側の奥の壁：ボールが抜けた穴（y 2.0〜4.4, z ±1.2） */}
-            <mesh position={[x, GH / 2, z - (w / 4 + 0.6)]} rotation={[0, ry, 0]}>
-              <planeGeometry args={[w / 2 - 1.2, GH]} />
-              <meshStandardMaterial map={wt} roughness={0.9} side={THREE.DoubleSide} />
-            </mesh>
-            <mesh position={[x, GH / 2, z + (w / 4 + 0.6)]} rotation={[0, ry, 0]}>
-              <planeGeometry args={[w / 2 - 1.2, GH]} />
-              <meshStandardMaterial map={wt} roughness={0.9} side={THREE.DoubleSide} />
-            </mesh>
-            <mesh position={[x, 1.0, z]} rotation={[0, ry, 0]}>
-              <planeGeometry args={[2.4, 2.0]} />
-              <meshStandardMaterial map={wt} side={THREE.DoubleSide} />
-            </mesh>
-            <mesh position={[x, (GH + 4.4) / 2, z]} rotation={[0, ry, 0]}>
-              <planeGeometry args={[2.4, GH - 4.4]} />
-              <meshStandardMaterial map={wt} side={THREE.DoubleSide} />
-            </mesh>
-          </group>
+          <WallWithHole key={i} GX={GX} GZ={GZ} GH={GH} tex={wt} />
         ) : (
           <mesh key={i} position={[x, GH / 2, z]} rotation={[0, ry, 0]} receiveShadow>
             <planeGeometry args={[w, GH]} />
@@ -273,24 +273,7 @@ export const Gym: React.FC<{shatter?: number; hole?: boolean; wallHole?: boolean
           ))}
         </group>
       ))}
-      {/* 床の穴（4本目） */}
-      {hole && (
-        <group position={[-4.2, 0.012, 1.2]}>
-          <mesh rotation={[-Math.PI / 2, 0, 0]}>
-            <circleGeometry args={[0.55, 24]} />
-            <meshBasicMaterial color="#0d0b09" />
-          </mesh>
-          {Array.from({length: 10}).map((_, k) => {
-            const a = (k / 10) * Math.PI * 2;
-            return (
-              <mesh key={k} position={[Math.cos(a) * 0.75, 0.04, Math.sin(a) * 0.75]} rotation={[-Math.PI / 2 + 0.3 * Math.sin(k), 0, a]}>
-                <planeGeometry args={[0.5, 0.12]} />
-                <meshStandardMaterial color="#b98455" />
-              </mesh>
-            );
-          })}
-        </group>
-      )}
+      {hole && <FloorHole at={HOLE_AT} age={holeAge} />}
     </group>
   );
 };

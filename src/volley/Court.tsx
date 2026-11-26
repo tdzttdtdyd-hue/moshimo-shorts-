@@ -56,6 +56,7 @@ type Props = {
   scoreFlash?: number;
   shatter?: number;
   hole?: boolean;
+  holeAge?: number;
   wallHole?: boolean;
   netShake?: number;
   refPose?: Pose;
@@ -63,7 +64,7 @@ type Props = {
   hideSpiker?: boolean;
 };
 
-export const Court: React.FC<Props> = ({H, ball, ballHeat = 0, receivers, extraOurs = [], score = [23, 24], scoreFlash = 0, shatter = 0, hole, wallHole, netShake = 0, refPose, children, hideSpiker}) => {
+export const Court: React.FC<Props> = ({H, ball, ballHeat = 0, receivers, extraOurs = [], score = [23, 24], scoreFlash = 0, shatter = 0, hole, holeAge, wallHole, netShake = 0, refPose, children, hideSpiker}) => {
   const f = useCurrentFrame();
   const sp = spiker(f, H);
   const bl = blocker(f, H);
@@ -74,7 +75,7 @@ export const Court: React.FC<Props> = ({H, ball, ballHeat = 0, receivers, extraO
   return (
     <>
       <GymLights />
-      <Gym shatter={shatter} hole={hole} wallHole={wallHole} />
+      <Gym shatter={shatter} hole={hole} holeAge={holeAge} wallHole={wallHole} />
       <Net shake={netShake} t={f} />
       <Scoreboard us={score[0]} them={score[1]} position={[0, 8.2, -GYM.z + 0.15]} flash={scoreFlash} />
       <Referee p={refPose} rotY={0} />

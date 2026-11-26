@@ -3,6 +3,7 @@ import * as THREE from 'three';
 import {mergeVertices} from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import {V3} from '../lib/anim';
 import {fbm3, mulberry32, noise3} from '../lib/rand';
+import {sampleCoast, sampleLand, worldMask} from './worldMask';
 
 // 高精細な地球：起伏のある地形（バイオーム別の色）＋ 光沢のある海 ＋ 雲 ＋ 大気の光 ＋ 夜景
 
@@ -18,6 +19,8 @@ type Props = {
   clouds?: boolean;
   cloudSpin?: number;
   detail?: number;
+  real?: boolean; // 実際の大陸の形（Natural Earth）で描く
+  cloudOpacity?: number;
 };
 
 const col = (h: string) => new THREE.Color(h);
@@ -139,9 +142,20 @@ export const Atmosphere: React.FC<{color?: string; strength?: number}> = ({color
   );
 };
 
-type Base = {land: THREE.BufferGeometry; ocean: THREE.BufferGeometry; dirs: THREE.Vector3[]; h: Float32Array; m: Float32Array; oh: Float32Array; odirs: THREE.Vector3[]};
+type Base = {land: THREE.BufferGeometry; ocean: THREE.BufferGeometry; dirs: THREE.Vector3[]; h: Float32Array; m: Float32Array; oh: Float32Array; odirs: THREE.Vector3[]; real: boolean};
 
-const buildBase = (detail: number): Base => {
+// 実際の地球の経緯度（経度0°が +z、東経が +x 側）
+export const lonLat = (v: THREE.Vector3) => ({lon: (Math.atan2(v.x, v.z) * 180) / Math.PI, lat: (Math.asin(Math.max(-1, Math.min(1, v.y))) * 180) / Math.PI});
+const realElevation = (v: THREE.Vector3, mask: ReturnType<typeof worldMask>) => {
+  const {lon, lat} = lonLat(v);
+  const land = sampleLand(mask, lon, lat);
+  const coast = sampleCoast(mask, lon, lat);
+  if (land > 0.5) return 0.035 + Math.max(0, fbm3(v.x * 6, v.y * 6, v.z * 6, 21, 4) * 0.5 + 0.05) * Math.min(1, coast * 1.2);
+  return -0.04 - (1 - coast) * 0.5;
+};
+
+const buildBase = (detail: number, real = false): Base => {
+  const mask = real ? worldMask() : null;
   const land = mergeVertices(new THREE.IcosahedronGeometry(1, detail));
   const p = land.attributes.position;
   const dirs: THREE.Vector3[] = [];
@@ -150,7 +164,7 @@ const buildBase = (detail: number): Base => {
   for (let i = 0; i < p.count; i++) {
     const v = new THREE.Vector3(p.getX(i), p.getY(i), p.getZ(i)).normalize();
     dirs.push(v);
-    h[i] = elevation(v);
+    h[i] = mask ? realElevation(v, mask) : elevation(v);
     m[i] = moisture(v);
   }
   const ocean = mergeVertices(new THREE.IcosahedronGeometry(1, Math.max(12, Math.floor(detail * 0.7))));
@@ -160,9 +174,9 @@ const buildBase = (detail: number): Base => {
   for (let i = 0; i < op.count; i++) {
     const v = new THREE.Vector3(op.getX(i), op.getY(i), op.getZ(i)).normalize();
     odirs.push(v);
-    oh[i] = elevation(v);
+    oh[i] = mask ? realElevation(v, mask) : elevation(v);
   }
-  return {land, ocean, dirs, h, m, oh, odirs};
+  return {land, ocean, dirs, h, m, oh, odirs, real};
 };
 
 const seaLevel = (absLat: number, shift: number) => shift * (absLat * 1.2 - 0.6);
@@ -191,6 +205,45 @@ const landColor = (h: number, sea: number, m: number, v: THREE.Vector3, shift: n
   return out.copy(B.grass).lerp(B.forest, Math.min(1, Math.max(0, m * 3 + 0.4)));
 };
 
+// 実際の地球に近い色分け（緯度・おおまかな砂漠/氷床の位置・標高）
+const inBox = (lon: number, lat: number, b: [number, number, number, number]) => lon >= b[0] && lon <= b[1] && lat >= b[2] && lat <= b[3];
+const DESERTS: [number, number, number, number][] = [
+  [-17, 32, 15, 31], // サハラ
+  [32, 60, 13, 32], // アラビア
+  [60, 72, 24, 37], // イラン・パキスタン
+  [118, 142, -31, -19], // オーストラリア内陸
+  [88, 115, 37, 47], // ゴビ
+  [55, 80, 37, 46], // 中央アジア
+  [12, 26, -28, -17], // カラハリ
+  [-72, -68, -28, -16], // アタカマ
+  [-118, -104, 28, 38], // 北米南西部
+];
+// 箱の内側ほど 1、縁から soft 度ぶんでなめらかに 0 へ
+const boxWeight = (lon: number, lat: number, b: [number, number, number, number], soft = 6) => {
+  const d = Math.min(lon - b[0], b[1] - lon, lat - b[2], b[3] - lat);
+  return Math.max(0, Math.min(1, (d + soft * 0.5) / soft));
+};
+const landColorReal = (h: number, m: number, v: THREE.Vector3, out: THREE.Color) => {
+  const ll = lonLat(v);
+  // 境界が直線にならないよう、経緯度をノイズで揺らす
+  const jx = fbm3(v.x * 4, v.y * 4, v.z * 4, 71, 3) * 9;
+  const jy = fbm3(v.x * 4 + 5, v.y * 4, v.z * 4, 72, 3) * 7;
+  const lon = ll.lon + jx, lat = ll.lat + jy;
+  const a = Math.abs(lat);
+  const greenland = inBox(ll.lon, ll.lat, [-74, -12, 59, 84]);
+  if (ll.lat < -62 || greenland || Math.abs(ll.lat) > 80) return out.copy(B.ice).lerp(B.frost, 0.25);
+  if (h < 0.05) out.copy(B.grass).lerp(B.beach, 0.35);
+  if (a > 64) out.copy(B.tundra).lerp(B.snow, (a - 64) / 30);
+  else if (a > 50) out.copy(B.forest).lerp(B.tundra, (a - 50) / 18);
+  else if (a < 12) out.copy(B.jungle).lerp(B.forest, 0.2 + Math.max(0, m));
+  else if (a < 22) out.copy(B.savanna).lerp(B.grass, Math.max(0, m * 2 + 0.3));
+  else out.copy(B.grass).lerp(B.forest, Math.min(1, Math.max(0, m * 2 + 0.4)));
+  const dw = Math.max(...DESERTS.map((b) => boxWeight(lon, lat, b)));
+  if (dw > 0) out.lerp(new THREE.Color().copy(B.desert).lerp(B.desertRed, Math.max(0, Math.min(1, m * 2 + 0.3))), dw);
+  if (h > 0.3) out.lerp(B.mountain, Math.min(1, (h - 0.3) * 4));
+  return out;
+};
+
 export const Earth: React.FC<Props> = ({
   radius = 2,
   spin = 0,
@@ -203,8 +256,10 @@ export const Earth: React.FC<Props> = ({
   clouds = true,
   cloudSpin,
   detail = 72,
+  real = false,
+  cloudOpacity = 1,
 }) => {
-  const base = useMemo(() => buildBase(detail), [detail]);
+  const base = useMemo(() => buildBase(detail, real), [detail, real]);
   const cloudTex = useMemo(() => (clouds ? makeCloudTexture() : null), [clouds]);
 
   const shiftKey = Math.round(oceanShift * 90) / 90;
@@ -225,7 +280,8 @@ export const Earth: React.FC<Props> = ({
       const e = h - sea;
       const r = 1 + (e > 0 ? Math.min(e, h > 0 ? h + 0.15 : e) * 0.06 : Math.max(-0.02, e * 0.06));
       p.setXYZ(i, v.x * r, v.y * r, v.z * r);
-      landColor(h, sea, base.m[i], v, shiftKey, tmp);
+      if (base.real && e > 0) landColorReal(h, base.m[i], v, tmp);
+      else landColor(h, sea, base.m[i], v, shiftKey, tmp);
       if (sd && heatKey > 0) {
         const d = v.dot(sd);
         const t = d > 0.12 ? (e > 0.3 ? B.hotDark : B.hot) : d < -0.12 ? B.frost : B.grass;
@@ -305,7 +361,7 @@ export const Earth: React.FC<Props> = ({
         {cloudTex && (
           <mesh scale={1.055} rotation={[0, cloudSpin ?? spin * 0.15, 0]}>
             <sphereGeometry args={[1, 96, 64]} />
-            <meshStandardMaterial map={cloudTex} transparent depthWrite={false} roughness={1} />
+            <meshStandardMaterial map={cloudTex} transparent opacity={cloudOpacity} depthWrite={false} roughness={1} />
           </mesh>
         )}
       </group>

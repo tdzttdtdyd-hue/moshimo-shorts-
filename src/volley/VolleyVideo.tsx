@@ -12,6 +12,7 @@ const COMPS: Record<string, React.FC> = {v01_first: V01, v02_dig: V02, v03_knock
 const POS: Record<string, {cardTop?: number; captionBottom?: number}> = {
   v01_first: {cardTop: 820},
   v07_orbit: {cardTop: 560},
+  v04_floor: {cardTop: 560},
   v09_point: {cardTop: 930},
 };
 export const BGM_GAIN = 0.3;

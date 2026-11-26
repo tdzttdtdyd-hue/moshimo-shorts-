@@ -17,7 +17,7 @@ export const EarthTest: React.FC = () => {
         <SpaceBackdrop />
         <Stars />
         {mode === 2 && <Sun position={[-60, 10, -40]} size={4} />}
-        <Earth radius={3} spin={0.6} tilt={0.3} oceanShift={mode === 1 ? 1 : 0} heat={mode === 3 ? 1 : 0} sunDir={mode === 3 ? [1, 0.2, 0.3] : undefined} cityLights={mode === 2 ? [-10, 2, -3] : undefined} clouds={mode !== 1} />
+        <Earth radius={3} real detail={120} spin={[-2.4, -0.3, 1.6, 0.4][mode]} tilt={0.15} clouds={mode === 0} cloudOpacity={0.55} />
       </Stage>
     </AbsoluteFill>
   );

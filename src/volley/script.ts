@@ -55,7 +55,7 @@ export const SCENES: SceneSpec[] = [
     assumption: '1本ごとに球速が2倍',
     captions: [{from: 4, to: 105, lines: ['4本目、', '体育館の*床に穴*があく']}],
     cards: [{from: 30, to: 105, label: '4本目の球速', prefix: '時速', fromValue: speedOf(3), badge: '前の2倍', value: speedOf(4), unit: 'km/h', note: '旅客機（約900km/h）なみ'}],
-    callouts: [{key: 'hole', tag: '床', text: 'ボールがめり込む', from: 36, to: 100, dy: -170}],
+    callouts: [{key: 'hole', tag: '床', text: 'ボールがめり込む', from: 36, to: 100, dy: 170}],
   },
   {
     id: 'v05_sonic',
