@@ -10,3 +10,6 @@ out/line/raw.mp4
 out/sunlong/raw.mp4
 out/sunlong/check/
 out/sunlong/render.log
+out/sunlong/*.mp4
+out/sunlong/*.wav
+out/sunlong/qf*
