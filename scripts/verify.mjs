@@ -7,7 +7,7 @@ import {createRequire} from 'node:module';
 
 const require = createRequire(import.meta.url);
 const VIDEO = process.argv[2] ?? 'out/moshimo_final.mp4';
-const CHECK = 'out/check';
+const CHECK = process.env.CHECK ?? 'out/check';
 fs.mkdirSync(CHECK, {recursive: true});
 const results = [];
 const ok = (name, pass, detail = '') => {
@@ -45,7 +45,7 @@ ok('コンタクトシート作成', fs.existsSync(`${CHECK}/contact_sheet.png`)
 // ---------- Playwright ----------
 const esbuild = require('esbuild');
 await esbuild.build({
-  entryPoints: ['verify/app.tsx'],
+  entryPoints: [process.env.APP ?? 'verify/app.tsx'],
   bundle: true,
   outfile: 'verify/dist/app.js',
   jsx: 'automatic',

@@ -48,3 +48,29 @@ export const SFX_V4: {at: number; file: string; vol?: number; dur?: number}[] = 
   {at: 1051, file: 'ding', vol: 0.6, dur: 25},
   {at: 1099, file: 'pop', vol: 0.5, dur: 10},
 ];
+
+// バレー動画の効果音（動画全体のフレーム）
+export const SFX_VOLLEY: {at: number; file: string; vol?: number; dur?: number}[] = [
+  {at: 56, file: 'hit', vol: 0.7, dur: 15},
+  {at: 65, file: 'pop', vol: 0.5, dur: 10},
+  {at: 105 + 26, file: 'hit', vol: 0.8, dur: 15},
+  {at: 105 + 31, file: 'hit', vol: 0.6, dur: 15},
+  {at: 210 + 26, file: 'hit', vol: 0.9, dur: 15},
+  {at: 210 + 57, file: 'boom', vol: 0.6, dur: 30},
+  {at: 315 + 26, file: 'hit', vol: 1, dur: 15},
+  {at: 315 + 28, file: 'boom', vol: 0.9, dur: 30},
+  {at: 420 + 28, file: 'boom', vol: 1, dur: 30},
+  {at: 420 + 32, file: 'glass', vol: 0.8, dur: 40},
+  {at: 420 + 84, file: 'ding', vol: 0.5, dur: 25},
+  {at: 540, file: 'ff', vol: 0.6, dur: 30},
+  {at: 540 + 25, file: 'boom', vol: 0.8, dur: 30},
+  {at: 540 + 65, file: 'boom', vol: 0.9, dur: 30},
+  {at: 540 + 105, file: 'boom', vol: 1, dur: 30},
+  {at: 690 + 30, file: 'boom', vol: 1, dur: 30},
+  {at: 690 + 62, file: 'whoosh', vol: 0.7, dur: 25},
+  {at: 870, file: 'ff', vol: 0.6, dur: 30},
+  {at: 870 + 76, file: 'whoosh', vol: 0.8, dur: 25},
+  {at: 870 + 82, file: 'boom', vol: 0.8, dur: 30},
+  {at: 1020 + 18, file: 'whistle', vol: 0.8, dur: 30},
+  {at: 1020 + 97, file: 'ding', vol: 0.7, dur: 25},
+];
