@@ -1,91 +1,87 @@
 import React, {useMemo} from 'react';
 import * as THREE from 'three';
 import {V3} from '../lib/anim';
-import {fbm3} from '../lib/rand';
 
 const Flat: React.FC<{color: string; emissive?: string; ei?: number}> = ({color, emissive, ei = 0}) => (
   <meshStandardMaterial color={color} flatShading roughness={0.85} emissive={emissive ?? '#000'} emissiveIntensity={ei} />
 );
 
-export const House: React.FC<{position?: V3; rotation?: V3; scale?: number; wall: string; roof: string; h?: number}> = ({
+const gableGeo = (() => {
+  let g: THREE.BufferGeometry | null = null;
+  return () => {
+    if (g) return g;
+    const sh = new THREE.Shape();
+    sh.moveTo(-0.78, 0);
+    sh.lineTo(0.78, 0);
+    sh.lineTo(0, 0.62);
+    sh.lineTo(-0.78, 0);
+    g = new THREE.ExtrudeGeometry(sh, {depth: 1.5, bevelEnabled: false}).translate(0, 0, -0.75);
+    return g;
+  };
+})();
+
+const Win: React.FC<{position: V3; rotY?: number; lit?: boolean}> = ({position, rotY = 0, lit}) => (
+  <group position={position} rotation={[0, rotY, 0]}>
+    <mesh>
+      <boxGeometry args={[0.3, 0.3, 0.03]} />
+      <meshStandardMaterial color="#ffffff" roughness={0.7} />
+    </mesh>
+    <mesh position={[0, 0, 0.012]}>
+      <boxGeometry args={[0.24, 0.24, 0.02]} />
+      <meshStandardMaterial color={lit ? '#ffe2a0' : '#7fb2d6'} emissive={lit ? '#ffcf6b' : '#000'} emissiveIntensity={lit ? 1.2 : 0} roughness={0.15} metalness={0.2} />
+    </mesh>
+  </group>
+);
+
+// 切妻屋根・煙突・窓枠・玄関のある家（h>1.5 で2階建て）
+export const House: React.FC<{position?: V3; rotation?: V3; scale?: number; wall: string; roof: string; h?: number; lit?: boolean}> = ({
   position = [0, 0, 0],
   rotation = [0, 0, 0],
   scale = 1,
   wall,
   roof,
   h = 1,
-}) => (
-  <group position={position} rotation={rotation} scale={scale}>
-    <mesh position={[0, h / 2, 0]} castShadow receiveShadow>
-      <boxGeometry args={[1.2, h, 1.2]} />
-      <Flat color={wall} />
-    </mesh>
-    <mesh position={[0, h + 0.38, 0]} rotation={[0, Math.PI / 4, 0]} castShadow>
-      <coneGeometry args={[1.05, 0.75, 4]} />
-      <Flat color={roof} />
-    </mesh>
-    <mesh position={[0, 0.3, 0.605]}>
-      <boxGeometry args={[0.3, 0.5, 0.02]} />
-      <Flat color="#8a5a3c" />
-    </mesh>
-    {[-0.35, 0.35].map((x) => (
-      <mesh key={x} position={[x, h * 0.62, 0.605]}>
-        <boxGeometry args={[0.22, 0.22, 0.02]} />
-        <meshStandardMaterial color="#9fe0ff" emissive="#9fe0ff" emissiveIntensity={0.2} />
-      </mesh>
-    ))}
-  </group>
-);
-
-export const Building: React.FC<{position?: V3; w?: number; d?: number; h: number; color: string; rotation?: V3}> = ({
-  position = [0, 0, 0],
-  w = 1.4,
-  d = 1.4,
-  h,
-  color,
-  rotation = [0, 0, 0],
+  lit = false,
 }) => {
-  const rows = Math.max(1, Math.floor(h / 0.7));
+  const floors = h > 1.5 ? 2 : 1;
+  const H = floors === 2 ? 1.75 : 1.05;
   return (
-    <group position={position} rotation={rotation}>
-      <mesh position={[0, h / 2, 0]} castShadow receiveShadow>
-        <boxGeometry args={[w, h, d]} />
-        <Flat color={color} />
+    <group position={position} rotation={rotation} scale={scale}>
+      <mesh position={[0, 0.06, 0]} receiveShadow>
+        <boxGeometry args={[1.42, 0.12, 1.42]} />
+        <meshStandardMaterial color="#9a9590" roughness={1} />
       </mesh>
-      {Array.from({length: rows}).map((_, i) => (
-        <mesh key={i} position={[0, 0.45 + i * 0.7, d / 2 + 0.01]}>
-          <boxGeometry args={[w * 0.75, 0.22, 0.02]} />
-          <meshStandardMaterial color="#bfe9ff" emissive="#bfe9ff" emissiveIntensity={0.15} />
-        </mesh>
+      <mesh position={[0, H / 2 + 0.1, 0]} castShadow receiveShadow>
+        <boxGeometry args={[1.3, H, 1.3]} />
+        <meshStandardMaterial color={wall} roughness={0.9} />
+      </mesh>
+      <mesh geometry={gableGeo()} position={[0, H + 0.1, 0]} rotation={[0, Math.PI / 2, 0]} castShadow receiveShadow>
+        <meshStandardMaterial color={roof} roughness={0.75} flatShading />
+      </mesh>
+      <mesh position={[0.35, H + 0.55, -0.3]} castShadow>
+        <boxGeometry args={[0.16, 0.5, 0.16]} />
+        <meshStandardMaterial color="#8a6a58" roughness={1} />
+      </mesh>
+      {/* 玄関 */}
+      <mesh position={[-0.28, 0.42, 0.655]}>
+        <boxGeometry args={[0.3, 0.6, 0.03]} />
+        <meshStandardMaterial color="#7a4e34" roughness={0.8} />
+      </mesh>
+      <mesh position={[-0.28, 0.14, 0.75]} receiveShadow>
+        <boxGeometry args={[0.45, 0.06, 0.22]} />
+        <meshStandardMaterial color="#bdb6ad" />
+      </mesh>
+      {Array.from({length: floors}).map((_, fl) => (
+        <group key={fl}>
+          <Win position={[0.3, 0.62 + fl * 0.72, 0.66]} lit={lit} />
+          {fl === 1 && <Win position={[-0.28, 0.62 + fl * 0.72, 0.66]} lit={lit} />}
+          <Win position={[0.66, 0.62 + fl * 0.72, 0.2]} rotY={Math.PI / 2} lit={lit} />
+          <Win position={[-0.66, 0.62 + fl * 0.72, -0.2]} rotY={-Math.PI / 2} lit={lit} />
+        </group>
       ))}
     </group>
   );
 };
-
-export const Tree: React.FC<{position?: V3; rotation?: V3; scale?: number; color?: string; bend?: number}> = ({
-  position = [0, 0, 0],
-  rotation = [0, 0, 0],
-  scale = 1,
-  color = '#4cc46a',
-  bend = 0,
-}) => (
-  <group position={position} rotation={rotation} scale={scale}>
-    <mesh position={[0, 0.35, 0]} castShadow>
-      <cylinderGeometry args={[0.08, 0.12, 0.7, 6]} />
-      <Flat color="#8d5a3b" />
-    </mesh>
-    <group position={[0, 0.7, 0]} rotation={[0, 0, -bend]}>
-      <mesh position={[0, 0.45, 0]} castShadow>
-        <icosahedronGeometry args={[0.55, 0]} />
-        <Flat color={color} />
-      </mesh>
-      <mesh position={[0.15, 0.85, 0.05]} castShadow>
-        <icosahedronGeometry args={[0.35, 0]} />
-        <Flat color={color} />
-      </mesh>
-    </group>
-  </group>
-);
 
 export const Car: React.FC<{position?: V3; rotation?: V3; color: string; scale?: number}> = ({position = [0, 0, 0], rotation = [0, 0, 0], color, scale = 1}) => (
   <group position={position} rotation={rotation} scale={scale}>
@@ -110,44 +106,6 @@ export const Car: React.FC<{position?: V3; rotation?: V3; color: string; scale?:
     ))}
   </group>
 );
-
-// フラットシェーディングの起伏のある地面
-export const Ground: React.FC<{size?: [number, number]; seg?: number; color?: string; amp?: number; seed?: number; colorFn?: (x: number, z: number) => THREE.Color; position?: V3}> = ({
-  size = [80, 80],
-  seg = 60,
-  color = '#7ed66f',
-  amp = 0.25,
-  seed = 3,
-  colorFn,
-  position = [0, 0, 0],
-}) => {
-  const geo = useMemo(() => {
-    const g = new THREE.PlaneGeometry(size[0], size[1], seg, seg).toNonIndexed();
-    g.rotateX(-Math.PI / 2);
-    const p = g.attributes.position;
-    for (let i = 0; i < p.count; i++) {
-      const x = p.getX(i), z = p.getZ(i);
-      p.setY(i, fbm3(x * 0.15, 0, z * 0.15, seed, 3) * amp);
-    }
-    if (colorFn) {
-      const cols = new Float32Array(p.count * 3);
-      for (let i = 0; i < p.count; i += 3) {
-        const cx = (p.getX(i) + p.getX(i + 1) + p.getX(i + 2)) / 3;
-        const cz = (p.getZ(i) + p.getZ(i + 1) + p.getZ(i + 2)) / 3;
-        const c = colorFn(cx, cz);
-        for (let k = 0; k < 3; k++) cols.set([c.r, c.g, c.b], (i + k) * 3);
-      }
-      g.setAttribute('color', new THREE.BufferAttribute(cols, 3));
-    }
-    g.computeVertexNormals();
-    return g;
-  }, [size, seg, amp, seed, colorFn]);
-  return (
-    <mesh geometry={geo} receiveShadow position={position}>
-      <meshStandardMaterial color={colorFn ? '#fff' : color} vertexColors={!!colorFn} flatShading roughness={0.95} />
-    </mesh>
-  );
-};
 
 // 横向きに流れる風の線
 export const WindStreaks: React.FC<{frame: number; count?: number; speed?: number; area?: [number, number, number]; center?: V3; opacity?: number; seed?: number; len?: number}> = ({

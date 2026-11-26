@@ -34,7 +34,11 @@ bash scripts/make-sfx.sh   # 効果音を FFmpeg で再生成
 src/script.ts        テロップ文言・尺（正本）
 src/theme.ts         色・フォント・セーフエリア
 src/scenes/          シーン 1〜9（Three.js）
-src/three/           ローポリ部品（地球・キャラ・家・木・車・地面）
+src/three/Earth      地球（地形バイオーム・光沢のある海・雲・大気・夜景）、星空、太陽
+src/three/Landscape  空・遠景の山・雲・木（インスタンス化）・草・道路・ビル・地形
+src/three/Human      顔なし・等身大の人型キャラクターと関節ポーズ
+src/three/Props      家・車・風の線
+src/dev/             部品確認用のテスト用コンポジション（HumanTest / EarthTest）
 src/components/      テロップ・数値カウンター・集中線など
 src/lib/CameraRig    フレーム駆動のカメラワーク（キーフレーム＋シェイク）
 scripts/             書き出し・検証・効果音生成

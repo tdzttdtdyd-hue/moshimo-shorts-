@@ -1,31 +1,32 @@
 import React, {useMemo} from 'react';
 import {AbsoluteFill, useCurrentFrame} from 'remotion';
 import {Lights, Stage} from '../three/Stage';
-import {Building, Ground, Tree, WindStreaks} from '../three/Props';
-import {Character} from '../three/Character';
+import {WindStreaks} from '../three/Props';
+import {Forest, Grass, Mountains, Road, SkyDome, Terrain, Tower, TreeSpec, grassColor} from '../three/Landscape';
+import {Human, OUTFITS, flailPose, holdPose} from '../three/Human';
 import {CameraRig} from '../lib/CameraRig';
 import {mulberry32} from '../lib/rand';
-import {C} from '../theme';
 import {Flash, Vignette} from '../components/Overlay';
 
 const wallX = (f: number) => -30 + Math.max(0, f - 4) * 0.9;
-const HIT = 37; // 砂嵐の壁が主人公に届くフレーム
+const HIT = 37;
+const ground = grassColor('#78b955', '#4f9440', '#a4d36e');
 
 const Torii: React.FC<{position: [number, number, number]}> = ({position}) => (
   <group position={position}>
     {[-1.1, 1.1].map((x) => (
       <mesh key={x} position={[x, 1.3, 0]} castShadow>
-        <cylinderGeometry args={[0.14, 0.16, 2.6, 8]} />
-        <meshStandardMaterial color="#e8432e" flatShading />
+        <cylinderGeometry args={[0.13, 0.16, 2.6, 12]} />
+        <meshStandardMaterial color="#e0432c" roughness={0.6} />
       </mesh>
     ))}
-    <mesh position={[0, 2.7, 0]} castShadow>
-      <boxGeometry args={[3.3, 0.22, 0.3]} />
-      <meshStandardMaterial color="#2b2b38" flatShading />
+    <mesh position={[0, 2.72, 0]} castShadow>
+      <boxGeometry args={[3.4, 0.2, 0.32]} />
+      <meshStandardMaterial color="#2b2b30" roughness={0.6} />
     </mesh>
-    <mesh position={[0, 2.3, 0]}>
-      <boxGeometry args={[2.7, 0.16, 0.22]} />
-      <meshStandardMaterial color="#e8432e" flatShading />
+    <mesh position={[0, 2.32, 0]} castShadow>
+      <boxGeometry args={[2.8, 0.14, 0.2]} />
+      <meshStandardMaterial color="#e0432c" roughness={0.6} />
     </mesh>
   </group>
 );
@@ -34,19 +35,21 @@ export const Scene03Japan: React.FC = () => {
   const f = useCurrentFrame();
   const city = useMemo(() => {
     const r = mulberry32(21);
-    const b = [] as {x: number; z: number; h: number; w: number; c: string}[];
-    for (let x = -26; x <= 26; x += 2.1) for (const z of [-7, -10, -13]) if (r() < 0.8) b.push({x: x + r() * 0.5, z: z - r(), h: 2 + r() * (z < -9 ? 9 : 4), w: 1.3 + r() * 0.6, c: ['#f8f9fa', '#dee2e6', '#ffe8cc', '#d0ebff', '#e5dbff', '#fff3bf'][Math.floor(r() * 6)]});
-    const trees = [] as {x: number; z: number; s: number}[];
-    for (let x = -24; x <= 24; x += 3) trees.push({x: x + r(), z: -3.5 - r(), s: 0.8 + r() * 0.4});
-    const debris = Array.from({length: 40}).map(() => ({y: r() * 6, z: -6 + r() * 9, s: 0.1 + r() * 0.2, c: r()}));
+    const b = [] as {x: number; z: number; h: number; w: number; d: number; c: string; seed: number}[];
+    for (let x = -30; x <= 30; x += 2.3)
+      for (const z of [-9, -12.5, -16, -20])
+        if (r() < 0.82) b.push({x: x + r() * 0.6, z: z - r() * 1.2, h: 3 + r() * (z < -12 ? 12 : 5), w: 1.6 + r() * 0.7, d: 1.6 + r() * 0.6, c: ['#eef1f5', '#d9dee6', '#f1e6d6', '#cfe0ef', '#e3dcef', '#f3ecd0'][Math.floor(r() * 6)], seed: Math.floor(r() * 100)});
+    const trees: TreeSpec[] = [];
+    for (let x = -26; x <= 26; x += 2.6) trees.push({x: x + r(), z: -6.2 - r() * 0.8, s: 0.8 + r() * 0.4, type: r() < 0.45 ? 'sakura' : 'round'});
+    const debris = Array.from({length: 46}).map(() => ({y: r() * 6, z: -6 + r() * 9, s: 0.08 + r() * 0.2, c: r()}));
     return {b, trees, debris};
   }, []);
   const wx = wallX(f);
   const hitK = Math.min(1, Math.max(0, (f - HIT) / 8));
+  const dusty = Math.min(1, Math.max(0, (wx - 0) / 10));
   return (
     <AbsoluteFill>
-      <Stage bg={wx > 2 ? '#e0c49a' : '#9fd8ff'} fog={[wx > 2 ? '#d9b98a' : '#bfe6ff', 12, wx > 2 ? 30 : 60]}>
-        {/* ドリーズーム：被写体の大きさを保ったまま背景が迫る */}
+      <Stage bg="#cfe6f7" fog={[dusty > 0 ? '#d7b98c' : '#d7ecfa', 10 + 30 * (1 - dusty), 40 + 60 * (1 - dusty)]}>
         <CameraRig
           keys={[
             {f: 0, pos: [0.5, 2.6, 17], look: [0, 2.6, 0], fov: 22},
@@ -55,57 +58,65 @@ export const Scene03Japan: React.FC = () => {
           ]}
           shakes={[{from: HIT, dur: 30, amp: 0.3}]}
         />
-        <Lights sun={[-8, 14, 8]} shadowSize={16} />
-        <Ground size={[80, 50]} seg={50} color="#9ad77e" amp={0.12} />
-        <mesh position={[0, 0.02, -1]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
-          <planeGeometry args={[80, 2.4]} />
-          <meshStandardMaterial color={C.road} />
-        </mesh>
+        <SkyDome top="#3c86d6" horizon="#e2f1fb" sunDir={[-0.5, 0.45, -0.7]} />
+        <Lights sun={[-8, 14, 8]} shadowSize={18} />
+        <Mountains seed={8} radius={80} color="#8aa3be" height={22} arc={[Math.PI * 1.1, Math.PI * 1.9]} />
+        <Terrain size={[120, 70]} seg={90} amp={0.2} colorAt={ground} flatten={(_x, z) => (z > -24 ? 0.2 : 1)} />
+        <Road length={120} position={[0, 0, -2.6]} />
+        <Grass count={900} area={[-30, 30, -0.2, 2.6]} sway={hitK * 0.8} />
         {city.b.map((b, i) => (
-          <Building key={i} position={[b.x, 0, b.z]} h={b.h} w={b.w} color={b.c} />
+          <Tower key={i} position={[b.x, 0, b.z]} h={b.h} w={b.w} d={b.d} color={b.c} seed={b.seed} />
         ))}
-        <Torii position={[-5, 0, -2.2]} />
-        {city.trees.map((t, i) => {
-          const hit = t.x < wx;
-          return <Tree key={i} position={[t.x, 0, t.z]} scale={t.s} color={i % 3 === 0 ? '#ffb3c8' : '#4cc46a'} bend={hit ? 1.0 + Math.sin(f * 1.1 + i) * 0.12 : 0} />;
-        })}
-        {/* 街灯につかまる主人公（体が旗のようになびく） */}
-        <mesh position={[0.6, 1.4, 0.3]} castShadow>
-          <cylinderGeometry args={[0.07, 0.09, 2.8, 8]} />
-          <meshStandardMaterial color="#495057" />
+        <Torii position={[-5.5, 0, -6.6]} />
+        <Forest trees={city.trees} seed={9} bend={(t, i) => (t.x < wx ? 0.9 + Math.sin(f * 1.1 + i) * 0.1 : Math.sin(f * 0.1 + i) * 0.03)} />
+        {/* 街灯につかまる人 */}
+        <mesh position={[0.6, 1.5, 0.3]} castShadow>
+          <cylinderGeometry args={[0.06, 0.08, 3, 10]} />
+          <meshStandardMaterial color="#3d434d" metalness={0.4} roughness={0.5} />
         </mesh>
-        <mesh position={[0.6, 2.85, 0.3]}>
-          <sphereGeometry args={[0.2, 12, 12]} />
-          <meshStandardMaterial color="#fff3bf" emissive="#ffe066" emissiveIntensity={0.6} />
+        <mesh position={[0.6, 3.05, 0.3]}>
+          <sphereGeometry args={[0.18, 16, 16]} />
+          <meshStandardMaterial color="#fff6d8" emissive="#ffe8a8" emissiveIntensity={0.5} />
         </mesh>
-        <group position={[0.6, 2.25, 0.3]} rotation={[0, 0, -Math.PI / 2 * hitK + Math.sin(f * 1.4) * 0.08 * hitK]}>
-          <Character position={[0, -1.55 + hitK * 0.1, 0.05]} rotation={[0, hitK * 0.5, 0]} scale={0.8} color={C.bodyColors[3]} expr={f < HIT - 6 ? 'happy' : 'scared'} armL={f < HIT - 6 ? 0.3 : 2.9} armR={f < HIT - 6 ? 0.3 : 2.9} walk={f * 0.9} walkAmp={0.5 * hitK} />
+        <group position={[0.6, 2.45, 0.3]} rotation={[0, 0, (-Math.PI / 2) * hitK + Math.sin(f * 1.4) * 0.08 * hitK]}>
+          <group position={[0, -2.05 * 0.95, 0.07]} rotation={[0, hitK * 0.4, 0]}>
+            <Human scale={0.95} outfit={OUTFITS[5]} p={f < HIT - 6 ? holdPose(f, 0) : holdPose(f, 1)} />
+          </group>
         </group>
+        {f > HIT + 2 &&
+          [0, 1].map((i) => {
+            const t = f - HIT - 2 - i * 8;
+            if (t < 0) return null;
+            return <Human key={i} position={[-4 + t * 0.35 + i * 2, 1 + i + Math.sin(t * 0.2) * 0.4, -2 - i * 1.5]} rotation={[0.3, 1.2, -t * 0.15]} scale={0.9} outfit={OUTFITS[i + 1]} p={flailPose(t, i)} />;
+          })}
         {/* 迫る砂嵐の壁 */}
         <group position={[wx, 0, 0]}>
-          <mesh position={[-6, 6, -2]}>
-            <boxGeometry args={[12, 14, 30]} />
-            <meshStandardMaterial color="#c9a36b" transparent opacity={0.75} flatShading />
+          {Array.from({length: 26}).map((_, i) => {
+            const y = (i % 5) * 2.2 + 1;
+            const z = -14 + Math.floor(i / 5) * 5.5 + Math.cos(i) * 1.5;
+            return (
+              <mesh key={i} position={[-1.5 + Math.sin(i * 3.1 + f * 0.35) * 0.8 - (i % 3) * 1.6, y, z]} scale={[2.6 + (i % 3) * 0.8, 2.4 + (i % 4) * 0.5, 2.6]}>
+                <sphereGeometry args={[1, 18, 14]} />
+                <meshStandardMaterial color={i % 2 ? '#cfa877' : '#b88f5f'} roughness={1} transparent opacity={0.82} />
+              </mesh>
+            );
+          })}
+          <mesh position={[-9, 6, -3]}>
+            <boxGeometry args={[14, 14, 34]} />
+            <meshStandardMaterial color="#c19a69" transparent opacity={0.9} />
           </mesh>
-          {Array.from({length: 18}).map((_, i) => (
-            <mesh key={i} position={[0.2 + Math.sin(i * 3.1 + f * 0.4) * 0.6, (i % 6) * 2 + 0.6, -12 + Math.floor(i / 6) * 8 + Math.cos(i) * 2]} scale={1.3 + (i % 3) * 0.5}>
-              <icosahedronGeometry args={[1, 0]} />
-              <meshStandardMaterial color="#d8b47e" flatShading transparent opacity={0.85} />
-            </mesh>
-          ))}
         </group>
-        {/* 舞い上がるがれき */}
         {city.debris.map((d, i) => {
           const x = wx - 2 + ((i * 3.7 + f * 0.8) % 14);
           if (wx < -14) return null;
           return (
-            <mesh key={i} position={[x, d.y + Math.sin(f * 0.2 + i) * 0.4, d.z]} rotation={[f * 0.2 + i, f * 0.3, 0]} scale={d.s}>
+            <mesh key={i} position={[x, d.y + Math.sin(f * 0.2 + i) * 0.4, d.z]} rotation={[f * 0.2 + i, f * 0.3, 0]} scale={d.s} castShadow>
               <boxGeometry args={[1, 1, 1]} />
-              <meshStandardMaterial color={d.c > 0.5 ? '#8d6e63' : '#adb5bd'} flatShading />
+              <meshStandardMaterial color={d.c > 0.6 ? '#8d6e63' : d.c > 0.3 ? '#adb5bd' : '#ffb3c8'} flatShading />
             </mesh>
           );
         })}
-        {f > HIT - 10 && <WindStreaks frame={f} count={60} speed={2.4} area={[30, 6, 8]} center={[0, 2.5, 0]} />}
+        {f > HIT - 10 && <WindStreaks frame={f} count={60} speed={2.4} area={[30, 6, 8]} center={[0, 2.5, 0]} opacity={0.55} />}
       </Stage>
       <Vignette strength={0.4} />
       <Flash at={HIT} dur={7} max={0.55} color="#fff1d6" />

@@ -1,33 +1,55 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import * as THREE from 'three';
 import {AbsoluteFill, useCurrentFrame} from 'remotion';
 import {Stage} from '../three/Stage';
-import {Earth, Stars} from '../three/Earth';
-import {Character} from '../three/Character';
-import {House, Tree} from '../three/Props';
+import {Earth, SpaceBackdrop, Stars, Sun} from '../three/Earth';
+import {Human, OUTFITS, thinkPose} from '../three/Human';
+import {House} from '../three/Props';
+import {Forest} from '../three/Landscape';
 import {CameraRig} from '../lib/CameraRig';
 import {easeOut} from '../lib/anim';
-import {C} from '../theme';
+import {fbm3} from '../lib/rand';
 import {Flash, Vignette} from '../components/Overlay';
+import {SpaceLights} from './Scene01Hook';
 
 const CUT_B = 70;
 const CUT_C = 160;
 
-const Moon: React.FC<{position: [number, number, number]}> = ({position}) => (
-  <mesh position={position}>
-    <icosahedronGeometry args={[0.7, 1]} />
-    <meshStandardMaterial color="#d9d6cf" flatShading />
-  </mesh>
-);
+// クレーターのある月
+const Moon: React.FC<{position: [number, number, number]}> = ({position}) => {
+  const geo = useMemo(() => {
+    const g = new THREE.IcosahedronGeometry(0.7, 12);
+    const p = g.attributes.position;
+    const cols = new Float32Array(p.count * 3);
+    const c = new THREE.Color();
+    for (let i = 0; i < p.count; i++) {
+      const v = new THREE.Vector3(p.getX(i), p.getY(i), p.getZ(i)).normalize();
+      const n = fbm3(v.x * 3, v.y * 3, v.z * 3, 61, 4);
+      const crater = Math.min(0, Math.abs(fbm3(v.x * 6, v.y * 6, v.z * 6, 62, 2)) - 0.12) * 0.3;
+      v.multiplyScalar(0.7 * (1 + n * 0.03 + crater));
+      p.setXYZ(i, v.x, v.y, v.z);
+      c.set('#cfcac0').lerp(new THREE.Color('#8f8a82'), Math.max(0, n * 2.5));
+      cols.set([c.r, c.g, c.b], i * 3);
+    }
+    g.setAttribute('color', new THREE.BufferAttribute(cols, 3));
+    g.computeVertexNormals();
+    return g;
+  }, []);
+  return (
+    <mesh geometry={geo} position={position}>
+      <meshStandardMaterial vertexColors flatShading roughness={1} />
+    </mesh>
+  );
+};
 
 export const Scene09End: React.FC = () => {
   const f = useCurrentFrame();
   const cut = f < CUT_B ? 'A' : f < CUT_C ? 'B' : 'C';
   const moonA = 0.6 + (f - CUT_B) * 0.012;
-  const moonPos: [number, number, number] = [Math.cos(moonA) * 6.5, 0.2, Math.sin(moonA) * -6.5 + 1];
+  const moonPos: [number, number, number] = [Math.cos(moonA) * 6.5, -1.0, Math.sin(moonA) * -6.5 + 1];
   return (
     <AbsoluteFill>
-      <Stage bg={C.space} shadows={cut === 'C'}>
+      <Stage bg="#05071a" shadows={cut === 'C'}>
         {cut === 'A' && (
           <CameraRig
             keys={[
@@ -52,35 +74,36 @@ export const Scene09End: React.FC = () => {
             ]}
           />
         )}
-        <ambientLight intensity={0.35} />
-        <hemisphereLight args={['#bfe3ff', '#20306a', 0.9]} />
-        <directionalLight position={[6, 6, 8]} intensity={2.6} color="#fff3e0" castShadow />
+        <SpaceLights />
+        {cut === 'C' && <directionalLight position={[6, 6, 8]} intensity={0.8} castShadow shadow-mapSize={[1024, 1024]} />}
+        <SpaceBackdrop />
         <group rotation={[0, f * 0.002, 0]}>
           <Stars />
         </group>
+        <Sun position={[70, 45, -90]} size={3} />
         {cut === 'A' && <Earth radius={3} spin={f * 0.012} tilt={0.3} position={[0, -2.4, 0]} />}
         {cut === 'B' && (
           <>
             <Earth radius={2.2} spin={f * 0.02} tilt={0.3} position={[0, -1.2, 0]} />
-            {/* 月の引力による潮のふくらみ（ブレーキ役） */}
-            <mesh position={[0, -1.2, 0]} rotation={[0, -moonA, 0]} scale={[2.75, 2.45, 2.45]}>
-              <sphereGeometry args={[1, 32, 32]} />
-              <meshBasicMaterial color="#6fd3ff" transparent opacity={0.18} depthWrite={false} />
-            </mesh>
-            <Moon position={[moonPos[0], moonPos[1] - 1.2, moonPos[2]]} />
+            <group position={[0, -1.2, 0]} rotation={[0, -moonA, 0]} scale={[2.75, 2.42, 2.42]}>
+              <mesh>
+                <sphereGeometry args={[1, 48, 48]} />
+                <meshBasicMaterial color="#6fd3ff" transparent opacity={0.12} depthWrite={false} />
+              </mesh>
+            </group>
+            <Moon position={moonPos} />
           </>
         )}
         {cut === 'C' && (
           <group>
-            {/* 半分が昼、半分が夜の小さな惑星に座るキャラ */}
-            <Earth radius={2.2} spin={0} tilt={0} sunDir={[1, 0.2, 0.3]} heat={1} clouds={false} position={[0, -1.0, 0]} />
-            <Character position={[0, 1.2, 0]} rotation={[0, 0.15 + Math.sin(f * 0.1) * 0.1, 0]} scale={0.6} color={C.bodyColors[0]} expr="think" armL={0.3} armR={2.0 + Math.sin(f * 0.3) * 0.15} breathe={f / 40} />
-            <House position={[1.1, 0.9, -0.3]} rotation={[0, 0, -0.5]} scale={0.35} wall="#fff4e0" roof={C.orange} />
-            <Tree position={[-1.0, 0.95, -0.2]} rotation={[0, 0, 0.45]} scale={0.4} color="#bfe6ff" />
-            <mesh position={[0, -1, 0]}>
-              <sphereGeometry args={[0.01, 4, 4]} />
-              <meshBasicMaterial color={new THREE.Color('#000')} />
-            </mesh>
+            <Earth radius={2.2} spin={0} tilt={0} sunDir={[1, 0.2, 0.3]} heat={1} clouds={false} position={[0, -1.0, 0]} detail={48} />
+            <Human position={[0, 1.22, 0]} rotation={[0, 0.15 + Math.sin(f * 0.1) * 0.1, 0]} scale={0.75} outfit={OUTFITS[1]} p={thinkPose(f)} />
+            <group position={[1.0, 1.0, -0.3]} rotation={[0, 0, -0.5]}>
+              <House scale={0.35} wall="#fff4e0" roof="#ff8a1f" />
+            </group>
+            <group position={[-1.0, 1.0, -0.2]} rotation={[0, 0, 0.45]}>
+              <Forest trees={[{x: 0, z: 0, s: 0.4, type: 'pine'}]} seed={2} />
+            </group>
           </group>
         )}
       </Stage>

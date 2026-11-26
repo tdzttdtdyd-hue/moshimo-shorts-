@@ -1,58 +1,61 @@
 import React, {useMemo} from 'react';
 import {AbsoluteFill, useCurrentFrame} from 'remotion';
 import {Lights, Stage} from '../three/Stage';
-import {Car, Ground, House, Tree, WindStreaks} from '../three/Props';
-import {Character} from '../three/Character';
+import {Car, House, WindStreaks} from '../three/Props';
+import {CloudPuffs, Forest, Grass, Mountains, Road, SkyDome, StreetLamp, Terrain, TreeSpec, grassColor} from '../three/Landscape';
+import {Human, OUTFITS, flailPose, walkPose} from '../three/Human';
 import {CameraRig} from '../lib/CameraRig';
 import {mulberry32} from '../lib/rand';
 import {C} from '../theme';
 import {Flash, SpeedLines, Vignette} from '../components/Overlay';
 
-const HIT = 14; // 地面が止まる瞬間
-const CUT = 60; // 並走カットへ
+const HIT = 14;
+const CUT = 60;
 
-// 慣性で吹き飛ぶ物体の変位
 const fly = (f: number, k: number, rnd: number) => {
   const t = Math.max(0, f - HIT - rnd * 4);
   return {x: 0.16 * t + 0.003 * t * t * k, y: Math.max(0, 0.11 * t * (1 - t / 60)) * k, rot: t * 0.14 * (0.6 + rnd)};
 };
+
+const flat = (_x: number, z: number) => Math.min(1, Math.max(0.15, (Math.abs(z) - 9) / 12));
+const ground = grassColor('#74b84f', '#4c943d', '#a3d46a');
 
 export const Scene02Equator: React.FC = () => {
   const f = useCurrentFrame();
   const town = useMemo(() => {
     const r = mulberry32(7);
     const houses = [] as {x: number; z: number; w: string; roof: string; h: number}[];
-    const trees = [] as {x: number; z: number; s: number}[];
-    for (let x = -24; x <= 130; x += 4.2) {
-      for (const z of [-3.6, 3.6]) {
-        if (r() < 0.75)
-          houses.push({x: x + r(), z: z + (z > 0 ? 1 : -1) * r() * 1.5, w: C.houseColors[Math.floor(r() * 5)], roof: C.roofColors[Math.floor(r() * 5)], h: 0.9 + r() * 0.7});
-        else trees.push({x: x + r(), z: z * 1.2, s: 0.9 + r() * 0.5});
+    const trees = [] as TreeSpec[];
+    for (let x = -26; x <= 132; x += 3.6) {
+      for (const side of [-1, 1]) {
+        const z = side * (4.4 + r() * 1.2);
+        if (r() < 0.7) houses.push({x: x + r() * 0.6, z, w: C.houseColors[Math.floor(r() * 5)], roof: C.roofColors[Math.floor(r() * 5)], h: r() < 0.35 ? 2 : 1});
+        else trees.push({x: x + r(), z: z * 1.05, s: 0.9 + r() * 0.5});
+        // カメラ側（+z）には背の高い木を置かない
+        if (side < 0) {
+          trees.push({x: x + 1.8 + r(), z: -(8 + r() * 6), s: 1 + r() * 0.8});
+          if (r() < 0.7) trees.push({x: x + r() * 3, z: -(14 + r() * 12), s: 1.2 + r()});
+        }
       }
-      trees.push({x: x + 2, z: -8 - r() * 4, s: 1 + r()});
     }
     return {houses, trees};
   }, []);
-
   const people = useMemo(() => {
     const r = mulberry32(11);
-    return Array.from({length: 9}).map((_, i) => ({x: -6 + i * 1.6 + r(), z: -1.6 + r() * 3.2, c: C.bodyColors[i % 6], rnd: r(), dir: r() < 0.5 ? 1 : -1}));
+    return Array.from({length: 9}).map((_, i) => ({x: -6 + i * 1.6 + r(), z: (r() < 0.5 ? -1 : 1) * (2.0 + r() * 0.5), o: i % 6, rnd: r(), dir: r() < 0.5 ? 1 : -1}));
   }, []);
-
   const inB = f >= CUT;
-  // 並走カットでは主人公の周りの世界を動かす（影の範囲を固定するため）
   const scroll = inB ? -(f - CUT) * 1.15 - 6 : 0;
-  const hero = people[4];
-
+  const bend = (_t: TreeSpec, i: number) => (f < HIT ? Math.sin(f * 0.1 + i) * 0.03 : Math.min(0.85, (f - HIT) * 0.07) + Math.sin(f * 0.9 + i) * 0.07);
   return (
     <AbsoluteFill>
-      <Stage bg={C.sky} fog={[C.sky, 25, 70]}>
+      <Stage bg="#cfeaff" fog={['#d6ecff', 30, 110]}>
         {!inB ? (
           <CameraRig
             keys={[
               {f: 0, pos: [-7, 4.2, 11], look: [-1, 1.2, 0], fov: 46},
-              {f: HIT, pos: [-4, 3.6, 10.5], look: [1, 1.3, 0], fov: 46},
-              {f: CUT, pos: [6, 3.4, 10], look: [9, 2, 0], fov: 50},
+              {f: HIT, pos: [-4, 4.6, 10.5], look: [1, 1.2, 0], fov: 46},
+              {f: CUT, pos: [6, 5.6, 11], look: [9, 1.4, 0], fov: 50},
             ]}
             shakes={[{from: HIT, dur: 20, amp: 0.35}]}
           />
@@ -65,26 +68,27 @@ export const Scene02Equator: React.FC = () => {
             shakes={[{from: CUT, dur: 75, amp: 0.08}]}
           />
         )}
-        <Lights sun={[6, 14, 8]} shadowSize={16} />
+        <SkyDome top="#2f7fd8" horizon="#d8efff" sunDir={[0.4, 0.5, -0.8]} />
+        <Lights sun={[6, 14, 8]} shadowSize={18} />
+        <group position={[scroll * 0.15, 0, 0]}>
+          <Mountains seed={2} radius={95} color="#7f9fbf" height={18} />
+          <CloudPuffs seed={3} count={9} drift={f * 0.02} />
+        </group>
         <group position={[scroll, 0, 0]}>
-          <Ground size={[200, 60]} seg={70} color={C.grass} amp={0.18} position={[50, 0, 0]} />
-          <mesh position={[50, 0.03, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
-            <planeGeometry args={[200, 2.6]} />
-            <meshStandardMaterial color={C.road} flatShading />
-          </mesh>
-          {town.houses.map((h, i) => {
-            // 屋根だけ吹き飛ぶ家もある
-            return <House key={i} position={[h.x, 0, h.z]} wall={h.w} roof={h.roof} h={h.h} />;
-          })}
-          {town.trees.map((t, i) => {
-            const bend = f < HIT ? 0 : Math.min(0.9, (f - HIT) * 0.08) + Math.sin(f * 0.9 + i) * 0.08;
-            return <Tree key={i} position={[t.x, 0, t.z]} scale={t.s} bend={bend} />;
-          })}
-          {/* 道路の車（止まらず吹き飛ぶ） */}
+          <Terrain size={[260, 120]} seg={130} position={[50, 0, 0]} amp={0.35} colorAt={ground} flatten={flat} />
+          <Road length={260} position={[50, 0, 0]} />
+          <Grass count={2600} area={[-30, 140, -14, 14]} keep={(_x, z) => Math.abs(z) > 3.4} sway={f < HIT ? 0 : 0.5} />
+          {town.houses.map((h, i) => (
+            <House key={i} position={[h.x, 0, h.z]} rotation={[0, h.z > 0 ? Math.PI : 0, 0]} wall={h.w} roof={h.roof} h={h.h} />
+          ))}
+          <Forest trees={town.trees} bend={bend} seed={5} />
+          {Array.from({length: 18}).map((_, i) => (
+            <StreetLamp key={i} position={[-20 + i * 9, 0, 2.3]} rotationY={Math.PI} />
+          ))}
           {[-3, 5, 12].map((x, i) => {
             const m = fly(f, 0.8, i * 0.3);
             const drive = f < HIT ? f * 0.12 : HIT * 0.12;
-            return <Car key={i} position={[x + drive + m.x, m.y, i % 2 ? 0.6 : -0.6]} rotation={[0, 0, -m.rot * 0.5]} color={C.roofColors[i + 1]} />;
+            return <Car key={i} position={[x + drive + m.x, m.y, i % 2 ? 0.7 : -0.7]} rotation={[0, 0, -m.rot * 0.5]} color={C.roofColors[i + 1]} />;
           })}
         </group>
         {!inB &&
@@ -92,40 +96,25 @@ export const Scene02Equator: React.FC = () => {
             const m = fly(f, 1, p.rnd);
             const walkX = f < HIT ? f * 0.03 * p.dir : HIT * 0.03 * p.dir;
             return (
-              <Character
+              <Human
                 key={i}
                 position={[p.x + walkX + m.x, m.y, p.z]}
                 rotation={[0, f < HIT ? (p.dir > 0 ? Math.PI / 2 : -Math.PI / 2) : Math.PI / 2, -m.rot]}
-                scale={0.75}
-                color={p.c}
-                expr={f < HIT ? 'happy' : 'surprised'}
-                walk={f * 0.35}
-                walkAmp={f < HIT ? 0.6 : 0.9}
-                armL={f < HIT ? 0.2 : 2.6}
-                armR={f < HIT ? 0.2 : 2.6}
+                scale={0.95}
+                outfit={OUTFITS[p.o]}
+                p={f < HIT ? walkPose(f * 0.32 + i, 1) : flailPose(f - HIT, i)}
               />
             );
           })}
         {inB && (
           <>
-            {/* 並走：吹き飛ばされる主人公と仲間 */}
-            <Character
-              position={[0.6, 1.2 + Math.sin(f * 0.3) * 0.15, 0.5]}
-              rotation={[0.1, 0.25, -0.6 - Math.sin(f * 0.15) * 0.2]}
-              scale={0.9}
-              color={hero.c}
-              expr="surprised"
-              walk={f * 0.6}
-              walkAmp={0.8}
-              armL={2.5 + Math.sin(f * 0.8) * 0.3}
-              armR={2.3 + Math.cos(f * 0.8) * 0.3}
-            />
-            <Character position={[3.2, 2.3 + Math.sin(f * 0.25) * 0.2, -2.5]} rotation={[0, 0.8, -f * 0.12]} scale={0.7} color={C.bodyColors[1]} expr="scared" armL={2.6} armR={2.0} />
-            <Character position={[-3.5, 1.0, -3]} rotation={[0.3, 0.9, -f * 0.09]} scale={0.7} color={C.bodyColors[2]} expr="surprised" armL={2.2} armR={2.6} />
+            <Human position={[0.6, 0.6 + Math.sin(f * 0.3) * 0.15, 0.5]} rotation={[0.1, 0.25, -0.9 - Math.sin(f * 0.15) * 0.2]} scale={1.05} outfit={OUTFITS[people[4].o]} p={flailPose(f, 1)} />
+            <Human position={[3.2, 1.6 + Math.sin(f * 0.25) * 0.2, -2.5]} rotation={[0, 0.8, -f * 0.12]} scale={0.95} outfit={OUTFITS[2]} p={flailPose(f, 3)} />
+            <Human position={[-3.5, 0.5, -3]} rotation={[0.3, 0.9, -f * 0.09]} scale={0.95} outfit={OUTFITS[5]} p={flailPose(f, 5)} />
             <Car position={[5, 2.8, -5]} rotation={[f * 0.05, 0.4, -f * 0.08]} color={C.roofColors[2]} />
           </>
         )}
-        {f >= HIT && <WindStreaks frame={f} count={70} speed={inB ? 2.2 : 1.6} area={[46, 7, 14]} center={[inB ? 0 : 6, 3, 0]} opacity={0.75} />}
+        {f >= HIT && <WindStreaks frame={f} count={70} speed={inB ? 2.2 : 1.6} area={[46, 7, 14]} center={[inB ? 0 : 6, 3, 0]} opacity={0.6} />}
       </Stage>
       <Vignette strength={0.35} />
       <SpeedLines from={CUT} to={135} count={40} />
