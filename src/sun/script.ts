@@ -41,7 +41,7 @@ export const SCENES: SceneSpec[] = [
     assumption: '温室効果は今のまま',
     captions: [{from: 4, to: 150, lines: ['1.5倍（火星の距離）、', '海が*凍りはじめる*']}],
     cards: [{from: 40, to: 150, label: '地球の平均気温', prefix: '約', fromValue: tempAt(1.1), value: tempAt(1.5), unit: '℃', note: 'シベリアの真冬なみ'}],
-    callouts: [{key: 'sea', tag: '海', text: '表面から凍っていく', from: 20, to: 146, dy: -200}],
+    callouts: [{key: 'sea', tag: '海', text: '表面から凍っていく', from: 10, to: 38, dy: -200}],
   },
   {
     id: 's4_snowball',
@@ -63,7 +63,7 @@ export const SCENES: SceneSpec[] = [
     clock: {value: '約20倍', ff: '天王星の近くまで早送り', seq: steps(['8倍', '12倍', '16倍', '約20倍'], 0, 10)},
     captions: [{from: 4, to: 180, lines: ['約20倍、', '*空気が凍って*降ってくる']}],
     cards: [{from: 48, to: 180, label: '地球の平均気温', prefix: '約', fromValue: tempAt(5.2), value: -210, unit: '℃', note: '空気の大部分（窒素）が凍る温度'}],
-    callouts: [{key: 'snow', tag: '雪', text: '正体は凍った空気', from: 30, to: 176, dy: -220}],
+    callouts: [{key: 'snow', tag: '雪', text: '正体は凍った空気', from: 12, to: 46, dy: -220}],
   },
   {
     id: 's7_pluto',

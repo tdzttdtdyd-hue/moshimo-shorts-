@@ -16,6 +16,8 @@ import {SCENES} from './script';
 const spec = (id: string) => SCENES.find((s) => s.id === id)!;
 const CO = (id: string, key: string) => spec(id).callouts!.find((c) => c.key === key)!;
 const clamp = {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'} as const;
+// 等速で動かす（区切りでカメラが止まって見えないように）
+const LIN = (t: number) => t;
 
 // 雪（または凍った空気）が降る
 const Flakes: React.FC<{n?: number; area?: [number, number, number]; center?: V3; color?: string; speed?: number; size?: number; seed?: number}> = ({n = 220, area = [40, 16, 30], center = [0, 8, 0], color = '#ffffff', speed = 0.05, size = 0.06, seed = 1}) => {
@@ -111,8 +113,8 @@ export const S2: React.FC = () => {
 
 // ---------- 3：1.5倍、海が凍りはじめる ----------
 export const CAM3: CamKey[] = [
-  {f: 0, pos: [9, 4.2, 11], look: [-2, 0, -12], fov: 50},
-  {f: 150, pos: [-4, 2.6, 5], look: [-8, 0, -20], fov: 50},
+  {f: 0, pos: [9, 4.2, 11], look: [-2, 0, -12], fov: 50, ease: LIN},
+  {f: 150, pos: [-4, 2.6, 5], look: [-8, 0, -20], fov: 50, ease: LIN},
 ];
 const SHORE = -2;
 export const S3: React.FC = () => {
@@ -223,9 +225,9 @@ const FrozenLand: React.FC<{skyTop: string; skyHor: string; sunDir: V3; sunSize:
 };
 
 export const CAM5: CamKey[] = [
-  {f: 0, pos: [-4, 1.7, 13], look: [0, 3, -20], fov: 52},
-  {f: 90, pos: [2, 2.2, 10], look: [-4, 10, -30], fov: 52},
-  {f: 180, pos: [7, 1.8, 8], look: [-8, 18, -40], fov: 52, ease: easeIO},
+  {f: 0, pos: [-4, 1.7, 13], look: [0, 3, -20], fov: 52, ease: LIN},
+  {f: 90, pos: [2, 2.2, 10], look: [-4, 10, -30], fov: 52, ease: LIN},
+  {f: 180, pos: [7, 1.8, 8], look: [-8, 18, -40], fov: 52, ease: LIN},
 ];
 const SUN5: V3 = [-0.35, 0.45, -1];
 export const S5: React.FC = () => {
@@ -243,9 +245,9 @@ export const S5: React.FC = () => {
 };
 
 export const CAM6: CamKey[] = [
-  {f: 0, pos: [-7, 2.4, 11], look: [0, 4, -20], fov: 54},
-  {f: 90, pos: [0, 3.0, 8], look: [1, 6, -26], fov: 54},
-  {f: 180, pos: [7, 2.0, 7], look: [2, 9, -30], fov: 54},
+  {f: 0, pos: [-7, 2.4, 11], look: [0, 4, -20], fov: 54, ease: LIN},
+  {f: 90, pos: [0, 3.0, 8], look: [1, 6, -26], fov: 54, ease: LIN},
+  {f: 180, pos: [7, 2.0, 7], look: [2, 9, -30], fov: 54, ease: LIN},
 ];
 export const S6: React.FC = () => {
   const f = useCurrentFrame();
@@ -263,8 +265,8 @@ export const S6: React.FC = () => {
 
 // ---------- 7：冥王星の距離。宇宙から見ると太陽はただの明るい星 ----------
 export const CAM7: CamKey[] = [
-  {f: 0, pos: [-0.5, 0.4, 6.0], look: [-3, 0.6, -30], fov: 50},
-  {f: 180, pos: [4.2, 1.6, 8.2], look: [-6, 1.2, -40], fov: 50},
+  {f: 0, pos: [-0.5, 0.4, 6.0], look: [-3, 0.6, -30], fov: 50, ease: LIN},
+  {f: 180, pos: [4.2, 1.6, 8.2], look: [-6, 1.2, -40], fov: 50, ease: LIN},
 ];
 const STAR7: V3 = [-30, 8, -120];
 export const S7: React.FC = () => (
@@ -299,10 +301,20 @@ const StarCallout: React.FC = () => {
   return <CalloutView {...project(CAM7, f, STAR7)} {...CO('s7_pluto', 'star')} />;
 };
 
+// 星空をゆっくり回す（引きの絵でも画面が止まらないように）
+const DriftStars: React.FC = () => {
+  const f = useCurrentFrame();
+  return (
+    <group rotation={[0, f * 0.004, f * 0.0015]}>
+      <Stars count={2400} />
+    </group>
+  );
+};
+
 // ---------- 8：問いかけ ----------
 const CAM8: CamKey[] = [
-  {f: 0, pos: [4.2, 1.6, 8.2], look: [-6, 1.2, -40], fov: 50},
-  {f: 150, pos: [14, 6, 26], look: [-4, 0, -20], fov: 50, ease: easeIO},
+  {f: 0, pos: [4.2, 1.6, 8.2], look: [-6, 1.2, -40], fov: 50, ease: LIN},
+  {f: 150, pos: [14, 6, 26], look: [-4, 0, -20], fov: 50, ease: LIN},
 ];
 export const S8: React.FC = () => (
   <AbsoluteFill>
@@ -312,7 +324,7 @@ export const S8: React.FC = () => (
       <hemisphereLight args={['#5a78d0', '#000010', 0.18]} />
       <directionalLight position={STAR7} intensity={0.6} color="#fff2d8" />
       <SpaceBackdrop />
-      <Stars count={2400} />
+      <DriftStars />
       <mesh position={STAR7}>
         <sphereGeometry args={[0.6, 16, 16]} />
         <meshBasicMaterial color="#fffbe8" />
