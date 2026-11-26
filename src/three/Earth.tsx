@@ -26,8 +26,10 @@ const P = {
   seabed: col(C.seabed),
   ice: col(C.ice),
   hot: col('#ff9440'),
-  frost: col('#d6ecff'),
+  frost: col('#c9dcff'),
   green: col('#59c76b'),
+  hotSea: col('#f2b45a'),
+  night: col('#3d4f86'),
 };
 
 const hAt = (n: THREE.Vector3) => fbm3(n.x * 1.7 + 4, n.y * 1.7, n.z * 1.7, 11, 4) - 0.03;
@@ -77,10 +79,10 @@ export const Earth: React.FC<Props> = ({radius = 2, spin = 0, tilt = 0.41, ocean
         if (sinLat > 0.9 && shiftKey < 0.5) c = tmp.copy(P.ice);
       }
       if (sd && heatKey > 0) {
+        // 昼側=灼熱、境目=緑、夜側=氷と闇
         const d = n.dot(sd);
-        if (d > 0.15) c = tmp.clone().lerp(P.hot, Math.min(1, (d - 0.15) * 2.2) * heatKey);
-        else if (d < -0.12) c = tmp.clone().lerp(P.frost, Math.min(1, (-d - 0.12) * 2.6) * heatKey);
-        else c = tmp.clone().lerp(P.green, 0.6 * heatKey);
+        const target = d > 0.15 ? (isLand ? P.hot : P.hotSea) : d < -0.12 ? (isLand ? P.frost : P.night) : isLand ? P.green : P.ocean;
+        c = tmp.clone().lerp(target, heatKey);
       }
       for (let k = 0; k < 3; k++) {
         const vi = fi * 3 + k;

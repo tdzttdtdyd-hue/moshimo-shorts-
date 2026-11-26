@@ -4,7 +4,7 @@ import {SCENES, sceneStart} from './script';
 import {Fonts} from './components/Fonts';
 import {SceneOverlay} from './components/Overlay';
 import {SCENE_COMPONENTS, OVERLAY_POS} from './scenes';
-import {SFX} from './sfx';
+import {SFX, SFX_GAIN} from './sfx';
 
 export const Video: React.FC<{withSfx?: boolean}> = ({withSfx = true}) => (
   <AbsoluteFill style={{background: '#000'}}>
@@ -21,7 +21,7 @@ export const Video: React.FC<{withSfx?: boolean}> = ({withSfx = true}) => (
     {withSfx &&
       SFX.map((e, i) => (
         <Sequence key={i} from={sceneStart(e.scene) + e.at} durationInFrames={e.dur ?? 60} name={`sfx:${e.file}`}>
-          <Html5Audio src={staticFile(`sfx/${e.file}.wav`)} volume={e.vol ?? 0.8} />
+          <Html5Audio src={staticFile(`sfx/${e.file}.wav`)} volume={(e.vol ?? 0.8) * SFX_GAIN} />
         </Sequence>
       ))}
   </AbsoluteFill>

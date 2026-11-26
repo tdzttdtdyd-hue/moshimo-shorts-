@@ -37,7 +37,7 @@ ok('意図しない黒画面なし', blacks.length === 0, blacks.length ? `start
 if (a) {
   const vol = spawnSync('ffmpeg', ['-hide_banner', '-i', VIDEO, '-vn', '-af', 'volumedetect', '-f', 'null', '-'], {encoding: 'utf8'}).stderr;
   const peak = Number(/max_volume: ([-\d.]+)/.exec(vol)?.[1]);
-  ok('SE ピーク -3dBFS 以下（BGM を重ねる余裕）', peak <= -3, `${peak} dBFS`);
+  ok('SE ピーク -6dBFS 以下（BGM を重ねる余裕）', peak <= -6, `${peak} dBFS`);
 }
 execFileSync('ffmpeg', ['-loglevel', 'error', '-y', '-i', VIDEO, '-vf', 'fps=1,scale=270:480,tile=8x5:padding=6:color=black', '-frames:v', '1', `${CHECK}/contact_sheet.png`]);
 ok('コンタクトシート作成', fs.existsSync(`${CHECK}/contact_sheet.png`), `${CHECK}/contact_sheet.png`);

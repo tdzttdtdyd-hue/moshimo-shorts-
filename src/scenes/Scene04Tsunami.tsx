@@ -19,8 +19,8 @@ const Wave: React.FC<{f: number}> = ({f}) => {
   const geo = useMemo(() => {
     const g = base.clone();
     const p = g.attributes.position;
-    const zc = -70 + f * 0.52;
-    const H = 1.5 + f * 0.085;
+    const zc = -52 + f * 0.38;
+    const H = 3.5 + f * 0.08;
     const cols = new Float32Array(p.count * 3);
     for (let i = 0; i < p.count; i++) {
       const x = p.getX(i);

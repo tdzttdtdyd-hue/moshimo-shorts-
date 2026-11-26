@@ -1,4 +1,6 @@
 // 効果音（すべて FFmpeg で合成。scripts/make-sfx.sh 参照）
+// BGM を後から重ねるため全体を控えめに（ピーク -6dBFS 以下）
+export const SFX_GAIN = 0.55;
 export type SfxEvent = {scene: string; at: number; file: string; vol?: number; dur?: number};
 export const SFX: SfxEvent[] = [
   {scene: 's01_hook', at: 0, file: 'whoosh', vol: 0.7, dur: 25},

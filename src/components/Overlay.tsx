@@ -10,6 +10,12 @@ const pop = (f: number, fps: number, delay = 0) =>
 const exitK = (f: number, to: number) => interpolate(f, [to - 6, to], [1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
 
 const CONTENT_W = WIDTH - SAFE.left - SAFE.right;
+const MAX_W = CONTENT_W - 40; // フチ・影・ポップ時のオーバーシュート分の余白
+
+// 全角=1em、半角=0.6em として行幅を見積もり、横幅に収まるサイズへ自動縮小
+const plain = (t: string) => t.replace(/[*^~]/g, '');
+export const emWidth = (t: string) => [...plain(t)].reduce((a, ch) => a + (/[ -~]/.test(ch) ? 0.6 : 1), 0);
+const fitSize = (lines: string[], size: number) => Math.min(size, ...lines.map((l) => Math.floor(MAX_W / (emWidth(l) * 1.04))));
 
 export const TimeLabel: React.FC<{text: string; from: number; to: number}> = ({text, from, to}) => {
   const f = useCurrentFrame();
@@ -45,7 +51,7 @@ export const MainTelop: React.FC<{beat: Beat; top: number}> = ({beat, top}) => {
   const f = useCurrentFrame();
   const {fps} = useVideoConfig();
   if (f < beat.from || f >= beat.to) return null;
-  const size = beat.size ?? 84;
+  const size = fitSize(beat.lines, beat.size ?? 84);
   const ex = exitK(f, beat.to);
   return (
     <div style={{position: 'absolute', top, left: SAFE.left, width: CONTENT_W, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4}}>
@@ -85,7 +91,14 @@ export const BigNumber: React.FC<{spec: NumberSpec; top: number}> = ({spec, top}
   const bounce = done ? 1 + 0.12 * Math.exp(-(t - countDur) / 4) * Math.cos((t - countDur) * 0.9) : 1;
   const k = interpolate(t, [0, countDur], [0, 1], {extrapolateRight: 'clamp', easing: (x) => 1 - Math.pow(1 - x, 3)});
   const color = spec.color ?? C.yellow;
-  const size = spec.size ?? 200;
+  let size = spec.size ?? 200;
+  if (spec.value !== undefined) {
+    const digits = fmt(spec.value);
+    const w = emWidth(spec.prefix ?? '') * 0.36 + digits.length * 0.62 + emWidth(spec.unit ?? '') * 0.4 + 0.15;
+    size = Math.min(size, Math.floor(MAX_W / w));
+  } else if (spec.text) {
+    size = fitSize(spec.text.split('\n'), size);
+  }
   const flash = done ? Math.max(0, 1 - (t - countDur) / 8) : 0;
   return (
     <div style={{position: 'absolute', top, left: SAFE.left, width: CONTENT_W, display: 'flex', flexDirection: 'column', alignItems: 'center'}}>

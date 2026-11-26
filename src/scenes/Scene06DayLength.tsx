@@ -8,7 +8,7 @@ import {Vignette} from '../components/Overlay';
 // 自転が止まると、太陽の位置は公転だけでゆっくり動く（タイムラプス表現）
 export const Scene06DayLength: React.FC = () => {
   const f = useCurrentFrame();
-  const sa = 3.25 + f * 0.006;
+  const sa = 2.55 + f * 0.0055;
   const sun: [number, number, number] = [Math.cos(sa) * 60, 4, Math.sin(sa) * 60 - 10];
   return (
     <AbsoluteFill>
@@ -20,7 +20,7 @@ export const Scene06DayLength: React.FC = () => {
           ]}
         />
         <ambientLight intensity={0.06} />
-        <hemisphereLight args={['#4060c0', '#000010', 0.15]} />
+        <hemisphereLight args={['#4060c0', '#000010', 0.35]} />
         <directionalLight position={sun} intensity={3.4} color="#fff0d0" />
         <Stars seed={13} />
         <Sun position={[sun[0] * 0.6, sun[1] + 6, sun[2] * 0.6]} size={4} />
