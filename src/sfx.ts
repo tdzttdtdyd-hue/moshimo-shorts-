@@ -130,3 +130,21 @@ export const SFX_SUN: {at: number; file: string; vol?: number; dur?: number}[] =
   {at: 1000, file: 'ding', vol: 0.5, dur: 25},
   {at: 1140, file: 'pop', vol: 0.6, dur: 10},
 ];
+
+// 全人類一列の動画の効果音（動画全体のフレーム）
+export const SFX_LINE: {at: number; file: string; vol?: number; dur?: number}[] = [
+  {at: 70, file: 'pop', vol: 0.5, dur: 10},
+  {at: 120, file: 'whoosh', vol: 0.6, dur: 25},
+  {at: 182, file: 'ding', vol: 0.5, dur: 25},
+  {at: 270, file: 'whoosh', vol: 0.6, dur: 25},
+  {at: 332, file: 'ding', vol: 0.5, dur: 25},
+  {at: 420, file: 'ff', vol: 0.6, dur: 30},
+  {at: 488, file: 'ding', vol: 0.6, dur: 25},
+  {at: 600, file: 'whoosh', vol: 0.6, dur: 25},
+  {at: 662, file: 'ding', vol: 0.5, dur: 25},
+  {at: 780, file: 'whoosh', vol: 0.7, dur: 25},
+  {at: 832, file: 'ding', vol: 0.5, dur: 25},
+  {at: 930, file: 'ff', vol: 0.5, dur: 30},
+  {at: 992, file: 'ding', vol: 0.5, dur: 25},
+  {at: 1226, file: 'pop', vol: 0.6, dur: 10},
+];
