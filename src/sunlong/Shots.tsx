@@ -68,15 +68,27 @@ const LightTrip: React.FC<{camKeys: CamKey[]; distance: (f: number) => number; p
             <cylinderGeometry args={[0.02, 0.02, 2.4 - (sunX + 6), 8]} />
             <meshBasicMaterial color="#ffd27a" transparent opacity={0.35} />
           </mesh>
-          {/* 光の粒 */}
-          <mesh position={[px, 0, 0]}>
-            <sphereGeometry args={[0.28, 16, 16]} />
+          {/* 光の粒（先頭の大きな粒と、後に続く小さな粒の列） */}
+          <mesh position={[px, 0, 0]} scale={1 + 0.15 * Math.sin(f * 0.5)}>
+            <sphereGeometry args={[0.32, 16, 16]} />
             <meshBasicMaterial color="#fffbe8" />
           </mesh>
           <mesh position={[px - 1.2, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
-            <cylinderGeometry args={[0.25, 0.02, 2.4, 12, 1, true]} />
-            <meshBasicMaterial color="#ffe7a8" transparent opacity={0.5} blending={THREE.AdditiveBlending} depthWrite={false} />
+            <cylinderGeometry args={[0.3, 0.02, 2.4, 12, 1, true]} />
+            <meshBasicMaterial color="#ffe7a8" transparent opacity={0.55} blending={THREE.AdditiveBlending} depthWrite={false} />
           </mesh>
+          {Array.from({length: 18}).map((_, i) => {
+            const tt = ((f + i * (period / 18)) % period) / period;
+            const x = sunX + 6 + (2.2 - (sunX + 6)) * tt;
+            const yy = 0.5 * Math.sin(i * 2.1 + f * 0.05);
+            const zz = 0.5 * Math.cos(i * 1.7 + f * 0.04);
+            return (
+              <mesh key={'q' + i} position={[x, yy, zz]}>
+                <sphereGeometry args={[0.1, 8, 8]} />
+                <meshBasicMaterial color="#ffd98a" transparent opacity={0.7} />
+              </mesh>
+            );
+          })}
           {/* 距離の目盛り（カメラが動くと流れて見える） */}
           {Array.from({length: 40}).map((_, i) => (
             <mesh key={i} position={[sunX + 6 + i * ((2.4 - (sunX + 6)) / 40), -0.9, 0]}>
@@ -91,8 +103,8 @@ const LightTrip: React.FC<{camKeys: CamKey[]; distance: (f: number) => number; p
   );
 };
 const CAM_P2: CamKey[] = [
-  {f: 0, pos: [-4, 4, 36], look: [-8, 0, 0], fov: 50},
-  {f: 300, pos: [-14, 5, 33], look: [-9, 0, 0], fov: 50, ease: LIN},
+  {f: 0, pos: [0, 3, 36], look: [-8, 0, 0], fov: 50},
+  {f: 300, pos: [-20, 8, 30], look: [-11, 0, 0], fov: 50, ease: LIN},
 ];
 export const P2: React.FC = () => <LightTrip camKeys={CAM_P2} distance={() => 1} period={150} callout={{from: 20, to: 120}} />;
 
@@ -158,14 +170,18 @@ const CAM_P4: CamKey[] = [
   {f: 0, pos: [0, 1.4, 8.5], look: [0, 0, 0], fov: 42},
   {f: 300, pos: [-2.6, 1.8, 8.2], look: [-0.4, 0, 0], fov: 42, ease: LIN},
 ];
-export const P4: React.FC<{recede?: [number, number]}> = ({recede = [240, 300]}) => {
+const CAM_C1T: CamKey[] = [
+  {f: 0, pos: [1.5, 1.2, 9.5], look: [0, 0, 0], fov: 42},
+  {f: 150, pos: [-3.5, 2.2, 7.6], look: [-0.6, 0, 0], fov: 42, ease: LIN},
+];
+export const P4: React.FC<{recede?: [number, number]; cam?: CamKey[]}> = ({recede = [240, 300], cam = CAM_P4}) => {
   const f = useCurrentFrame();
   const away = interpolate(f, recede, [0, 1], {...clamp, easing: (x) => x * x});
   const sun: V3 = [-24 - away * 26, 4 + away * 3, -26 - away * 50];
   return (
     <AbsoluteFill>
       <Stage bg="#05071a" shadows={false} width={LW} height={LH}>
-        <CameraRig keys={CAM_P4} />
+        <CameraRig keys={cam} />
         <Space sun={sun}>
           <Sun position={sun} size={5} />
           <Earth radius={2.4} real detail={110} spin={-2.3 + f * 0.004} tilt={0.3} cloudOpacity={0.55} position={[1.2, -0.2, 0]} />
@@ -174,12 +190,12 @@ export const P4: React.FC<{recede?: [number, number]}> = ({recede = [240, 300]})
     </AbsoluteFill>
   );
 };
-export const C1Title: React.FC = () => <P4 recede={[0, 150]} />;
+export const C1Title: React.FC = () => <P4 recede={[0, 150]} cam={CAM_C1T} />;
 
 // ---------- 第1章：光が届くまで 25秒長く ----------
 const CAM_C1L: CamKey[] = [
-  {f: 0, pos: [-6, 5, 38], look: [-9, 0, 0], fov: 50},
-  {f: 450, pos: [-18, 6, 35], look: [-10, 0, 0], fov: 50, ease: LIN},
+  {f: 0, pos: [-2, 4, 38], look: [-9, 0, 0], fov: 50},
+  {f: 450, pos: [-28, 9, 30], look: [-12, 0, 0], fov: 50, ease: LIN},
 ];
 export const C1Light: React.FC = () => <LightTrip camKeys={CAM_C1L} distance={(f) => 1 + 0.05 * Math.min(1, Math.max(0, (f - 30) / 120))} period={158} />;
 
