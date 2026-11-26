@@ -1,0 +1,232 @@
+{
+  "video": "out/coin/coin_final.mp4",
+  "results": [
+    {
+      "name": "解像度 1080x1920",
+      "pass": true,
+      "detail": "1080x1920"
+    },
+    {
+      "name": "30fps",
+      "pass": true,
+      "detail": "30/1"
+    },
+    {
+      "name": "尺 45〜55秒",
+      "pass": true,
+      "detail": "50.01s / 1500 frames"
+    },
+    {
+      "name": "H.264 / yuv420p",
+      "pass": true,
+      "detail": "h264 yuv420p"
+    },
+    {
+      "name": "音声トラック（BGM＋効果音）",
+      "pass": true,
+      "detail": "aac 48000Hz"
+    },
+    {
+      "name": "0.5秒以上の静止区間なし（スライドショー化していない）",
+      "pass": true,
+      "detail": "0件"
+    },
+    {
+      "name": "意図しない黒画面なし",
+      "pass": true,
+      "detail": "0件"
+    },
+    {
+      "name": "音声ピーク -1dBFS 以下（クリップなし）",
+      "pass": true,
+      "detail": "-10 dBFS"
+    },
+    {
+      "name": "コンタクトシート作成",
+      "pass": true,
+      "detail": "out/coin/check/contact_sheet.png"
+    },
+    {
+      "name": "テロップがセーフエリア内",
+      "pass": true,
+      "detail": "25 フレーム検査 / 違反 0"
+    },
+    {
+      "name": "テロップ同士の重なりなし",
+      "pass": true,
+      "detail": "違反 0"
+    },
+    {
+      "name": "テロップが横幅に収まる",
+      "pass": true,
+      "detail": "違反 0"
+    },
+    {
+      "name": "書体：テーマ・経過時間・語りは明朝体、その他はゴシック体",
+      "pass": true,
+      "detail": "違反 0"
+    },
+    {
+      "name": "日本語フォント（ゴシック: Noto Sans JP / 明朝: Noto Serif JP）読込",
+      "pass": true,
+      "detail": "sans 93 / serif 93 subsets"
+    },
+    {
+      "name": "コンソール / WebGL エラーなし",
+      "pass": true,
+      "detail": "0件"
+    }
+  ],
+  "frames": [
+    {
+      "frame": 30,
+      "what": "hook title",
+      "boxes": 4,
+      "issues": []
+    },
+    {
+      "frame": 90,
+      "what": "c01_one caption0",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 108,
+      "what": "c01_one card0",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 144,
+      "what": "c02_desk caption0",
+      "boxes": 8,
+      "issues": []
+    },
+    {
+      "frame": 238,
+      "what": "c02_desk card0",
+      "boxes": 8,
+      "issues": []
+    },
+    {
+      "frame": 294,
+      "what": "c03_room caption0",
+      "boxes": 9,
+      "issues": []
+    },
+    {
+      "frame": 314,
+      "what": "c03_room callout0",
+      "boxes": 9,
+      "issues": []
+    },
+    {
+      "frame": 374,
+      "what": "c03_room card0",
+      "boxes": 8,
+      "issues": []
+    },
+    {
+      "frame": 444,
+      "what": "c04_tower caption0",
+      "boxes": 8,
+      "issues": []
+    },
+    {
+      "frame": 514,
+      "what": "c04_tower card0",
+      "boxes": 8,
+      "issues": []
+    },
+    {
+      "frame": 594,
+      "what": "c05_trucks caption0",
+      "boxes": 8,
+      "issues": []
+    },
+    {
+      "frame": 604,
+      "what": "c05_trucks callout0",
+      "boxes": 8,
+      "issues": []
+    },
+    {
+      "frame": 660,
+      "what": "c05_trucks card0",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 774,
+      "what": "c06_dome caption0",
+      "boxes": 8,
+      "issues": []
+    },
+    {
+      "frame": 788,
+      "what": "c06_dome callout0",
+      "boxes": 8,
+      "issues": []
+    },
+    {
+      "frame": 844,
+      "what": "c06_dome card0",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 954,
+      "what": "c07_alu caption0",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 1020,
+      "what": "c07_alu card0",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 1104,
+      "what": "c08_earth caption0",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 1134,
+      "what": "c08_earth callout0",
+      "boxes": 8,
+      "issues": []
+    },
+    {
+      "frame": 1190,
+      "what": "c08_earth card0",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 1286,
+      "what": "c09_shop caption0",
+      "boxes": 4,
+      "issues": []
+    },
+    {
+      "frame": 1368,
+      "what": "c09_shop caption1",
+      "boxes": 5,
+      "issues": []
+    },
+    {
+      "frame": 1386,
+      "what": "c09_shop card0",
+      "boxes": 5,
+      "issues": []
+    },
+    {
+      "frame": 1452,
+      "what": "c09_shop caption2",
+      "boxes": 4,
+      "issues": []
+    }
+  ]
+}
