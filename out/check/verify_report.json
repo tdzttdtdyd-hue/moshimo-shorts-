@@ -14,7 +14,7 @@
     {
       "name": "尺 30〜40秒",
       "pass": true,
-      "detail": "37.01s / 1110 frames"
+      "detail": "38.02s / 1140 frames"
     },
     {
       "name": "H.264 / yuv420p",
@@ -39,7 +39,7 @@
     {
       "name": "音声ピーク -1dBFS 以下（クリップなし）",
       "pass": true,
-      "detail": "-8.1 dBFS"
+      "detail": "-7.9 dBFS"
     },
     {
       "name": "コンタクトシート作成",
@@ -49,7 +49,7 @@
     {
       "name": "テロップがセーフエリア内",
       "pass": true,
-      "detail": "27 フレーム検査 / 違反 0"
+      "detail": "22 フレーム検査 / 違反 0"
     },
     {
       "name": "テロップ同士の重なりなし",
@@ -62,14 +62,14 @@
       "detail": "違反 0"
     },
     {
-      "name": "書体：テーマと経過時間は明朝体、その他はゴシック体",
+      "name": "書体：テーマ・経過時間・語りは明朝体、その他はゴシック体",
       "pass": true,
       "detail": "違反 0"
     },
     {
       "name": "日本語フォント（ゴシック: Noto Sans JP / 明朝: Noto Serif JP）読込",
       "pass": true,
-      "detail": "sans 102 / serif 102 subsets"
+      "detail": "sans 108 / serif 72 subsets"
     },
     {
       "name": "コンソール / WebGL エラーなし",
@@ -79,165 +79,135 @@
   ],
   "frames": [
     {
-      "frame": 58,
-      "what": "s01_hook caption0",
-      "boxes": 4,
+      "frame": 24,
+      "what": "narration0",
+      "boxes": 9,
       "issues": []
     },
     {
-      "frame": 63,
-      "what": "s01_hook end",
-      "boxes": 4,
+      "frame": 65,
+      "what": "callout",
+      "boxes": 11,
       "issues": []
     },
     {
-      "frame": 97,
-      "what": "s02_equator caption0",
-      "boxes": 7,
+      "frame": 68,
+      "what": "narration1",
+      "boxes": 11,
       "issues": []
     },
     {
-      "frame": 167,
-      "what": "s02_equator card0",
-      "boxes": 7,
+      "frame": 90,
+      "what": "callout",
+      "boxes": 11,
       "issues": []
     },
     {
-      "frame": 198,
-      "what": "s02_equator end",
-      "boxes": 7,
+      "frame": 142,
+      "what": "card0",
+      "boxes": 12,
       "issues": []
     },
     {
-      "frame": 231,
-      "what": "s03_japan caption0",
-      "boxes": 6,
+      "frame": 162,
+      "what": "narration2",
+      "boxes": 12,
       "issues": []
     },
     {
-      "frame": 258,
-      "what": "s03_japan card0",
-      "boxes": 7,
+      "frame": 215,
+      "what": "callout",
+      "boxes": 12,
       "issues": []
     },
     {
-      "frame": 303,
-      "what": "s03_japan end",
-      "boxes": 7,
+      "frame": 264,
+      "what": "narration3",
+      "boxes": 11,
       "issues": []
     },
     {
-      "frame": 339,
-      "what": "s04_tsunami caption0",
-      "boxes": 8,
+      "frame": 270,
+      "what": "callout",
+      "boxes": 11,
       "issues": []
     },
     {
-      "frame": 423,
-      "what": "s04_tsunami end",
-      "boxes": 6,
+      "frame": 356,
+      "what": "narration4",
+      "boxes": 10,
       "issues": []
     },
     {
-      "frame": 457,
-      "what": "s05_oceans caption0",
-      "boxes": 7,
+      "frame": 410,
+      "what": "card1",
+      "boxes": 11,
       "issues": []
     },
     {
-      "frame": 531,
-      "what": "s05_oceans card0",
-      "boxes": 6,
+      "frame": 504,
+      "what": "narration5",
+      "boxes": 11,
       "issues": []
     },
     {
-      "frame": 543,
-      "what": "s05_oceans end",
-      "boxes": 6,
+      "frame": 526,
+      "what": "table",
+      "boxes": 11,
       "issues": []
     },
     {
-      "frame": 577,
-      "what": "s06_daylength caption0",
+      "frame": 624,
+      "what": "narration6",
+      "boxes": 11,
+      "issues": []
+    },
+    {
+      "frame": 726,
+      "what": "narration7",
+      "boxes": 10,
+      "issues": []
+    },
+    {
+      "frame": 814,
+      "what": "narration8",
+      "boxes": 11,
+      "issues": []
+    },
+    {
+      "frame": 820,
+      "what": "callout",
+      "boxes": 11,
+      "issues": []
+    },
+    {
+      "frame": 969,
+      "what": "narration9",
       "boxes": 5,
       "issues": []
     },
     {
-      "frame": 611,
-      "what": "s06_daylength card0",
+      "frame": 1041,
+      "what": "narration10",
       "boxes": 6,
       "issues": []
     },
     {
-      "frame": 663,
-      "what": "s06_daylength end",
+      "frame": 1059,
+      "what": "card2",
       "boxes": 6,
-      "issues": []
-    },
-    {
-      "frame": 696,
-      "what": "s07_extremes caption0",
-      "boxes": 5,
-      "issues": []
-    },
-    {
-      "frame": 739,
-      "what": "s07_extremes caption1",
-      "boxes": 5,
-      "issues": []
-    },
-    {
-      "frame": 753,
-      "what": "s07_extremes end",
-      "boxes": 5,
-      "issues": []
-    },
-    {
-      "frame": 787,
-      "what": "s08_terminator caption0",
-      "boxes": 5,
-      "issues": []
-    },
-    {
-      "frame": 823,
-      "what": "s08_terminator card0",
-      "boxes": 6,
-      "issues": []
-    },
-    {
-      "frame": 873,
-      "what": "s08_terminator end",
-      "boxes": 7,
-      "issues": []
-    },
-    {
-      "frame": 906,
-      "what": "s09_end caption0",
-      "boxes": 4,
-      "issues": []
-    },
-    {
-      "frame": 975,
-      "what": "s09_end caption1",
-      "boxes": 4,
-      "issues": []
-    },
-    {
-      "frame": 1007,
-      "what": "s09_end card0",
-      "boxes": 5,
       "issues": []
     },
     {
       "frame": 1065,
-      "what": "s09_end caption2",
-      "boxes": 3,
+      "what": "callout",
+      "boxes": 6,
       "issues": []
     },
     {
-      "frame": 1098,
-      "what": "s09_end end",
-      "boxes": 3,
+      "frame": 1119,
+      "what": "narration11",
+      "boxes": 4,
       "issues": []
     }
   ]
