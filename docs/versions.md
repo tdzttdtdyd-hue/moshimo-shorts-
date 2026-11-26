@@ -17,6 +17,7 @@
 | もしも1回ごとにスパイクの威力が2倍になっていったら？（40秒） | バージョンA | `src/volley/`（コンポジション `VolleyShort`）、企画 `docs/volley-plan.md` | `out/volley/volley_final.mp4` |
 | もしも1円玉が毎日2倍に増えていったら？（50秒） | バージョンA | `src/coin/`（コンポジション `CoinShort`）、企画 `docs/coin-plan.md` | `out/coin/coin_final.mp4` |
 | もしも太陽が地球からどんどん離れていったら？（42秒） | バージョンA | `src/sun/`（コンポジション `SunShort`）、企画 `docs/sun-plan.md` | `out/sun/sun_final.mp4` |
+| もしも全人類が一列に並んだら？（45秒） | バージョンA | `src/line/`（コンポジション `LineShort`）、企画 `docs/line-plan.md` | `out/line/line_final.mp4` |
 
 書き出し：`COMP=VolleyShort OUT=out/volley FINAL=volley_final node scripts/render.mjs`
 検証：`APP=verify/app-volley.tsx CHECK=out/volley/check node scripts/verify.mjs out/volley/volley_final.mp4`
