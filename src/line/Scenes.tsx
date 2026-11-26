@@ -327,11 +327,12 @@ export const L5: React.FC = () => {
 // ---------- 6：光なら約12秒 ----------
 const CAM6: CamKey[] = [
   {f: 0, pos: [2, 1.5, 8], look: [0, 0, -20], fov: 50},
-  {f: 150, pos: [-3, 2.5, 4], look: [0, 0, -60], fov: 50, ease: LIN},
+  {f: 75, pos: [-2.5, 2.2, -10], look: [0, 0, -50], fov: 52, ease: LIN},
+  {f: 150, pos: [2.5, 0.8, -40], look: [0, 0, -90], fov: 54, ease: LIN},
 ];
 export const L6: React.FC = () => {
   const f = useCurrentFrame();
-  const t = (f % 60) / 60; // 光の粒がくり返し走る
+  const t = (f % 40) / 40; // 光の粒がくり返し走る
   const z = 2 - t * 200;
   return (
     <AbsoluteFill>
@@ -342,11 +343,18 @@ export const L6: React.FC = () => {
         <group rotation={[0, f * 0.002, 0]}>
           <Stars />
         </group>
-        <Earth radius={1.4} real detail={90} spin={-2.3 + f * 0.01} tilt={0.3} cloudOpacity={0.4} position={[0, -0.6, 4]} />
+        <Earth radius={1.4} real detail={90} spin={-2.3 + f * 0.03} tilt={0.3} cloudOpacity={0.4} position={[0, -0.6, 4]} />
         <mesh position={[0, 0, -98]} rotation={[Math.PI / 2, 0, 0]}>
           <cylinderGeometry args={[0.02, 0.02, 200, 8]} />
           <meshBasicMaterial color="#ffcf6a" transparent opacity={0.8} />
         </mesh>
+        {/* 列に沿った光の目印（カメラが進むと流れて見える） */}
+        {Array.from({length: 100}).map((_, i) => (
+          <mesh key={i} position={[0, 0, 1 - i * 2]}>
+            <sphereGeometry args={[0.07, 10, 10]} />
+            <meshBasicMaterial color={i % 5 === 0 ? '#ffffff' : '#ffcf6a'} />
+          </mesh>
+        ))}
         <mesh position={[0, 0, z]}>
           <sphereGeometry args={[0.18, 16, 16]} />
           <meshBasicMaterial color="#ffffff" />
