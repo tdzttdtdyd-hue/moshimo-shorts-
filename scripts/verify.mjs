@@ -37,7 +37,7 @@ ok('意図しない黒画面なし', blacks.length === 0, blacks.length ? `start
 if (a) {
   const vol = spawnSync('ffmpeg', ['-hide_banner', '-i', VIDEO, '-vn', '-af', 'volumedetect', '-f', 'null', '-'], {encoding: 'utf8'}).stderr;
   const peak = Number(/max_volume: ([-\d.]+)/.exec(vol)?.[1]);
-  ok('SE ピーク -6dBFS 以下（BGM を重ねる余裕）', peak <= -6, `${peak} dBFS`);
+  ok('音声ピーク -1dBFS 以下（クリップなし）', peak <= -1, `${peak} dBFS`);
 }
 execFileSync('ffmpeg', ['-loglevel', 'error', '-y', '-i', VIDEO, '-vf', 'fps=1,scale=270:480,tile=8x5:padding=6:color=black', '-frames:v', '1', `${CHECK}/contact_sheet.png`]);
 ok('コンタクトシート作成', fs.existsSync(`${CHECK}/contact_sheet.png`), `${CHECK}/contact_sheet.png`);
@@ -75,7 +75,7 @@ const checks = await page.evaluate(() => window.__checks);
 const safe = await page.evaluate(() => window.__safe);
 
 const report = [];
-let safeFails = 0, overlapFails = 0, widthFails = 0;
+let safeFails = 0, overlapFails = 0, widthFails = 0, fontFails = 0;
 for (const c of checks) {
   await page.evaluate((f) => window.__seek(f), c.frame);
   await page.evaluate(() => document.fonts.ready);
@@ -83,12 +83,11 @@ for (const c of checks) {
   const boxes = await page.evaluate(() =>
     [...document.querySelectorAll('[data-telop]')].map((el) => {
       const r = el.getBoundingClientRect();
-      return {kind: el.dataset.telop, text: el.textContent, x: r.x, y: r.y, w: r.width, h: r.height, sw: el.scrollWidth};
+      return {kind: el.dataset.telop, text: el.textContent, x: r.x, y: r.y, w: r.width, h: r.height, sw: el.scrollWidth, font: getComputedStyle(el).fontFamily};
     }),
   );
   const issues = [];
   for (const b of boxes) {
-    if (b.kind === 'onomato') continue; // 擬音は演出として画面中央付近に自由配置
     const t = 2;
     if (b.x < safe.x - t || b.y < safe.y - t || b.x + b.w > safe.x + safe.w + t || b.y + b.h > safe.y + safe.h + t) {
       issues.push(`セーフエリア外: 「${b.text}」 (${Math.round(b.x)},${Math.round(b.y)},${Math.round(b.w)}x${Math.round(b.h)})`);
@@ -97,6 +96,13 @@ for (const c of checks) {
     if (b.w > safe.w + t) {
       issues.push(`幅超過: 「${b.text}」 ${Math.round(b.w)}px`);
       widthFails++;
+    }
+  }
+  for (const b of boxes) {
+    const wantSerif = b.kind === 'title' || b.kind === 'clock';
+    if (wantSerif !== b.font.includes('Serif')) {
+      issues.push(`書体違い: 「${b.text}」 (${b.font})`);
+      fontFails++;
     }
   }
   for (let i = 0; i < boxes.length; i++)
@@ -116,13 +122,18 @@ for (const c of checks) {
 }
 const fontOk = await page.evaluate(async () => {
   const texts = [...document.querySelectorAll('[data-telop]')].map((e) => e.textContent).join('');
-  await document.fonts.load(`900 80px 'M PLUS Rounded 1c'`, texts || 'あ');
-  return [...document.fonts].filter((f) => f.family.includes('M PLUS') && f.status === 'loaded').length;
+  await document.fonts.load(`900 80px 'Noto Sans JP'`, texts || 'あ');
+  await document.fonts.load(`600 80px 'Noto Serif JP'`, texts || 'あ');
+  const loaded = [...document.fonts].filter((f) => f.status === 'loaded');
+  return {sans: loaded.filter((f) => f.family.includes('Noto Sans JP')).length, serif: loaded.filter((f) => f.family.includes('Noto Serif JP')).length};
 });
 ok('テロップがセーフエリア内', safeFails === 0, `${checks.length} フレーム検査 / 違反 ${safeFails}`);
 ok('テロップ同士の重なりなし', overlapFails === 0, `違反 ${overlapFails}`);
 ok('テロップが横幅に収まる', widthFails === 0, `違反 ${widthFails}`);
-ok('日本語フォント（M PLUS Rounded 1c）読込', fontOk > 0, `${fontOk} subsets loaded`);
+ok('書体：テーマと経過時間は明朝体、その他はゴシック体', fontFails === 0, `違反 ${fontFails}`);
+ok('日本語フォント（ゴシック: Noto Sans JP / 明朝: Noto Serif JP）読込', fontOk.sans > 0 && fontOk.serif > 0, `sans ${fontOk.sans} / serif ${fontOk.serif} subsets`);
+// 明朝体の使い分け：テーマ（title）と経過時間（clock の数値）が明朝、それ以外はゴシック
+
 const webglErr = errors.filter((e) => /webgl|three|context/i.test(e));
 ok('コンソール / WebGL エラーなし', errors.length === 0, errors.length ? errors.slice(0, 3).join(' | ') : '0件');
 void webglErr;

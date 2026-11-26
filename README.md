@@ -5,7 +5,7 @@
 ## 作品：もしも地球の自転が突然止まったら
 
 - 1080×1920 / 30fps / 37秒（1110フレーム）
-- ナレーションなし・BGMなし（効果音のみ。BGM は別工程で追加）
+- ナレーションなし。BGM（合成したやわらかいアンビエント曲）と効果音入り
 - 企画・シーン表・数値の根拠：[`docs/plan.md`](docs/plan.md)
 - 制作プロンプト：[`PROMPT.md`](PROMPT.md)
 
@@ -13,8 +13,9 @@
 
 | ファイル | 内容 |
 |---|---|
-| `out/moshimo_final.mp4` | 完成版（効果音入り、H.264 / AAC） |
-| `out/video_noaudio.mp4` | 音声なし版（BGM 合成用） |
+| `out/moshimo_final.mp4` | 完成版（BGM＋効果音、H.264 / AAC） |
+| `out/video_noaudio.mp4` | 音声なし版（音の差し替え用） |
+| `out/bgm_only.wav` | BGM だけのステム |
 | `out/sfx_only.wav` | 効果音だけのステム |
 | `out/check/` | コンタクトシート・テロップ検証キャプチャ・検証レポート |
 
@@ -26,6 +27,7 @@ npm run studio        # Remotion Studio でプレビュー
 npm run render        # out/ に書き出し（Remotion → FFmpeg）
 npm run verify        # FFmpeg + Playwright で自動検証
 bash scripts/make-sfx.sh   # 効果音を FFmpeg で再生成
+python3 scripts/make-bgm.py public/bgm/bgm.wav 37.0   # BGM を numpy で再生成
 ```
 
 ## 構成
@@ -45,4 +47,4 @@ scripts/             書き出し・検証・効果音生成
 verify/              Playwright 検証用の Player ページ
 ```
 
-フォント：M PLUS Rounded 1c（SIL Open Font License）を `public/fonts/` に同梱。
+フォント：テーマと経過時間は Noto Serif JP（明朝体）、その他は Noto Sans JP（ゴシック体）。どちらも SIL Open Font License で、`public/fonts/` に同梱。

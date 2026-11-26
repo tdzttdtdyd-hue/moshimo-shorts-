@@ -17,8 +17,10 @@ declare global {
 const checks: {frame: number; what: string}[] = [];
 for (const s of SCENES) {
   const st = sceneStart(s.id);
-  s.beats.forEach((b, i) => checks.push({frame: st + Math.min(b.to - 2, b.from + 18), what: `${s.id} beat${i}`}));
-  (s.numbers ?? []).forEach((n, i) => checks.push({frame: st + Math.min(n.to - 2, n.from + 34), what: `${s.id} number${i}`}));
+  s.captions.forEach((b, i) => checks.push({frame: st + Math.min(b.to - 10, b.from + 18), what: `${s.id} caption${i}`}));
+  (s.cards ?? []).forEach((n, i) => checks.push({frame: st + Math.min(n.to - 10, n.from + 34), what: `${s.id} card${i}`}));
+  // 吹き出しが出ている終盤も確認
+  checks.push({frame: st + s.duration - 12, what: `${s.id} end`});
 }
 window.__checks = checks.sort((a, b) => a.frame - b.frame);
 window.__safe = SAFE_BOX;
@@ -32,7 +34,7 @@ const App: React.FC = () => {
     <Player
       ref={ref}
       component={Video}
-      inputProps={{withSfx: false}}
+      inputProps={{withSfx: false, withBgm: false}}
       durationInFrames={TOTAL_FRAMES}
       fps={FPS}
       compositionWidth={WIDTH}

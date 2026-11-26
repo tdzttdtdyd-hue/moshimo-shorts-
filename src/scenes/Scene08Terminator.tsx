@@ -9,7 +9,10 @@ import {Human, OUTFITS, walkPose, wavePose} from '../three/Human';
 import {CameraRig} from '../lib/CameraRig';
 import {mulberry32} from '../lib/rand';
 import {C} from '../theme';
-import {Vignette} from '../components/Overlay';
+import {CalloutView, Vignette} from '../components/Overlay';
+import {CamKey} from '../lib/CameraRig';
+import {project} from '../lib/project';
+import {CALLOUTS} from '../components/callouts';
 
 const hot = new THREE.Color('#e8a055');
 const hot2 = new THREE.Color('#c97a3f');
@@ -24,6 +27,12 @@ const groundColor = (x: number, _z: number, n: number) => {
   return g;
 };
 
+const CAM: CamKey[] = [
+  {f: 0, pos: [0.8, 1.5, 7.5], look: [0, 1.3, 2], fov: 50},
+  {f: 50, pos: [1.5, 6, 11], look: [0, 0.5, -2], fov: 50},
+  {f: 120, pos: [0.5, 24, 16], look: [0, 0, -8], fov: 50},
+];
+
 export const Scene08Terminator: React.FC = () => {
   const f = useCurrentFrame();
   const town = useMemo(() => {
@@ -36,13 +45,7 @@ export const Scene08Terminator: React.FC = () => {
   return (
     <AbsoluteFill>
       <Stage bg="#8fb7e8" fog={['#a9b9d8', 40, 120]}>
-        <CameraRig
-          keys={[
-            {f: 0, pos: [0.8, 1.5, 7.5], look: [0, 1.3, 2], fov: 50},
-            {f: 50, pos: [1.5, 6, 11], look: [0, 0.5, -2], fov: 50},
-            {f: 120, pos: [0.5, 24, 16], look: [0, 0, -8], fov: 50},
-          ]}
-        />
+        <CameraRig keys={CAM} />
         <SkyDome top="#7aa6e0" horizon="#ffe1b8" leftTint="#ff8a3a" rightTint="#0c1640" sunDir={[-0.95, 0.12, -0.2]} sunColor="#ffd08a" sunPower={10} />
         <group position={[60, 25, -50]}>
           <Stars count={400} radius={25} seed={3} />
@@ -71,6 +74,7 @@ export const Scene08Terminator: React.FC = () => {
         ))}
       </Stage>
       <Vignette strength={0.4} />
+      <CalloutView {...project(CAM, f, [0, 0.1, -6])} {...CALLOUTS.border} from={60} to={118} dy={-70} dx={230} />
     </AbsoluteFill>
   );
 };

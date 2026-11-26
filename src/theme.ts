@@ -11,7 +11,10 @@ export const SAFE_BOX = {
   h: HEIGHT - SAFE.top - SAFE.bottom,
 };
 
-export const FONT = "'M PLUS Rounded 1c', sans-serif";
+// テーマ・経過時間は明朝体、それ以外はゴシック体
+export const SERIF = "'Noto Serif JP', serif";
+export const SANS = "'Noto Sans JP', sans-serif";
+export const FONT = SANS;
 
 export const C = {
   white: '#ffffff',
@@ -20,6 +23,13 @@ export const C = {
   red: '#FF3B4E',
   cyan: '#4FE3FF',
   orange: '#FF8A1F',
+  // UI（参考デザイン：落ち着いた半透明カード＋コーラルの強調）
+  coral: '#F07B5A',
+  peach: '#FFB27A',
+  skyBlue: '#8FC3FF',
+  card: 'rgba(22, 24, 32, 0.80)',
+  cardBorder: 'rgba(255, 255, 255, 0.16)',
+  tag: '#D9483B',
   // 3D パレット
   space: '#0b0f2e',
   ocean: '#2f8cf0',

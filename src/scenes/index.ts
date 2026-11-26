@@ -21,13 +21,12 @@ export const SCENE_COMPONENTS: Record<string, React.FC> = {
   s09_end: Scene09End,
 };
 
-// シーンごとのテロップ位置（px）
-export const OVERLAY_POS: Record<string, {mainTop?: number; numberTop?: number}> = {
-  s01_hook: {mainTop: 360},
-  s02_equator: {numberTop: 1170},
-  s03_japan: {mainTop: 370, numberTop: 500},
-  s05_oceans: {numberTop: 1340},
-  s06_daylength: {numberTop: 520},
-  s08_terminator: {numberTop: 540},
-  s09_end: {numberTop: 1120},
+// シーンごとの UI 位置（px）。データカードは被写体を隠しにくい上寄りに置く
+export const OVERLAY_POS: Record<string, {cardTop?: number; captionBottom?: number}> = {
+  s02_equator: {cardTop: 600},
+  s03_japan: {cardTop: 580},
+  s05_oceans: {cardTop: 580},
+  s06_daylength: {cardTop: 580},
+  s08_terminator: {cardTop: 580},
+  s09_end: {cardTop: 970, captionBottom: 428},
 };

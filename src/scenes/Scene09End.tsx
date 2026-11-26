@@ -9,7 +9,10 @@ import {Forest} from '../three/Landscape';
 import {CameraRig} from '../lib/CameraRig';
 import {easeOut} from '../lib/anim';
 import {fbm3} from '../lib/rand';
-import {Flash, Vignette} from '../components/Overlay';
+import {CalloutView, Flash, Vignette} from '../components/Overlay';
+import {CamKey} from '../lib/CameraRig';
+import {project} from '../lib/project';
+import {CALLOUTS} from '../components/callouts';
 import {SpaceLights} from './Scene01Hook';
 
 const CUT_B = 70;
@@ -42,6 +45,11 @@ const Moon: React.FC<{position: [number, number, number]}> = ({position}) => {
   );
 };
 
+const CAM_B: CamKey[] = [
+  {f: CUT_B, pos: [-3, 4, 13], look: [1, -0.6, 0], fov: 46},
+  {f: CUT_C, pos: [3, 3, 12.5], look: [1, -0.6, 0], fov: 46},
+];
+
 export const Scene09End: React.FC = () => {
   const f = useCurrentFrame();
   const cut = f < CUT_B ? 'A' : f < CUT_C ? 'B' : 'C';
@@ -59,12 +67,7 @@ export const Scene09End: React.FC = () => {
           />
         )}
         {cut === 'B' && (
-          <CameraRig
-            keys={[
-              {f: CUT_B, pos: [-3, 4, 13], look: [1, -0.6, 0], fov: 46},
-              {f: CUT_C, pos: [3, 3, 12.5], look: [1, -0.6, 0], fov: 46},
-            ]}
-          />
+          <CameraRig keys={CAM_B} />
         )}
         {cut === 'C' && (
           <CameraRig
@@ -108,6 +111,7 @@ export const Scene09End: React.FC = () => {
         )}
       </Stage>
       <Vignette strength={0.5} />
+      <CalloutView {...project(CAM_B, f, moonPos)} {...CALLOUTS.moon} from={96} to={158} dy={-110} />
       <Flash at={CUT_B} dur={5} max={0.4} />
       <Flash at={CUT_C} dur={5} max={0.4} />
     </AbsoluteFill>

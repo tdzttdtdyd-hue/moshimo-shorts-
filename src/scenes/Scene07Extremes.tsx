@@ -8,7 +8,10 @@ import {Human, OUTFITS, coldPose, hotPose} from '../three/Human';
 import {CameraRig} from '../lib/CameraRig';
 import {easeIO} from '../lib/anim';
 import {mulberry32} from '../lib/rand';
-import {Flash, Vignette} from '../components/Overlay';
+import {CalloutView, Flash, Vignette} from '../components/Overlay';
+import {CamKey} from '../lib/CameraRig';
+import {project} from '../lib/project';
+import {CALLOUTS} from '../components/callouts';
 
 const HOT_X = -9;
 const COLD_X = 9;
@@ -57,6 +60,13 @@ const Aurora: React.FC<{f: number}> = ({f}) => {
   );
 };
 
+const CAM: CamKey[] = [
+  {f: 0, pos: [HOT_X - 2.4, 2.0, 6.4], look: [HOT_X, 1.1, 0], fov: 46},
+  {f: 40, pos: [HOT_X + 0.6, 1.7, 5.4], look: [HOT_X, 1.1, 0], fov: 46},
+  {f: 48, pos: [COLD_X - 1, 1.9, 5.8], look: [COLD_X, 1.1, 0], fov: 50, ease: easeIO},
+  {f: 90, pos: [COLD_X + 2, 1.7, 5.2], look: [COLD_X, 1.2, 0], fov: 46},
+];
+
 export const Scene07Extremes: React.FC = () => {
   const f = useCurrentFrame();
   const r = useMemo(() => mulberry32(77), []);
@@ -74,12 +84,7 @@ export const Scene07Extremes: React.FC = () => {
     <AbsoluteFill>
       <Stage bg="#ffb070" fog={[cold ? '#9fb6d6' : '#ffc387', 16, 60]}>
         <CameraRig
-          keys={[
-            {f: 0, pos: [HOT_X - 2.4, 2.0, 6.4], look: [HOT_X, 1.1, 0], fov: 46},
-            {f: 40, pos: [HOT_X + 0.6, 1.7, 5.4], look: [HOT_X, 1.1, 0], fov: 46},
-            {f: 48, pos: [COLD_X - 1, 1.9, 5.8], look: [COLD_X, 1.1, 0], fov: 50, ease: easeIO},
-            {f: 90, pos: [COLD_X + 2, 1.7, 5.2], look: [COLD_X, 1.2, 0], fov: 46},
-          ]}
+          keys={CAM}
           shakes={[{from: 44, dur: 10, amp: 0.2}]}
         />
         <SkyDome top="#ff8a3d" horizon="#ffe0b0" leftTint="#ff9a4a" rightTint="#16224d" sunDir={[-0.6, 0.35, -0.7]} sunColor="#fff0c0" />
@@ -137,7 +142,9 @@ export const Scene07Extremes: React.FC = () => {
         ))}
       </Stage>
       <Vignette strength={0.45} />
-      <Flash at={45} dur={6} max={0.6} />
+      <CalloutView {...project(CAM, f, [HOT_X - 0.25, 1.5, 0])} {...CALLOUTS.hot} from={8} to={42} dy={-160} />
+      <CalloutView {...project(CAM, f, [COLD_X + 0.3, 1.5, 0])} {...CALLOUTS.cold} from={52} to={88} dy={-160} />
+      <Flash at={45} dur={6} max={0.4} />
     </AbsoluteFill>
   );
 };

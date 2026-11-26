@@ -32,12 +32,14 @@ await renderMedia({
   },
 });
 
-// 効果音のみのステム（BGM 合成工程用）
-await renderMedia({serveUrl, composition, codec: 'wav', outputLocation: 'out/sfx_only.wav', browserExecutable, chromiumOptions});
+// 効果音のみのステム（BGM なし）
+await renderMedia({serveUrl, composition, codec: 'wav', outputLocation: 'out/sfx_only.wav', browserExecutable, chromiumOptions, inputProps: {withSfx: true, withBgm: false}});
+// BGM のみのステム
+await renderMedia({serveUrl, composition, codec: 'wav', outputLocation: 'out/bgm_only.wav', browserExecutable, chromiumOptions, inputProps: {withSfx: false, withBgm: true}});
 
 const ff = (args) => execFileSync('ffmpeg', ['-loglevel', 'error', '-y', ...args], {stdio: 'inherit'});
-// 最終版（SE 入り）
+// 最終版（BGM＋効果音）
 ff(['-i', 'out/raw.mp4', '-c:v', 'libx264', '-preset', 'slow', '-crf', '18', '-pix_fmt', 'yuv420p', '-r', '30', '-c:a', 'aac', '-b:a', '192k', '-ar', '48000', '-ac', '2', '-movflags', '+faststart', 'out/moshimo_final.mp4']);
-// 音声なし版（BGM 合成用）
+// 音声なし版（差し替え用）
 ff(['-i', 'out/moshimo_final.mp4', '-c:v', 'copy', '-an', '-movflags', '+faststart', 'out/video_noaudio.mp4']);
 console.log('done');

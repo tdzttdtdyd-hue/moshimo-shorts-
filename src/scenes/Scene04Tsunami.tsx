@@ -8,7 +8,10 @@ import {Human, OUTFITS, runPose} from '../three/Human';
 import {CameraRig} from '../lib/CameraRig';
 import {mulberry32} from '../lib/rand';
 import {C} from '../theme';
-import {Flash, Vignette} from '../components/Overlay';
+import {CalloutView, Flash, Vignette} from '../components/Overlay';
+import {CamKey} from '../lib/CameraRig';
+import {project} from '../lib/project';
+import {CALLOUTS} from '../components/callouts';
 
 const SHORE = -7;
 const deep = new THREE.Color('#0d4fa8');
@@ -16,6 +19,11 @@ const mid = new THREE.Color('#1d86d8');
 const face = new THREE.Color('#3fb6e8');
 const foam = new THREE.Color('#f4fbff');
 
+const CAM: CamKey[] = [
+  {f: 0, pos: [3, 1.2, 9], look: [0, 1.8, -20], fov: 50},
+  {f: 70, pos: [2.5, 0.9, 7.5], look: [0, 4.5, -18], fov: 56},
+  {f: 120, pos: [1.5, 0.6, 6], look: [0, 9, -14], fov: 62},
+];
 const crestZ = (f: number) => -52 + f * 0.38;
 const crestH = (f: number) => 3.5 + f * 0.08;
 
@@ -101,11 +109,7 @@ export const Scene04Tsunami: React.FC = () => {
     <AbsoluteFill>
       <Stage bg={bg} fog={[bg, 45, 120]}>
         <CameraRig
-          keys={[
-            {f: 0, pos: [3, 1.2, 9], look: [0, 1.8, -20], fov: 50},
-            {f: 70, pos: [2.5, 0.9, 7.5], look: [0, 4.5, -18], fov: 56},
-            {f: 120, pos: [1.5, 0.6, 6], look: [0, 9, -14], fov: 62},
-          ]}
+          keys={CAM}
           shakes={[{from: 0, dur: 120, amp: 0.06}, {from: 85, dur: 35, amp: 0.25}]}
         />
         <SkyDome top={new THREE.Color('#3a7fcf').lerp(new THREE.Color('#3b4458'), storm).getStyle()} horizon={new THREE.Color('#e4f1fb').lerp(new THREE.Color('#8e99ad'), storm).getStyle()} />
@@ -126,7 +130,8 @@ export const Scene04Tsunami: React.FC = () => {
         })}
       </Stage>
       <Vignette strength={0.5} />
-      <Flash at={112} dur={8} max={0.9} color="#d6efff" />
+      <CalloutView {...project(CAM, f, [-5, crestH(f) * 0.95, crestZ(f) + Math.sin(-5 * 0.12) * 1.5])} {...CALLOUTS.sea} from={18} to={108} dy={170} dx={120} />
+      <Flash at={112} dur={8} max={0.7} color="#d6efff" />
     </AbsoluteFill>
   );
 };

@@ -6,7 +6,7 @@ import {Earth, SpaceBackdrop, Stars, Sun} from '../three/Earth';
 import {Human, OUTFITS, flailPose, wavePose} from '../three/Human';
 import {CameraRig} from '../lib/CameraRig';
 import {easeOut, ramp} from '../lib/anim';
-import {Flash, Onomato, SpeedLines, Vignette} from '../components/Overlay';
+import {Flash, Vignette} from '../components/Overlay';
 
 export const STOP = 32;
 const R = 2.2;
@@ -90,9 +90,7 @@ export const Scene01Hook: React.FC = () => {
         </group>
       </Stage>
       <Vignette strength={0.5} />
-      <SpeedLines from={STOP} to={STOP + 22} />
-      <Flash at={STOP} dur={7} max={0.75} />
-      <Onomato text="ピタッ！" at={STOP} dur={34} x={560} y={1270} rot={-9} size={170} />
+      <Flash at={STOP} dur={7} max={0.5} />
     </AbsoluteFill>
   );
 };

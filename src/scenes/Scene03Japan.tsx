@@ -6,10 +6,18 @@ import {Forest, Grass, Mountains, Road, SkyDome, Terrain, Tower, TreeSpec, grass
 import {Human, OUTFITS, flailPose, holdPose} from '../three/Human';
 import {CameraRig} from '../lib/CameraRig';
 import {mulberry32} from '../lib/rand';
-import {Flash, Vignette} from '../components/Overlay';
+import {CalloutView, Flash, Vignette} from '../components/Overlay';
+import {CamKey} from '../lib/CameraRig';
+import {project} from '../lib/project';
+import {CALLOUTS} from '../components/callouts';
 
 const wallX = (f: number) => -30 + Math.max(0, f - 4) * 0.9;
 const HIT = 37;
+const CAM: CamKey[] = [
+  {f: 0, pos: [0.5, 2.6, 17], look: [0, 2.6, 0], fov: 22},
+  {f: HIT, pos: [0.4, 2.2, 6.2], look: [0, 2.2, 0], fov: 56},
+  {f: 105, pos: [-1.2, 1.6, 5.2], look: [0.4, 2.3, 0], fov: 60},
+];
 const ground = grassColor('#78b955', '#4f9440', '#a4d36e');
 
 const Torii: React.FC<{position: [number, number, number]}> = ({position}) => (
@@ -51,11 +59,7 @@ export const Scene03Japan: React.FC = () => {
     <AbsoluteFill>
       <Stage bg="#cfe6f7" fog={[dusty > 0 ? '#d7b98c' : '#d7ecfa', 10 + 30 * (1 - dusty), 40 + 60 * (1 - dusty)]}>
         <CameraRig
-          keys={[
-            {f: 0, pos: [0.5, 2.6, 17], look: [0, 2.6, 0], fov: 22},
-            {f: HIT, pos: [0.4, 2.2, 6.2], look: [0, 2.2, 0], fov: 56},
-            {f: 105, pos: [-1.2, 1.6, 5.2], look: [0.4, 2.3, 0], fov: 60},
-          ]}
+          keys={CAM}
           shakes={[{from: HIT, dur: 30, amp: 0.3}]}
         />
         <SkyDome top="#3c86d6" horizon="#e2f1fb" sunDir={[-0.5, 0.45, -0.7]} />
@@ -119,7 +123,8 @@ export const Scene03Japan: React.FC = () => {
         {f > HIT - 10 && <WindStreaks frame={f} count={60} speed={2.4} area={[30, 6, 8]} center={[0, 2.5, 0]} opacity={0.55} />}
       </Stage>
       <Vignette strength={0.4} />
-      <Flash at={HIT} dur={7} max={0.55} color="#fff1d6" />
+      <CalloutView {...project(CAM, f, [-0.6, 2.45, 0.3])} {...CALLOUTS.pole} from={46} to={102} dy={170} />
+      <Flash at={HIT} dur={7} max={0.4} color="#fff1d6" />
     </AbsoluteFill>
   );
 };

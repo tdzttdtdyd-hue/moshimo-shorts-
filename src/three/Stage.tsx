@@ -11,7 +11,8 @@ export const Stage: React.FC<{children: React.ReactNode; bg: string; fog?: [stri
     shadows={shadows ? {type: THREE.PCFSoftShadowMap} : false}
     gl={{antialias: true, preserveDrawingBuffer: true}}
     camera={{fov: 45, position: [0, 5, 12], near: 0.1, far: 500}}
-    style={{position: 'absolute', inset: 0}}
+    // 参考デザインに合わせて彩度を落とした落ち着いた色調に
+    style={{position: 'absolute', inset: 0, filter: 'saturate(0.74) contrast(1.06) brightness(0.97)'}}
   >
     <color attach="background" args={[bg]} />
     {fog && <fog attach="fog" args={fog} />}

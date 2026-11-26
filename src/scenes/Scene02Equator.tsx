@@ -7,7 +7,10 @@ import {Human, OUTFITS, flailPose, walkPose} from '../three/Human';
 import {CameraRig} from '../lib/CameraRig';
 import {mulberry32} from '../lib/rand';
 import {C} from '../theme';
-import {Flash, SpeedLines, Vignette} from '../components/Overlay';
+import {CalloutView, Flash, Vignette} from '../components/Overlay';
+import {CamKey} from '../lib/CameraRig';
+import {project} from '../lib/project';
+import {CALLOUTS} from '../components/callouts';
 
 const HIT = 14;
 const CUT = 60;
@@ -16,6 +19,16 @@ const fly = (f: number, k: number, rnd: number) => {
   const t = Math.max(0, f - HIT - rnd * 4);
   return {x: 0.16 * t + 0.003 * t * t * k, y: Math.max(0, 0.11 * t * (1 - t / 60)) * k, rot: t * 0.14 * (0.6 + rnd)};
 };
+
+const CAM_A: CamKey[] = [
+  {f: 0, pos: [-7, 4.2, 11], look: [-1, 1.2, 0], fov: 46},
+  {f: HIT, pos: [-4, 4.6, 10.5], look: [1, 1.2, 0], fov: 46},
+  {f: CUT, pos: [6, 5.6, 11], look: [9, 1.4, 0], fov: 50},
+];
+const CAM_B: CamKey[] = [
+  {f: CUT, pos: [-3.2, 3.4, 7.5], look: [0.6, 1.4, 0], fov: 50},
+  {f: 135, pos: [-1.8, 3.0, 6.6], look: [0.8, 1.4, 0], fov: 52},
+];
 
 const flat = (_x: number, z: number) => Math.min(1, Math.max(0.15, (Math.abs(z) - 9) / 12));
 const ground = grassColor('#74b84f', '#4c943d', '#a3d46a');
@@ -30,7 +43,7 @@ export const Scene02Equator: React.FC = () => {
       for (const side of [-1, 1]) {
         const z = side * (4.4 + r() * 1.2);
         if (r() < 0.7) houses.push({x: x + r() * 0.6, z, w: C.houseColors[Math.floor(r() * 5)], roof: C.roofColors[Math.floor(r() * 5)], h: r() < 0.35 ? 2 : 1});
-        else trees.push({x: x + r(), z: z * 1.05, s: 0.9 + r() * 0.5});
+        else if (side < 0) trees.push({x: x + r(), z: z * 1.05, s: 0.9 + r() * 0.5});
         // カメラ側（+z）には背の高い木を置かない
         if (side < 0) {
           trees.push({x: x + 1.8 + r(), z: -(8 + r() * 6), s: 1 + r() * 0.8});
@@ -52,19 +65,12 @@ export const Scene02Equator: React.FC = () => {
       <Stage bg="#cfeaff" fog={['#d6ecff', 30, 110]}>
         {!inB ? (
           <CameraRig
-            keys={[
-              {f: 0, pos: [-7, 4.2, 11], look: [-1, 1.2, 0], fov: 46},
-              {f: HIT, pos: [-4, 4.6, 10.5], look: [1, 1.2, 0], fov: 46},
-              {f: CUT, pos: [6, 5.6, 11], look: [9, 1.4, 0], fov: 50},
-            ]}
+            keys={CAM_A}
             shakes={[{from: HIT, dur: 20, amp: 0.35}]}
           />
         ) : (
           <CameraRig
-            keys={[
-              {f: CUT, pos: [-3.2, 3.4, 7.5], look: [0.6, 1.4, 0], fov: 50},
-              {f: 135, pos: [-1.8, 3.0, 6.6], look: [0.8, 1.4, 0], fov: 52},
-            ]}
+            keys={CAM_B}
             shakes={[{from: CUT, dur: 75, amp: 0.08}]}
           />
         )}
@@ -117,9 +123,19 @@ export const Scene02Equator: React.FC = () => {
         {f >= HIT && <WindStreaks frame={f} count={70} speed={inB ? 2.2 : 1.6} area={[46, 7, 14]} center={[inB ? 0 : 6, 3, 0]} opacity={0.6} />}
       </Stage>
       <Vignette strength={0.35} />
-      <SpeedLines from={CUT} to={135} count={40} />
-      <Flash at={HIT} dur={6} max={0.5} />
-      <Flash at={CUT} dur={5} max={0.6} />
+      {(() => {
+        const g = project(CAM_A, f, [-2, 0.05, 1.0]);
+        const m = fly(f, 0.8, 0);
+        const car = project(CAM_A, f, [-3 + HIT * 0.12 + m.x, m.y + 0.5, -0.7]);
+        return (
+          <>
+            <CalloutView {...g} {...CALLOUTS.ground} from={4} to={30} dy={-150} />
+            <CalloutView {...car} {...CALLOUTS.people} from={30} to={58} dy={-170} />
+          </>
+        );
+      })()}
+      <Flash at={HIT} dur={6} max={0.35} />
+      <Flash at={CUT} dur={5} max={0.35} />
     </AbsoluteFill>
   );
 };
