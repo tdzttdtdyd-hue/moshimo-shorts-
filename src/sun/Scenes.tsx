@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import {AbsoluteFill, interpolate, useCurrentFrame} from 'remotion';
 import {Stage} from '../three/Stage';
 import {CameraRig, CamKey} from '../lib/CameraRig';
-import {V3, easeIO, easeOut} from '../lib/anim';
+import {V3, easeIO} from '../lib/anim';
 import {mulberry32} from '../lib/rand';
 import {project} from '../lib/project';
 import {Human, OUTFITS, coldPose, walkPose} from '../three/Human';
@@ -111,8 +111,8 @@ export const S2: React.FC = () => {
 
 // ---------- 3：1.5倍、海が凍りはじめる ----------
 export const CAM3: CamKey[] = [
-  {f: 0, pos: [8, 4, 10], look: [-2, 0, -12], fov: 50},
-  {f: 150, pos: [5, 3.2, 7], look: [-3, 0, -16], fov: 50},
+  {f: 0, pos: [9, 4.2, 11], look: [-2, 0, -12], fov: 50},
+  {f: 150, pos: [-4, 2.6, 5], look: [-8, 0, -20], fov: 50},
 ];
 const SHORE = -2;
 export const S3: React.FC = () => {
@@ -153,7 +153,7 @@ export const S3: React.FC = () => {
         <Terrain size={[200, 40]} seg={80} amp={0.25} position={[0, 0.05, SHORE + 20]} colorAt={snowGround(0.9)} />
         <Mountains seed={9} radius={140} height={26} color="#c4cfdb" arc={[Math.PI * 1.1, Math.PI * 1.9]} />
         <Human position={[-1 - f * 0.012, 0.02, SHORE - 6]} rotation={[0, -Math.PI / 2 - 0.4, 0]} outfit={OUTFITS[0]} p={walkPose(f * 0.25, 0.7)} />
-        <Flakes n={120} area={[40, 14, 30]} center={[0, 7, -6]} speed={0.04} />
+        <Flakes n={260} area={[40, 14, 30]} center={[0, 7, -6]} speed={0.07} size={0.08} />
       </Stage>
       <Vignette strength={0.45} />
       <CalloutView {...project(CAM3, f, [-4, 0.1, SHORE - 60 * 0.6])} {...CO('s3_ice', 'sea')} />
@@ -217,14 +217,15 @@ const FrozenLand: React.FC<{skyTop: string; skyHor: string; sunDir: V3; sunSize:
           <House wall="#e7ebef" roof="#9aa6b2" h={1} scale={1.5} />
         </group>
       ))}
-      {flakes > 0 && <Flakes n={flakes} area={[50, 18, 40]} center={[0, 8, -6]} speed={0.035} color={flakeColor} size={0.07} seed={31} />}
+      {flakes > 0 && <Flakes n={flakes} area={[50, 18, 40]} center={[0, 8, -6]} speed={0.06} color={flakeColor} size={0.1} seed={31} />}
     </>
   );
 };
 
 export const CAM5: CamKey[] = [
-  {f: 0, pos: [0, 1.7, 12], look: [0, 3, -20], fov: 52},
-  {f: 180, pos: [2, 1.8, 10], look: [-8, 18, -40], fov: 52, ease: easeIO},
+  {f: 0, pos: [-4, 1.7, 13], look: [0, 3, -20], fov: 52},
+  {f: 90, pos: [2, 2.2, 10], look: [-4, 10, -30], fov: 52},
+  {f: 180, pos: [7, 1.8, 8], look: [-8, 18, -40], fov: 52, ease: easeIO},
 ];
 const SUN5: V3 = [-0.35, 0.45, -1];
 export const S5: React.FC = () => {
@@ -233,7 +234,7 @@ export const S5: React.FC = () => {
     <AbsoluteFill>
       <Stage bg="#2a3a5a" fog={['#3b4a66', 40, 260]}>
         <CameraRig keys={CAM5} />
-        <FrozenLand skyTop="#0f1a3a" skyHor="#5a6f8f" sunDir={SUN5} sunSize={interpolate(f, [0, 40], [3.2, 1.6], clamp)} sunLight={0.45} stars={0.3} buried={0.3} />
+        <FrozenLand skyTop="#0f1a3a" skyHor="#5a6f8f" sunDir={SUN5} sunSize={interpolate(f, [0, 40], [3.2, 1.6], clamp)} sunLight={0.45} stars={0.3} buried={0.3} flakes={200} flakeColor="#f2f7ff" />
         <Human position={[1.5, 0.05, 4]} rotation={[0, Math.PI - 0.4, 0]} outfit={OUTFITS[2]} tint="#b5d3ee" p={coldPose(f)} />
       </Stage>
       <Vignette strength={0.5} />
@@ -242,8 +243,9 @@ export const S5: React.FC = () => {
 };
 
 export const CAM6: CamKey[] = [
-  {f: 0, pos: [-3, 2.4, 10], look: [0, 4, -20], fov: 54},
-  {f: 180, pos: [3, 2.0, 8], look: [2, 8, -30], fov: 54},
+  {f: 0, pos: [-7, 2.4, 11], look: [0, 4, -20], fov: 54},
+  {f: 90, pos: [0, 3.0, 8], look: [1, 6, -26], fov: 54},
+  {f: 180, pos: [7, 2.0, 7], look: [2, 9, -30], fov: 54},
 ];
 export const S6: React.FC = () => {
   const f = useCurrentFrame();
@@ -261,8 +263,8 @@ export const S6: React.FC = () => {
 
 // ---------- 7：冥王星の距離。宇宙から見ると太陽はただの明るい星 ----------
 export const CAM7: CamKey[] = [
-  {f: 0, pos: [1.5, 0.8, 6.5], look: [-3, 0.6, -30], fov: 50},
-  {f: 180, pos: [3.2, 1.2, 7.5], look: [-6, 1.2, -40], fov: 50},
+  {f: 0, pos: [-0.5, 0.4, 6.0], look: [-3, 0.6, -30], fov: 50},
+  {f: 180, pos: [4.2, 1.6, 8.2], look: [-6, 1.2, -40], fov: 50},
 ];
 const STAR7: V3 = [-30, 8, -120];
 export const S7: React.FC = () => (
@@ -282,12 +284,16 @@ export const S7: React.FC = () => (
         <sphereGeometry args={[2.6, 16, 16]} />
         <meshBasicMaterial color="#ffe9b8" transparent opacity={0.25} blending={THREE.AdditiveBlending} depthWrite={false} />
       </mesh>
-      <Earth radius={2.2} real detail={100} spin={-2.0} tilt={0.3} frost={1} clouds={false} position={[2.2, -1.5, -2]} />
+      <SpinEarth />
     </Stage>
     <Vignette strength={0.55} />
     <StarCallout />
   </AbsoluteFill>
 );
+const SpinEarth: React.FC = () => {
+  const f = useCurrentFrame();
+  return <Earth radius={2.2} real detail={100} spin={-2.0 + f * 0.012} tilt={0.3} frost={1} clouds={false} position={[2.2, -1.5, -2]} />;
+};
 const StarCallout: React.FC = () => {
   const f = useCurrentFrame();
   return <CalloutView {...project(CAM7, f, STAR7)} {...CO('s7_pluto', 'star')} />;
@@ -295,8 +301,8 @@ const StarCallout: React.FC = () => {
 
 // ---------- 8：問いかけ ----------
 const CAM8: CamKey[] = [
-  {f: 0, pos: [3.2, 1.2, 7.5], look: [-6, 1.2, -40], fov: 50},
-  {f: 150, pos: [9, 4, 22], look: [-4, 0, -20], fov: 50, ease: easeOut},
+  {f: 0, pos: [4.2, 1.6, 8.2], look: [-6, 1.2, -40], fov: 50},
+  {f: 150, pos: [14, 6, 26], look: [-4, 0, -20], fov: 50, ease: easeIO},
 ];
 export const S8: React.FC = () => (
   <AbsoluteFill>
@@ -315,7 +321,7 @@ export const S8: React.FC = () => (
         <sphereGeometry args={[2.6, 16, 16]} />
         <meshBasicMaterial color="#ffe9b8" transparent opacity={0.25} blending={THREE.AdditiveBlending} depthWrite={false} />
       </mesh>
-      <Earth radius={2.2} real detail={100} spin={-2.0 + useCurrentFrame() * 0.003} tilt={0.3} frost={1} clouds={false} position={[2.2, -1.5, -2]} />
+      <Earth radius={2.2} real detail={100} spin={-2.0 + 180 * 0.012 + useCurrentFrame() * 0.012} tilt={0.3} frost={1} clouds={false} position={[2.2, -1.5, -2]} />
     </Stage>
     <Vignette strength={0.55} />
   </AbsoluteFill>
