@@ -118,7 +118,8 @@ export const C03: React.FC = () => {
 const CAM4: CamKey[] = [
   {f: 0, pos: [14, 2.0, 20], look: [0, 6, 0], fov: 50},
   {f: 70, pos: [12, 8, 18], look: [0, 40, 0], fov: 56},
-  {f: 150, pos: [10, 170, 26], look: [0, 420, -20], fov: 60, ease: easeIO},
+  {f: 115, pos: [40, 230, 60], look: [0, 150, 0], fov: 58, ease: easeIO},
+  {f: 150, pos: [-50, 260, 45], look: [0, 170, 0], fov: 58},
 ];
 const TOWER_AT: V3 = [2.2, 0, 1.0];
 export const C04: React.FC = () => {
@@ -128,14 +129,16 @@ export const C04: React.FC = () => {
     <AbsoluteFill>
       <Stage bg="#9cc7ea" fog={['#c7def0', 60, 900]}>
         <CameraRig keys={CAM4} />
-        <SkyDome top="#3f86d8" horizon="#d9ecf8" sunDir={[0.4, 0.5, -0.7]} radius={1400} />
+        <SkyDome top={new THREE.Color('#3f86d8').lerp(new THREE.Color('#0e1c48'), interpolate(f, [80, 150], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'})).getStyle()} horizon="#d9ecf8" sunDir={[0.4, 0.5, -0.7]} radius={1400} />
         <hemisphereLight args={['#dfefff', '#8aa070', 0.9]} />
         <directionalLight position={[20, 40, 10]} intensity={2.2} castShadow shadow-camera-left={-30} shadow-camera-right={30} shadow-camera-top={30} shadow-camera-bottom={-30} />
         <Terrain size={[400, 400]} seg={80} amp={0.4} colorAt={grassColor()} />
         <Mountains seed={4} radius={260} height={60} color="#7f9fbf" />
         <House position={[-2, 0, -1]} wall="#fff4e0" roof="#c0392b" h={2} scale={2.2} />
         <CoinTower position={TOWER_AT} height={grow} />
-        <CloudPuffs seed={7} count={40} area={[-400, 400]} y={[120, 150]} z={[-400, 300]} scale={9} />
+        <CloudPuffs seed={7} count={40} area={[-400, 400]} y={[120, 150]} z={[-400, 300]} scale={9} drift={f * 0.8} />
+        {/* 塔のまわりの雲（突き抜けている様子が分かるように） */}
+        <CloudPuffs seed={12} count={34} area={[-90, 90]} y={[118, 140]} z={[-90, 90]} scale={4.5} drift={f * 0.3} />
       </Stage>
       <Vignette strength={0.4} />
     </AbsoluteFill>
@@ -268,8 +271,9 @@ export const C07: React.FC = () => {
 
 // ---------- 94日目：天びんで地球より重い ----------
 const CAM8: CamKey[] = [
-  {f: 0, pos: [0, -1, 38], look: [0, -3.8, 0], fov: 46},
-  {f: 180, pos: [2.5, 0.5, 36], look: [0, -4.0, 0], fov: 46},
+  {f: 0, pos: [-4, -1, 38], look: [0, -3.8, 0], fov: 46},
+  {f: 90, pos: [1, 0, 35], look: [0, -3.9, 0], fov: 46},
+  {f: 180, pos: [7, 2.5, 29], look: [1.5, -4.2, 0], fov: 46},
 ];
 const CoinBall: React.FC<{r: number}> = ({r}) => {
   const geo = useMemo(() => {
@@ -285,7 +289,7 @@ const CoinBall: React.FC<{r: number}> = ({r}) => {
   }, []);
   const tex = useMemo(() => pileTex([6, 6]), []);
   return (
-    <mesh geometry={geo} scale={r} position={[0, r * 0.95, 0]}>
+    <mesh geometry={geo} scale={r} position={[0, r * 0.95, 0]} rotation={[0, useCurrentFrame() * 0.015, 0]}>
       <meshStandardMaterial map={tex} metalness={0.2} roughness={0.42} />
     </mesh>
   );
@@ -310,7 +314,7 @@ export const C08: React.FC = () => {
         <Stars />
         <Balance tilt={beamT}>
           <group position={[0, 2.05, 0]}>
-            <Earth radius={2.0} real detail={90} spin={-2.3 + f * 0.004} tilt={0.3} cloudOpacity={0.5} />
+            <Earth radius={2.0} real detail={90} spin={-2.3 + f * 0.012} tilt={0.3} cloudOpacity={0.5} />
           </group>
           <CoinBall r={grow} />
         </Balance>

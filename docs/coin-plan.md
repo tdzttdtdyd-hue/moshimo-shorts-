@@ -3,7 +3,7 @@
 - コンポジション：`CoinShort`（`src/coin/`）、1500 フレーム / 30fps / 1080×1920
 - 出力：`out/coin/coin_final.mp4`（BGM＋効果音）、`bgm_only.wav`、`sfx_only.wav`、`video_noaudio.mp4`
 - 書き出し：`COMP=CoinShort OUT=out/coin FINAL=coin_final node scripts/render.mjs`
-- 検証：`APP=verify/app-coin.tsx CHECK=out/coin/check node scripts/verify.mjs out/coin/coin_final.mp4`
+- 検証：`MIN_SEC=45 MAX_SEC=55 APP=verify/app-coin.tsx CHECK=out/coin/check node scripts/verify.mjs out/coin/coin_final.mp4`
 
 ## 前提
 

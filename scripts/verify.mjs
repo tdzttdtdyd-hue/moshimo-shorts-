@@ -23,7 +23,8 @@ const dur = Number(probe.format.duration);
 const [n, d] = v.r_frame_rate.split('/').map(Number);
 ok('解像度 1080x1920', v.width === 1080 && v.height === 1920, `${v.width}x${v.height}`);
 ok('30fps', n / d === 30, v.r_frame_rate);
-ok('尺 30〜40秒', dur >= 30 && dur <= 40, `${dur.toFixed(2)}s / ${v.nb_frames} frames`);
+const MIN = Number(process.env.MIN_SEC ?? 30), MAX = Number(process.env.MAX_SEC ?? 40);
+ok(`尺 ${MIN}〜${MAX}秒`, dur >= MIN && dur <= MAX, `${dur.toFixed(2)}s / ${v.nb_frames} frames`);
 ok('H.264 / yuv420p', v.codec_name === 'h264' && v.pix_fmt === 'yuv420p', `${v.codec_name} ${v.pix_fmt}`);
 ok('音声トラック（BGM＋効果音）', !!a, a ? `${a.codec_name} ${a.sample_rate}Hz` : 'なし');
 
