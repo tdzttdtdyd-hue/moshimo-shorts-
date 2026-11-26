@@ -21,3 +21,12 @@
 
 書き出し：`COMP=VolleyShort OUT=out/volley FINAL=volley_final node scripts/render.mjs`
 検証：`APP=verify/app-volley.tsx CHECK=out/volley/check node scripts/verify.mjs out/volley/volley_final.mp4`
+
+### 長尺・横向き（1920×1080）
+
+| 作品 | テイスト | ソース | 出力 |
+|---|---|---|---|
+| もしも太陽が地球からどんどん離れていったら？ 長尺版（制作中：序章＋第1章 100秒） | バージョンA（横向き） | `src/sunlong/`（コンポジション `SunLong`） | `out/sunlong/sunlong_final.mp4`（git には入れない） |
+
+書き出し：`COMP=SunLong OUT=out/sunlong FINAL=sunlong_final node scripts/render.mjs`
+検証：`RES=1920x1080 MIN_SEC=95 MAX_SEC=105 APP=verify/app-sunlong.tsx CHECK=out/sunlong/check node scripts/verify.mjs out/sunlong/sunlong_final.mp4`
