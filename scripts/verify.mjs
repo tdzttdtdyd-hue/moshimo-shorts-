@@ -21,7 +21,8 @@ const v = probe.streams.find((s) => s.codec_type === 'video');
 const a = probe.streams.find((s) => s.codec_type === 'audio');
 const dur = Number(probe.format.duration);
 const [n, d] = v.r_frame_rate.split('/').map(Number);
-ok('解像度 1080x1920', v.width === 1080 && v.height === 1920, `${v.width}x${v.height}`);
+const [RW, RH] = (process.env.RES ?? '1080x1920').split('x').map(Number);
+ok(`解像度 ${RW}x${RH}`, v.width === RW && v.height === RH, `${v.width}x${v.height}`);
 ok('30fps', n / d === 30, v.r_frame_rate);
 const MIN = Number(process.env.MIN_SEC ?? 30), MAX = Number(process.env.MAX_SEC ?? 40);
 ok(`尺 ${MIN}〜${MAX}秒`, dur >= MIN && dur <= MAX, `${dur.toFixed(2)}s / ${v.nb_frames} frames`);
@@ -40,7 +41,7 @@ if (a) {
   const peak = Number(/max_volume: ([-\d.]+)/.exec(vol)?.[1]);
   ok('音声ピーク -1dBFS 以下（クリップなし）', peak <= -1, `${peak} dBFS`);
 }
-execFileSync('ffmpeg', ['-loglevel', 'error', '-y', '-i', VIDEO, '-vf', 'fps=1,scale=270:480,tile=8x5:padding=6:color=black', '-frames:v', '1', `${CHECK}/contact_sheet.png`]);
+execFileSync('ffmpeg', ['-loglevel', 'error', '-y', '-i', VIDEO, '-vf', RW > RH ? 'fps=0.5,scale=480:270,tile=5x10:padding=6:color=black' : 'fps=1,scale=270:480,tile=8x5:padding=6:color=black', '-frames:v', '1', `${CHECK}/contact_sheet.png`]);
 ok('コンタクトシート作成', fs.existsSync(`${CHECK}/contact_sheet.png`), `${CHECK}/contact_sheet.png`);
 
 // ---------- Playwright ----------
@@ -66,7 +67,7 @@ await new Promise((r) => server.listen(4319, r));
 
 const {chromium} = require('playwright');
 const browser = await chromium.launch({args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist']});
-const page = await browser.newPage({viewport: {width: 1080, height: 1920}, deviceScaleFactor: 1});
+const page = await browser.newPage({viewport: {width: RW, height: RH}, deviceScaleFactor: 1});
 const errors = [];
 page.on('console', (m) => m.type() === 'error' && errors.push(m.text()));
 page.on('pageerror', (e) => errors.push(String(e)));
@@ -100,7 +101,7 @@ for (const c of checks) {
     }
   }
   for (const b of boxes) {
-    const wantSerif = b.kind === 'title' || b.kind === 'clock' || b.kind === 'narr';
+    const wantSerif = b.kind === 'title' || b.kind === 'clock' || b.kind === 'narr' || b.kind === 'chapter';
     if (wantSerif !== b.font.includes('Serif')) {
       issues.push(`書体違い: 「${b.text}」 (${b.font})`);
       fontFails++;

@@ -4,10 +4,10 @@ import * as THREE from 'three';
 import {HEIGHT, WIDTH} from '../theme';
 
 // すべての 3D シーンの共通キャンバス
-export const Stage: React.FC<{children: React.ReactNode; bg: string; fog?: [string, number, number]; shadows?: boolean}> = ({children, bg, fog, shadows = true}) => (
+export const Stage: React.FC<{children: React.ReactNode; bg: string; fog?: [string, number, number]; shadows?: boolean; width?: number; height?: number}> = ({children, bg, fog, shadows = true, width = WIDTH, height = HEIGHT}) => (
   <ThreeCanvas
-    width={WIDTH}
-    height={HEIGHT}
+    width={width}
+    height={height}
     shadows={shadows ? {type: THREE.PCFSoftShadowMap} : false}
     gl={{antialias: true, preserveDrawingBuffer: true}}
     camera={{fov: 45, position: [0, 5, 12], near: 0.1, far: 500}}

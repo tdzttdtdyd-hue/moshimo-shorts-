@@ -22,7 +22,9 @@ for (const fr of frames) {
 const args = ['-loglevel', 'error', '-y'];
 files.forEach((f) => args.push('-i', f));
 const n = files.length;
-args.push('-filter_complex', `${files.map((_, i) => `[${i}]scale=360:640[v${i}]`).join(';')};${files.map((_, i) => `[v${i}]`).join('')}hstack=inputs=${n}`, out);
-if (n === 1) args.splice(args.indexOf('-filter_complex'), 2, '-vf', 'scale=360:640');
+const SC = composition.width > composition.height ? '640:360' : '360:640';
+const STACK = composition.width > composition.height ? 'vstack' : 'hstack';
+args.push('-filter_complex', `${files.map((_, i) => `[${i}]scale=${SC}[v${i}]`).join(';')};${files.map((_, i) => `[v${i}]`).join('')}${STACK}=inputs=${n}`, out);
+if (n === 1) args.splice(args.indexOf('-filter_complex'), 2, '-vf', `scale=${SC}`);
 execFileSync('ffmpeg', args);
 console.log('wrote', out);

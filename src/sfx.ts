@@ -148,3 +148,21 @@ export const SFX_LINE: {at: number; file: string; vol?: number; dur?: number}[] 
   {at: 992, file: 'ding', vol: 0.5, dur: 25},
   {at: 1226, file: 'pop', vol: 0.6, dur: 10},
 ];
+
+// 長尺版（太陽）の効果音
+export const SFX_SUNLONG: {at: number; file: string; vol?: number; dur?: number}[] = [
+  {at: 20, file: 'whoosh', vol: 0.5, dur: 25},
+  {at: 300, file: 'pop', vol: 0.5, dur: 10},
+  {at: 740, file: 'pop', vol: 0.5, dur: 10},
+  {at: 760, file: 'pop', vol: 0.5, dur: 10},
+  {at: 930, file: 'pop', vol: 0.5, dur: 10},
+  {at: 1196, file: 'whoosh', vol: 0.6, dur: 25},
+  {at: 1210, file: 'ding', vol: 0.6, dur: 25},
+  {at: 1600, file: 'pop', vol: 0.5, dur: 10},
+  {at: 1830, file: 'pop', vol: 0.5, dur: 10},
+  {at: 2050, file: 'pop', vol: 0.5, dur: 10},
+  {at: 2250, file: 'wind', vol: 0.5, dur: 75},
+  {at: 2280, file: 'pop', vol: 0.5, dur: 10},
+  {at: 2300, file: 'ice', vol: 0.6, dur: 40},
+  {at: 2700, file: 'whoosh', vol: 0.5, dur: 25},
+];
