@@ -21,6 +21,7 @@ type Props = {
   detail?: number;
   real?: boolean; // 実際の大陸の形（Natural Earth）で描く
   cloudOpacity?: number;
+  frost?: number; // 0..1 全体を氷と雪で覆う（全球凍結）
 };
 
 const col = (h: string) => new THREE.Color(h);
@@ -258,6 +259,7 @@ export const Earth: React.FC<Props> = ({
   detail = 72,
   real = false,
   cloudOpacity = 1,
+  frost = 0,
 }) => {
   const base = useMemo(() => buildBase(detail, real), [detail, real]);
   const cloudTex = useMemo(() => (clouds ? makeCloudTexture() : null), [clouds]);
@@ -265,6 +267,7 @@ export const Earth: React.FC<Props> = ({
   const shiftKey = Math.round(oceanShift * 90) / 90;
   const heatKey = Math.round(heat * 40) / 40;
   const sunKey = sunDir ? sunDir.map((v) => Math.round(v * 50) / 50).join(',') : '';
+  const frostKey = Math.round(frost * 40) / 40;
 
   const {land, ocean} = useMemo(() => {
     const sd = sunDir ? new THREE.Vector3(...sunDir).normalize() : null;
@@ -287,6 +290,7 @@ export const Earth: React.FC<Props> = ({
         const t = d > 0.12 ? (e > 0.3 ? B.hotDark : B.hot) : d < -0.12 ? B.frost : B.grass;
         tmp.lerp(t, heatKey * (Math.abs(d) > 0.12 ? Math.min(1, (Math.abs(d) - 0.12) * 3 + 0.4) : 0.7));
       }
+      if (frostKey > 0) tmp.lerp(B.snow, Math.min(1, frostKey * (0.75 + 0.5 * Math.abs(v.y))));
       cols.set([tmp.r, tmp.g, tmp.b], i * 3);
     }
     g.setAttribute('color', new THREE.BufferAttribute(cols, 3));
@@ -310,13 +314,14 @@ export const Earth: React.FC<Props> = ({
       }
       const r = 1 + Math.min(0.004, Math.max(0, seaLevel(Math.abs(v.y), shiftKey)) * 0.01);
       op.setXYZ(i, v.x * r, v.y * r, v.z * r);
+      if (frostKey > 0) tmp.lerp(B.frost, Math.min(1, frostKey * (0.6 + 0.6 * Math.abs(v.y))));
       oc.set([tmp.r, tmp.g, tmp.b], i * 3);
     }
     o.setAttribute('color', new THREE.BufferAttribute(oc, 3));
     o.computeVertexNormals();
     return {land: g, ocean: o};
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [base, shiftKey, heatKey, sunKey]);
+  }, [base, shiftKey, heatKey, sunKey, frostKey]);
 
   // 夜景：候補点は一度だけ作り、毎フレーム「夜側にあるもの」だけを残す（ちらつき防止）
   const lightCandidates = useMemo(() => {

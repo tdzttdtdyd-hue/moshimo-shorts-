@@ -109,3 +109,24 @@ export const SFX_COIN: {at: number; file: string; vol?: number; dur?: number}[] 
   {at: 1350, file: 'pop', vol: 0.6, dur: 10},
   {at: 1432, file: 'coin', vol: 0.7, dur: 20},
 ];
+
+// 太陽の動画の効果音（動画全体のフレーム）
+export const SFX_SUN: {at: number; file: string; vol?: number; dur?: number}[] = [
+  {at: 70, file: 'whoosh', vol: 0.6, dur: 25},
+  {at: 72, file: 'pop', vol: 0.5, dur: 10},
+  {at: 120, file: 'wind', vol: 0.6, dur: 75},
+  {at: 182, file: 'ding', vol: 0.5, dur: 25},
+  {at: 270, file: 'ice', vol: 0.8, dur: 40},
+  {at: 330, file: 'ice', vol: 0.6, dur: 40},
+  {at: 332, file: 'ding', vol: 0.5, dur: 25},
+  {at: 420, file: 'whoosh', vol: 0.6, dur: 25},
+  {at: 482, file: 'ding', vol: 0.5, dur: 25},
+  {at: 570, file: 'ff', vol: 0.5, dur: 30},
+  {at: 640, file: 'ding', vol: 0.5, dur: 25},
+  {at: 750, file: 'ff', vol: 0.5, dur: 30},
+  {at: 760, file: 'wind', vol: 0.5, dur: 75},
+  {at: 820, file: 'ding', vol: 0.5, dur: 25},
+  {at: 930, file: 'ff', vol: 0.5, dur: 30},
+  {at: 1000, file: 'ding', vol: 0.5, dur: 25},
+  {at: 1140, file: 'pop', vol: 0.6, dur: 10},
+];

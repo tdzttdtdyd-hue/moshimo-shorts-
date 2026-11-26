@@ -19,6 +19,8 @@ $F -f lavfi -i "anoisesrc=d=1.2:c=white:a=0.9" -af "highpass=f=2500,apulsator=hz
 $F -f lavfi -i "aevalsrc='0.5*sin(2*PI*3520*t)*exp(-t*18)+0.35*sin(2*PI*5230*t)*exp(-t*26)+0.2*sin(2*PI*7900*t)*exp(-t*40)':d=0.4:s=48000" -af "aformat=channel_layouts=stereo" coin.wav
 # 1円玉がジャラジャラ（coins.wav）は numpy で合成：scripts/make-coins-sfx.py
 python3 ../../scripts/make-coins-sfx.py coins.wav
+# 氷が割れる・凍る音
+$F -f lavfi -i "anoisesrc=d=0.9:c=white:a=0.9" -af "highpass=f=1200,lowpass=f=7000,apulsator=hz=9:amount=0.9,afade=t=out:st=0.05:d=0.85,aformat=sample_rates=48000:channel_layouts=stereo" ice.wav
 # ピークを -6dBFS に正規化
 for f in *.wav; do
   m=$(ffmpeg -i "$f" -af volumedetect -f null - 2>&1 | awk '/max_volume/{print $5}')
