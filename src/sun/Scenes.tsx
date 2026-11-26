@@ -314,7 +314,9 @@ const DriftStars: React.FC = () => {
 // ---------- 8：問いかけ ----------
 const CAM8: CamKey[] = [
   {f: 0, pos: [4.2, 1.6, 8.2], look: [-6, 1.2, -40], fov: 50, ease: LIN},
-  {f: 150, pos: [14, 6, 26], look: [-4, 0, -20], fov: 50, ease: LIN},
+  {f: 50, pos: [7.5, 1.2, 6.5], look: [2.2, -1.5, -2], fov: 50, ease: LIN},
+  {f: 100, pos: [8.0, 0.4, 0.5], look: [2.2, -1.5, -2], fov: 50, ease: LIN},
+  {f: 150, pos: [5.5, -0.2, -6.0], look: [2.2, -1.5, -2], fov: 50, ease: LIN},
 ];
 export const S8: React.FC = () => (
   <AbsoluteFill>
@@ -333,7 +335,7 @@ export const S8: React.FC = () => (
         <sphereGeometry args={[2.6, 16, 16]} />
         <meshBasicMaterial color="#ffe9b8" transparent opacity={0.25} blending={THREE.AdditiveBlending} depthWrite={false} />
       </mesh>
-      <Earth radius={2.2} real detail={100} spin={-2.0 + 180 * 0.012 + useCurrentFrame() * 0.012} tilt={0.3} frost={1} clouds={false} position={[2.2, -1.5, -2]} />
+      <Earth radius={2.2} real detail={100} spin={-2.0 + 180 * 0.012 + useCurrentFrame() * 0.025} tilt={0.3} frost={1} clouds={false} position={[2.2, -1.5, -2]} />
     </Stage>
     <Vignette strength={0.55} />
   </AbsoluteFill>
