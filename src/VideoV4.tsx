@@ -1,7 +1,7 @@
 import React from 'react';
 import {AbsoluteFill, Html5Audio, Sequence, interpolate, staticFile, useCurrentFrame} from 'remotion';
 import {Scene3D} from './v4/Scene3D';
-import {CardView, ClockPanel, Disclaimer, FontsV4, GlobePanel, NarrationView, Shade, TableView, Title} from './v4/Hud';
+import {CardView, ClockPanel, Disclaimer, FontsV4, NarrationView, Shade, TableView, Title} from './v4/Hud';
 import {Callouts} from './v4/Callouts';
 import {CARDS, NARRATION} from './v4/script';
 import {F} from './v4/timeline';
@@ -30,7 +30,6 @@ export const VideoV4: React.FC<{withSfx?: boolean; withBgm?: boolean}> = ({withS
     <Callouts />
     <Title />
     <ClockPanel />
-    <GlobePanel />
     {NARRATION.map((n, i) => (
       <NarrationView key={i} n={n} top={n.from >= F.SPACE ? 700 : 650} center={n.from >= F.SPACE + 150} />
     ))}

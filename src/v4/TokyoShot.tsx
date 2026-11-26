@@ -51,7 +51,8 @@ export const carSlide = (f: number, i: number) => {
   const t = Math.max(0, f - F.STOP - 6 - i * 3);
   return f < F.STOP ? 0 : Math.min(30, 0.004 * t * t * (1 + i * 0.2));
 };
-export const poleTiltAt = (f: number, i: number) => (f < F.STOP + 30 ? 0 : -Math.min(0.32, ((f - F.STOP - 30) / 80) * (0.2 + (i % 3) * 0.06)));
+// 風下（東＝-x）へ倒れる：z 軸まわりの正の回転で上端が -x 側へ
+export const poleTiltAt = (f: number, i: number) => (f < F.STOP + 30 ? 0 : Math.min(0.32, ((f - F.STOP - 30) / 80) * (0.2 + (i % 3) * 0.06)));
 
 export const TokyoShot: React.FC = () => {
   const f = useCurrentFrame();

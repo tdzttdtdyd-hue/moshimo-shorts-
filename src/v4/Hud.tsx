@@ -3,7 +3,7 @@ import {AbsoluteFill, continueRender, delayRender, interpolate, spring, staticFi
 import {C, SAFE, SANS, SERIF} from '../theme';
 import {CalloutView, emWidth} from '../components/Overlay';
 import {CALLOUT_TEXT, CARDS, Card, DISCLAIMER, NARRATION, Narr, TABLE, THEME_TITLE} from './script';
-import {F, formatClock, formatRate, hourAngle, rateAt, simTime, skyState} from './timeline';
+import {F, formatClock, formatRate, rateAt, simTime, skyState} from './timeline';
 
 const clamp = {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'} as const;
 const fadeIO = (f: number, a: number, b: number, d = 8) => interpolate(f, [a, a + d, b - d, b], [0, 1, 1, 0], clamp);
@@ -118,66 +118,6 @@ export const ClockPanel: React.FC = () => {
       <div data-telop="hud" style={{display: 'flex', alignItems: 'center', gap: 12, marginTop: 8}}>
         <span style={label}>いまの空（東京）</span>
         <Badge text={s.t} color={s.c} />
-      </div>
-    </div>
-  );
-};
-
-// ---------- 右上：北極側から見た地球（昼夜・東京の位置） ----------
-export const GlobePanel: React.FC = () => {
-  const f = useCurrentFrame();
-  const o = interpolate(f, [F.CRANE + 20, F.SPACE - 10], [1, 0], clamp);
-  if (o <= 0) return null;
-  const W = 280, H = 290, cx = 140, cy = 150, R = 86;
-  // 停止前は自転で東京が回る。停止後は東京が固定され、太陽の向きがゆっくり回る
-  const preSpin = f < F.STOP ? ((F.STOP - f) / 30) * 0.9 : 0;
-  const tokyoAng = -Math.PI / 2 - preSpin;
-  const sunAng = -Math.PI / 2 + hourAngle(f);
-  const tr = R * Math.cos((35.7 * Math.PI) / 180);
-  const tx = cx + Math.cos(tokyoAng) * tr, ty = cy + Math.sin(tokyoAng) * tr;
-  const sx = cx + Math.cos(sunAng) * (R + 34), sy = cy + Math.sin(sunAng) * (R + 34);
-  const deg = (sunAng * 180) / Math.PI;
-  const len = f < F.TSUNAMI_END ? '24時間' : '約365日';
-  return (
-    <div data-telop="globe" style={{position: 'absolute', right: SAFE.right + 6, top: 296, width: W, opacity: o, background: 'rgba(20,24,34,0.72)', border: '1.5px solid rgba(255,255,255,0.22)', borderRadius: 18, padding: '10px 10px 12px', boxSizing: 'border-box', fontFamily: SANS}}>
-      <div style={{fontSize: 20, fontWeight: 700, color: 'rgba(255,255,255,0.85)', paddingLeft: 6}}>北極側から見た地球</div>
-      <svg width={W - 20} height={H - 70} viewBox={`0 0 ${W} ${H - 40}`}>
-        <defs>
-          <clipPath id="disk">
-            <circle cx={cx} cy={cy - 20} r={R} />
-          </clipPath>
-        </defs>
-        <g transform="translate(0,-20)">
-          <circle cx={cx} cy={cy} r={R} fill="#1b2747" stroke="rgba(255,255,255,0.35)" strokeWidth={1.5} />
-          {/* 昼側 */}
-          <g clipPath="url(#disk)" transform="translate(0,20)">
-            <g transform={`translate(0,-20) rotate(${deg} ${cx} ${cy})`}>
-              <rect x={cx} y={cy - R} width={R} height={R * 2} fill="#d9b25a" opacity={0.85} />
-            </g>
-          </g>
-          {[0.33, 0.66].map((k) => (
-            <circle key={k} cx={cx} cy={cy} r={R * k} fill="none" stroke="rgba(255,255,255,0.18)" strokeWidth={1} />
-          ))}
-          <circle cx={cx} cy={cy} r={3} fill="#fff" />
-          {/* 太陽 */}
-          <circle cx={sx} cy={sy} r={11} fill="#ffcf5a" />
-          {/* 東京 */}
-          <circle cx={tx} cy={ty} r={7} fill="#fff" stroke="#d9483b" strokeWidth={4} />
-          <text x={tx + 12} y={ty + 5} fill="#fff" fontSize={20} fontWeight={900} fontFamily="Noto Sans JP">
-            東京
-          </text>
-          {/* 自転の矢印 */}
-          <path d={`M ${cx + R + 10} ${cy + 30} A ${R + 10} ${R + 10} 0 0 1 ${cx + 30} ${cy + R + 10}`} fill="none" stroke={f < F.STOP ? '#8fc3ff' : 'rgba(255,255,255,0.25)'} strokeWidth={3} />
-          {f >= F.STOP && (
-            <text x={cx + R - 6} y={cy + R + 6} fill="#ff8a78" fontSize={22} fontWeight={900} fontFamily="Noto Sans JP">
-              自転停止
-            </text>
-          )}
-        </g>
-      </svg>
-      <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', padding: '0 8px', marginTop: -6}}>
-        <span style={{fontSize: 22, color: 'rgba(255,255,255,0.8)', fontWeight: 500}}>1日の長さ</span>
-        <span style={{fontSize: 30, color: f < F.TSUNAMI_END ? '#fff' : C.peach, fontWeight: 900}}>{len}</span>
       </div>
     </div>
   );
