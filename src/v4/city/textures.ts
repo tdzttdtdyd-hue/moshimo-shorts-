@@ -213,7 +213,17 @@ export const signTex = (i: number, vertical = true) => {
     if (vertical) {
       const chars = [...word];
       const step = Math.min(80, (H - 40) / chars.length);
-      chars.forEach((ch, k) => ctx.fillText(ch, W / 2, 20 + step * (k + 0.5)));
+      chars.forEach((ch, k) => {
+        const y = 20 + step * (k + 0.5);
+        // 縦書きでは長音記号・波線・ダッシュを90°回して縦向きにする
+        if ('ー－—〜～'.includes(ch)) {
+          ctx.save();
+          ctx.translate(W / 2, y);
+          ctx.rotate(Math.PI / 2);
+          ctx.fillText(ch, 0, 0);
+          ctx.restore();
+        } else ctx.fillText(ch, W / 2, y);
+      });
     } else ctx.fillText(word, W / 2, H / 2 + 4);
   });
 };
