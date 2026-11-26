@@ -15,6 +15,7 @@
 | 作品 | テイスト | ソース | 出力 |
 |---|---|---|---|
 | もしも1回ごとにスパイクの威力が2倍になっていったら？（40秒） | バージョンA | `src/volley/`（コンポジション `VolleyShort`）、企画 `docs/volley-plan.md` | `out/volley/volley_final.mp4` |
+| もしも1円玉が毎日2倍に増えていったら？（50秒） | バージョンA | `src/coin/`（コンポジション `CoinShort`）、企画 `docs/coin-plan.md` | `out/coin/coin_final.mp4` |
 
 書き出し：`COMP=VolleyShort OUT=out/volley FINAL=volley_final node scripts/render.mjs`
 検証：`APP=verify/app-volley.tsx CHECK=out/volley/check node scripts/verify.mjs out/volley/volley_final.mp4`

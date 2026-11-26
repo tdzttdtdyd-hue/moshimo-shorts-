@@ -5,6 +5,8 @@ import {HumanTest} from './dev/HumanTest';
 import {EarthTest} from './dev/EarthTest';
 import {Scene3D} from './v4/Scene3D';
 import {VolleyVideo} from './volley/VolleyVideo';
+import {CoinVideo} from './coin/CoinVideo';
+import {TOTAL_FRAMES as COIN_FRAMES} from './coin/script';
 import {TOTAL_FRAMES as VOLLEY_FRAMES} from './volley/script';
 import {F} from './v4/timeline';
 import {FPS, HEIGHT, WIDTH} from './theme';
@@ -16,5 +18,6 @@ export const Root: React.FC = () => (
     <Composition id="EarthTest" component={EarthTest} durationInFrames={4} fps={FPS} width={WIDTH} height={HEIGHT} />
     <Composition id="V4Raw" component={Scene3D} durationInFrames={F.END} fps={FPS} width={WIDTH} height={HEIGHT} />
     <Composition id="VolleyShort" component={VolleyVideo} durationInFrames={VOLLEY_FRAMES} fps={FPS} width={WIDTH} height={HEIGHT} defaultProps={{withSfx: true, withBgm: true}} />
+    <Composition id="CoinShort" component={CoinVideo} durationInFrames={COIN_FRAMES} fps={FPS} width={WIDTH} height={HEIGHT} defaultProps={{withSfx: true, withBgm: true}} />
   </>
 );

@@ -15,6 +15,10 @@ $F -f lavfi -i "aevalsrc='0.5*sin(2*PI*(220*t+700*t*t))*min(1,t*8)*exp(-max(0,t-
 $F -f lavfi -i "aevalsrc='0.9*sin(2*PI*(160-80*t)*t)*exp(-t*28)':d=0.25:s=48000" -f lavfi -i "anoisesrc=d=0.25:c=white:a=0.9" -filter_complex "[1]bandpass=f=2200:width_type=o:w=2,afade=t=out:st=0:d=0.08[n];[0][n]amix=inputs=2:normalize=0,aformat=channel_layouts=stereo" hit.wav
 $F -f lavfi -i "aevalsrc='0.6*sin(2*PI*2900*t+3*sin(2*PI*28*t))*min(1\,t*40)*if(lt(t\,0.55)\,1\,exp(-(t-0.55)*30))':d=0.7:s=48000" -af "aformat=channel_layouts=stereo" whistle.wav
 $F -f lavfi -i "anoisesrc=d=1.2:c=white:a=0.9" -af "highpass=f=2500,apulsator=hz=18:amount=0.8,afade=t=out:st=0.05:d=1.1,aformat=sample_rates=48000:channel_layouts=stereo" glass.wav
+# 1円玉：チャリン（単発）
+$F -f lavfi -i "aevalsrc='0.5*sin(2*PI*3520*t)*exp(-t*18)+0.35*sin(2*PI*5230*t)*exp(-t*26)+0.2*sin(2*PI*7900*t)*exp(-t*40)':d=0.4:s=48000" -af "aformat=channel_layouts=stereo" coin.wav
+# 1円玉がジャラジャラ（coins.wav）は numpy で合成：scripts/make-coins-sfx.py
+python3 ../../scripts/make-coins-sfx.py coins.wav
 # ピークを -6dBFS に正規化
 for f in *.wav; do
   m=$(ffmpeg -i "$f" -af volumedetect -f null - 2>&1 | awk '/max_volume/{print $5}')
