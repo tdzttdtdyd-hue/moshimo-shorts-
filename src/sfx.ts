@@ -25,3 +25,26 @@ export const SFX: SfxEvent[] = [
   {scene: 's09_end', at: 110, file: 'ding', vol: 0.7, dur: 25},
   {scene: 's09_end', at: 162, file: 'pop', vol: 0.6, dur: 10},
 ];
+
+// v4（1カット構成）の効果音タイムライン（動画全体のフレーム）
+export const SFX_V4: {at: number; file: string; vol?: number; dur?: number}[] = [
+  {at: 40, file: 'whoosh', vol: 0.7, dur: 25},
+  {at: 45, file: 'boom', vol: 1, dur: 30},
+  {at: 46, file: 'wind', vol: 0.9, dur: 75},
+  {at: 63, file: 'whoosh', vol: 0.5, dur: 25},
+  {at: 134, file: 'ding', vol: 0.6, dur: 25},
+  {at: 150, file: 'wind', vol: 0.8, dur: 75},
+  {at: 195, file: 'ff', vol: 0.6, dur: 30},
+  {at: 240, file: 'ff', vol: 0.6, dur: 30},
+  {at: 242, file: 'rumble', vol: 0.9, dur: 120},
+  {at: 330, file: 'ff', vol: 0.7, dur: 30},
+  {at: 402, file: 'ding', vol: 0.6, dur: 25},
+  {at: 480, file: 'ff', vol: 0.7, dur: 30},
+  {at: 488, file: 'pop', vol: 0.5, dur: 10},
+  {at: 600, file: 'ff', vol: 0.7, dur: 30},
+  {at: 870, file: 'whoosh', vol: 0.8, dur: 25},
+  {at: 900, file: 'whoosh', vol: 0.6, dur: 25},
+  {at: 945, file: 'ding', vol: 0.5, dur: 25},
+  {at: 1051, file: 'ding', vol: 0.6, dur: 25},
+  {at: 1099, file: 'pop', vol: 0.5, dur: 10},
+];

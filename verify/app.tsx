@@ -2,8 +2,9 @@
 import React, {useRef, useEffect} from 'react';
 import {createRoot} from 'react-dom/client';
 import {Player, PlayerRef} from '@remotion/player';
-import {Video} from '../src/Video';
-import {SCENES, TOTAL_FRAMES, sceneStart} from '../src/script';
+import {VideoV4} from '../src/VideoV4';
+import {CARDS, NARRATION, TABLE} from '../src/v4/script';
+import {F} from '../src/v4/timeline';
 import {SAFE_BOX, FPS, WIDTH, HEIGHT} from '../src/theme';
 
 declare global {
@@ -15,13 +16,11 @@ declare global {
 }
 
 const checks: {frame: number; what: string}[] = [];
-for (const s of SCENES) {
-  const st = sceneStart(s.id);
-  s.captions.forEach((b, i) => checks.push({frame: st + Math.min(b.to - 10, b.from + 18), what: `${s.id} caption${i}`}));
-  (s.cards ?? []).forEach((n, i) => checks.push({frame: st + Math.min(n.to - 10, n.from + 34), what: `${s.id} card${i}`}));
-  // 吹き出しが出ている終盤も確認
-  checks.push({frame: st + s.duration - 12, what: `${s.id} end`});
-}
+NARRATION.forEach((n, i) => checks.push({frame: Math.min(n.to - 10, n.from + 20), what: `narration${i}`}));
+CARDS.forEach((c, i) => checks.push({frame: Math.min(c.to - 10, c.from + 30), what: `card${i}`}));
+checks.push({frame: TABLE.from + 40, what: 'table'});
+// 吹き出しが出ている場面
+[F.STOP + 20, 90, 215, 270, 820, F.SPACE + 120].forEach((f) => checks.push({frame: f, what: 'callout'}));
 window.__checks = checks.sort((a, b) => a.frame - b.frame);
 window.__safe = SAFE_BOX;
 
@@ -31,16 +30,7 @@ const App: React.FC = () => {
     window.__seek = (f) => ref.current?.seekTo(f);
   }, []);
   return (
-    <Player
-      ref={ref}
-      component={Video}
-      inputProps={{withSfx: false, withBgm: false}}
-      durationInFrames={TOTAL_FRAMES}
-      fps={FPS}
-      compositionWidth={WIDTH}
-      compositionHeight={HEIGHT}
-      style={{width: WIDTH, height: HEIGHT}}
-    />
+    <Player ref={ref} component={VideoV4} inputProps={{withSfx: false, withBgm: false}} durationInFrames={F.END} fps={FPS} compositionWidth={WIDTH} compositionHeight={HEIGHT} style={{width: WIDTH, height: HEIGHT}} />
   );
 };
 createRoot(document.getElementById('root')!).render(<App />);

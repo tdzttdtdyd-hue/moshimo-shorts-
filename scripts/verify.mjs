@@ -79,7 +79,7 @@ let safeFails = 0, overlapFails = 0, widthFails = 0, fontFails = 0;
 for (const c of checks) {
   await page.evaluate((f) => window.__seek(f), c.frame);
   await page.evaluate(() => document.fonts.ready);
-  await page.waitForTimeout(400);
+  await page.waitForTimeout(700);
   const boxes = await page.evaluate(() =>
     [...document.querySelectorAll('[data-telop]')].map((el) => {
       const r = el.getBoundingClientRect();
@@ -99,7 +99,7 @@ for (const c of checks) {
     }
   }
   for (const b of boxes) {
-    const wantSerif = b.kind === 'title' || b.kind === 'clock';
+    const wantSerif = b.kind === 'title' || b.kind === 'clock' || b.kind === 'narr';
     if (wantSerif !== b.font.includes('Serif')) {
       issues.push(`書体違い: 「${b.text}」 (${b.font})`);
       fontFails++;
@@ -130,7 +130,7 @@ const fontOk = await page.evaluate(async () => {
 ok('テロップがセーフエリア内', safeFails === 0, `${checks.length} フレーム検査 / 違反 ${safeFails}`);
 ok('テロップ同士の重なりなし', overlapFails === 0, `違反 ${overlapFails}`);
 ok('テロップが横幅に収まる', widthFails === 0, `違反 ${widthFails}`);
-ok('書体：テーマと経過時間は明朝体、その他はゴシック体', fontFails === 0, `違反 ${fontFails}`);
+ok('書体：テーマ・経過時間・語りは明朝体、その他はゴシック体', fontFails === 0, `違反 ${fontFails}`);
 ok('日本語フォント（ゴシック: Noto Sans JP / 明朝: Noto Serif JP）読込', fontOk.sans > 0 && fontOk.serif > 0, `sans ${fontOk.sans} / serif ${fontOk.serif} subsets`);
 // 明朝体の使い分け：テーマ（title）と経過時間（clock の数値）が明朝、それ以外はゴシック
 

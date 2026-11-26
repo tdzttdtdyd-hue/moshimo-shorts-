@@ -10,7 +10,7 @@ const [out, ...frames] = process.argv.slice(2);
 const browserExecutable = '/opt/pw-browsers/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell';
 const serveUrl = await bundle({entryPoint: path.resolve('src/index.ts')});
 const chromiumOptions = {gl: 'angle'};
-const composition = await selectComposition({serveUrl, id: 'MoshimoShort', browserExecutable, chromiumOptions});
+const composition = await selectComposition({serveUrl, id: process.env.COMP ?? 'MoshimoShort', browserExecutable, chromiumOptions});
 const dir = path.join(path.dirname(out), 'frames');
 fs.mkdirSync(dir, {recursive: true});
 const files = [];
