@@ -14,7 +14,7 @@ const ALL_TEXT =
   THEME.hook.join('') +
   THEME.top +
   DISCLAIMER +
-  '0123456789,.+−-▶想定時刻入浴回目コメント寝た方がいい起きている時間生産性年人生↓↑km³L' + CLOCK_LABEL;
+  '0123456789,.+−-▶想定時刻入浴回目コメント寝たほうがいい起きている時間生産性年人生↓↑km³L' + CLOCK_LABEL;
 
 export const FontsHori: React.FC = () => {
   const [handle] = useState(() => delayRender('fonts'));

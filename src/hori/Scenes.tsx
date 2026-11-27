@@ -684,7 +684,7 @@ const CommentCard: React.FC<{f: number}> = ({f}) => {
   if (f < from || f >= to) return null;
   const k = interpolate(f, [from, from + 8, to - 8, to], [0, 1, 1, 0], clamp);
   const shake = f > RAGE ? Math.sin(f * 2.1) * 10 : 0;
-  const text = '寝た方がいい';
+  const text = '寝たほうがいい';
   const W = 640;
   return (
     <div data-telop="comment" style={{position: 'absolute', left: SAFE.left + (1080 - SAFE.left - SAFE.right - W) / 2 + shake, top: 540, width: W, boxSizing: 'border-box', opacity: k, transform: `translateY(${(1 - k) * 30}px)`, background: 'rgba(250,250,252,0.96)', borderRadius: 22, padding: '18px 26px 22px', display: 'flex', gap: 18, alignItems: 'center', boxShadow: '0 10px 34px rgba(0,0,0,0.45)', fontFamily: SANS}}>
