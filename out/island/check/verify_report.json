@@ -1,0 +1,196 @@
+{
+  "video": "out/island/island_final.mp4",
+  "results": [
+    {
+      "name": "解像度 1080x1920",
+      "pass": true,
+      "detail": "1080x1920"
+    },
+    {
+      "name": "30fps",
+      "pass": true,
+      "detail": "30/1"
+    },
+    {
+      "name": "尺 58〜62秒",
+      "pass": true,
+      "detail": "60.01s / 1800 frames"
+    },
+    {
+      "name": "H.264 / yuv420p",
+      "pass": true,
+      "detail": "h264 yuv420p"
+    },
+    {
+      "name": "音声トラック（BGM＋効果音）",
+      "pass": true,
+      "detail": "aac 48000Hz"
+    },
+    {
+      "name": "0.5秒以上の静止区間なし（スライドショー化していない）",
+      "pass": true,
+      "detail": "0件"
+    },
+    {
+      "name": "意図しない黒画面なし",
+      "pass": true,
+      "detail": "0件"
+    },
+    {
+      "name": "音声ピーク -1dBFS 以下（クリップなし）",
+      "pass": true,
+      "detail": "-11.6 dBFS"
+    },
+    {
+      "name": "コンタクトシート作成",
+      "pass": true,
+      "detail": "out/island/check/contact_sheet.png"
+    },
+    {
+      "name": "テロップがセーフエリア内",
+      "pass": true,
+      "detail": "19 フレーム検査 / 違反 0"
+    },
+    {
+      "name": "テロップ同士の重なりなし",
+      "pass": true,
+      "detail": "違反 0"
+    },
+    {
+      "name": "テロップが横幅に収まる",
+      "pass": true,
+      "detail": "違反 0"
+    },
+    {
+      "name": "書体：テーマ・経過時間・語りは明朝体、その他はゴシック体",
+      "pass": true,
+      "detail": "違反 0"
+    },
+    {
+      "name": "日本語フォント（ゴシック: Noto Sans JP / 明朝: Noto Serif JP）読込",
+      "pass": true,
+      "detail": "sans 84 / serif 56 subsets"
+    },
+    {
+      "name": "コンソール / WebGL エラーなし",
+      "pass": true,
+      "detail": "0件"
+    }
+  ],
+  "frames": [
+    {
+      "frame": 30,
+      "what": "hook title",
+      "boxes": 4,
+      "issues": []
+    },
+    {
+      "frame": 90,
+      "what": "i01_warp caption0",
+      "boxes": 6,
+      "issues": []
+    },
+    {
+      "frame": 90,
+      "what": "i01_warp custom@90",
+      "boxes": 6,
+      "issues": []
+    },
+    {
+      "frame": 146,
+      "what": "i02_signal caption0",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 185,
+      "what": "i02_signal callout0",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 266,
+      "what": "i03_sea caption0",
+      "boxes": 6,
+      "issues": []
+    },
+    {
+      "frame": 314,
+      "what": "i03_sea card0",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 446,
+      "what": "i04_coconut caption0",
+      "boxes": 6,
+      "issues": []
+    },
+    {
+      "frame": 626,
+      "what": "i05_fire caption0",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 806,
+      "what": "i06_sos caption0",
+      "boxes": 6,
+      "issues": []
+    },
+    {
+      "frame": 986,
+      "what": "i07_fire2 caption0",
+      "boxes": 6,
+      "issues": []
+    },
+    {
+      "frame": 1136,
+      "what": "i08_fish caption0",
+      "boxes": 6,
+      "issues": []
+    },
+    {
+      "frame": 1286,
+      "what": "i09_hut caption0",
+      "boxes": 6,
+      "issues": []
+    },
+    {
+      "frame": 1436,
+      "what": "i10_day30 caption0",
+      "boxes": 6,
+      "issues": []
+    },
+    {
+      "frame": 1515,
+      "what": "i10_day30 callout0",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 1616,
+      "what": "i11_heli caption0",
+      "boxes": 5,
+      "issues": []
+    },
+    {
+      "frame": 1686,
+      "what": "i11_heli caption1",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 1707,
+      "what": "i11_heli callout0",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 1766,
+      "what": "i11_heli caption2",
+      "boxes": 6,
+      "issues": []
+    }
+  ]
+}
