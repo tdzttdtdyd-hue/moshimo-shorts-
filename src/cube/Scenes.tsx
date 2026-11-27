@@ -276,8 +276,8 @@ const groundGeo = (w: number, d: number, seg: number, seed: number, colorAt: (x:
 // ---------- 4. 平らなのに上り坂 ----------
 // 人は右（辺の方向）へ歩く。地面は平らなまま、重力の向き＝人の体が少しずつ前に傾く
 const CAM_C4: CamKey[] = [
-  {f: 0, pos: [-1.5, 2.2, 9.5], look: [0, 1.6, 0], fov: 46},
-  {f: 210, pos: [1.5, 2.0, 8.5], look: [1.2, 1.5, 0], fov: 46, ease: LIN},
+  {f: 0, pos: [-2.5, 2.4, 10], look: [-0.5, 1.6, 0], fov: 46},
+  {f: 210, pos: [3.0, 1.9, 8.0], look: [2.0, 1.4, 0], fov: 46, ease: LIN},
 ];
 export const C4: React.FC = () => {
   const f = useCurrentFrame();
@@ -422,8 +422,8 @@ const Dust: React.FC<{f: number}> = ({f}) => {
 
 // ---------- 6. 角の上：ひと跳びで高く ----------
 const CAM_C6: CamKey[] = [
-  {f: 0, pos: [6.0, 3.0, 8.0], look: [0, 1.4, 0], fov: 50},
-  {f: 150, pos: [4.5, 3.4, 8.5], look: [0, 1.8, 0], fov: 50, ease: LIN},
+  {f: 0, pos: [7.0, 2.8, 7.0], look: [0.9, 1.4, 0.6], fov: 50},
+  {f: 150, pos: [2.0, 3.8, 9.5], look: [0.9, 2.0, 0.6], fov: 50, ease: LIN},
 ];
 export const C6: React.FC = () => {
   const f = useCurrentFrame();
