@@ -53,7 +53,7 @@ export const SCENES: SceneSpec[] = [
     duration: 180,
     time: '15:00',
     clock: {value: '9時間'},
-    captions: [{from: 6, to: 180, lines: ['仕事のじゃまをする理由は、', '*あったかいから*']}],
+    captions: [{from: 6, to: 180, lines: ['新聞のじゃまをする理由は、', '*あったかいから*']}],
     bubbles: [{who: 'cat', text: 'ここが一番\nあったかい', from: 50, to: 180}],
   },
   {
@@ -81,7 +81,7 @@ export const SCENES: SceneSpec[] = [
     clock: {value: '10分'},
     captions: [{from: 100, to: 210, lines: ['照れかくしに、', '*ひざの上*へ']}],
     bubbles: [
-      {who: 'me', text: 'いつもありがとう', from: 10, to: 80},
+      {who: 'me', text: 'いつも、そばにいてくれて\nありがとうね', from: 10, to: 80},
       {who: 'cat', text: '……べつに', from: 86, to: 160},
     ],
   },

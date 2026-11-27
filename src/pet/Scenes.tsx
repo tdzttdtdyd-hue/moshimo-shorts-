@@ -196,7 +196,7 @@ const Room: React.FC<{tod: keyof typeof SKY; f: number}> = ({tod, f}) => {
         <Box p={[0, 0.6, -0.8]} s={[0.7, 0.12, 0.36]} c="#ffffff" r={0.95} />
         <Box p={[0, 0.58, 0.45]} s={[1.24, 0.08, 1.1]} c="#9fb4d8" r={0.95} />
       </group>
-      {/* 机とノートパソコン */}
+      {/* 机と新聞 */}
       <group position={[2.3, 0, -1.6]}>
         <Box p={[0, 0.72, 0]} s={[1.4, 0.05, 0.7]} c="#c9a882" />
         {[
@@ -207,9 +207,11 @@ const Room: React.FC<{tod: keyof typeof SKY; f: number}> = ({tod, f}) => {
         ].map(([x, z], i) => (
           <Box key={i} p={[x, 0.36, z]} s={[0.05, 0.72, 0.05]} c="#8a6a4e" />
         ))}
-        <Box p={[0, 0.755, 0.05]} s={[0.5, 0.02, 0.34]} c="#3d4250" />
-        <Box p={[0, 0.92, -0.12]} s={[0.5, 0.32, 0.02]} rot={[-0.25, 0, 0]} c="#3d4250" />
-        <Box p={[0, 0.92, -0.105]} s={[0.46, 0.28, 0.005]} rot={[-0.25, 0, 0]} c="#9fd0ff" e="#7fc0ff" ei={0.7} />
+        <Box p={[0, 0.75, 0.05]} s={[0.62, 0.01, 0.44]} c="#ecebe6" r={1} />
+        {Array.from({length: 6}).map((_, i) => (
+          <Box key={i} p={[-0.2 + (i % 2) * 0.32, 0.756, -0.1 + Math.floor(i / 2) * 0.12]} s={[0.24, 0.002, 0.06]} c="#9a9a9a" />
+        ))}
+        <Box p={[0.45, 0.78, 0.15]} s={[0.08, 0.06, 0.08]} c="#d8d0c0" />
       </group>
       {/* ソファ */}
       <group position={[0, 0, 1.9]} rotation={[0, Math.PI, 0]}>
@@ -234,7 +236,8 @@ const Room: React.FC<{tod: keyof typeof SKY; f: number}> = ({tod, f}) => {
     </>
   );
 };
-const OWNER: Outfit = {shirt: '#e8eef5', pants: '#4a5468', skin: '#e9b99a', hair: '#2b211c'};
+// 主人公：おばあちゃん（白髪・カーディガン・ロングスカート色）
+const OWNER: Outfit = {shirt: '#b88a9a', pants: '#6a5a6e', skin: '#ecc4a8', hair: '#e2e0dc', shoes: '#5a4a40'};
 const SEATED: Pose = pose({lHip: [1.5, 0.08], rHip: [1.5, 0.08], lKn: 1.5, rKn: 1.5, lSh: [0.4, 0.1], rSh: [0.4, 0.1], lEl: 0.7, rEl: 0.7});
 
 // ---------- 吹き出し ----------
@@ -321,7 +324,7 @@ export const C2: React.FC = () => {
   const twitch = f > 20 && f < 34 ? 0.25 * Math.sin((f - 20) * 0.9) : 0;
   return (
     <Scene cam={CAM_2} tod="morning" f={f} overlay={<Bubbles id="c2_name" f={f} cam={CAM_2} cat={[cat[0], cat[1] + 0.42, cat[2]]} me={[-0.5, 1.75, 0.2]} />}>
-      <Human outfit={OWNER} position={[-0.5, 0, 0.2]} rotation={[0, Math.PI - 0.45, 0]} p={pose({rSh: [0.6, 0.2], rEl: 0.8, head: -0.05})} />
+      <Human outfit={OWNER} position={[-0.5, 0, 0.2]} rotation={[0, Math.PI - 0.45, 0]} p={pose({rSh: [0.6, 0.2], rEl: 0.8, head: 0.05, spine: 0.15, lKn: 0.08, rKn: 0.08})} />
       <Cat position={cat} rotation={[0, Math.PI, 0]} pose="sit" f={f} tail={0.3 + twitch * 4} headTurn={twitch} />
     </Scene>
   );
@@ -367,7 +370,7 @@ export const C4: React.FC = () => {
   const typing = Math.sin(f * 0.9) * 0.08 * (f < 20 ? 1 : 0.2);
   return (
     <Scene cam={CAM_4} tod="noon" f={f} overlay={<Bubbles id="c4_keyboard" f={f} cam={CAM_4} cat={[cat[0], cat[1] + 0.25, cat[2]]} me={[0, 0, 0]} />}>
-      <Human outfit={OWNER} position={[2.3, -0.45, -0.75]} rotation={[0, Math.PI, 0]} p={{...SEATED, lSh: [0.95 + typing, 0.1], rSh: [0.95 - typing, 0.1], lEl: 0.5, rEl: 0.5, head: f > 40 ? -0.1 : 0.25}} />
+      <Human outfit={OWNER} position={[2.3, -0.45, -0.75]} rotation={[0, Math.PI, 0]} p={{...SEATED, spine: 0.15, lSh: [0.95 + typing, 0.1], rSh: [0.95 - typing, 0.1], lEl: 0.5, rEl: 0.5, head: f > 40 ? -0.05 : 0.3}} />
       <Box p={[2.3, 0.25, -0.75]} s={[0.5, 0.06, 0.5]} c="#3d4250" />
       <Cat position={cat} rotation={[0, Math.PI * 0.85, 0]} pose={jump < 1 ? 'walk' : 'loaf'} f={f} tail={0.3} />
     </Scene>
@@ -392,7 +395,7 @@ export const C5: React.FC = () => {
 };
 
 // ---------- 6・7. ソファ：21:00 年齢 → 23:50 お礼 → ひざの上 ----------
-const SOFA_ME: V3 = [0.35, -0.04, 1.75];
+const SOFA_ME: V3 = [0.35, -0.39, 1.78];
 const CAM_6: CamKey[] = [
   {f: 0, pos: [0.9, 1.7, -2.0], look: [-0.05, 0.75, 1.6], fov: 50},
   {f: 180, pos: [-0.8, 1.4, -1.4], look: [-0.15, 0.75, 1.6], fov: 50, ease: LIN},
@@ -416,10 +419,10 @@ export const C7: React.FC = () => {
   // 「……べつに」のあと、そっぽを向いたまま ひざの上へ
   const hop = interpolate(f, [110, 132], [0, 1], clamp);
   const from: V3 = [-0.45, 0.5, 1.75];
-  const to: V3 = [0.33, 0.62, 1.45];
+  const to: V3 = [0.35, 0.6, 1.45];
   const cat: V3 = [lerp(from[0], to[0], sm(hop)), lerp(from[1], to[1], sm(hop)) + Math.sin(hop * Math.PI) * 0.25, lerp(from[2], to[2], sm(hop))];
   return (
-    <Scene cam={CAM_7} tod="night" f={f} overlay={<Bubbles id="c7_thanks" f={f} cam={CAM_7} cat={[cat[0], cat[1] + 0.35, cat[2]]} me={[0.35, 1.25, 1.75]} />}>
+    <Scene cam={CAM_7} tod="night" f={f} overlay={<Bubbles id="c7_thanks" f={f} cam={CAM_7} cat={[cat[0], cat[1] + 0.35, cat[2]]} me={[0.35, 0.95, 1.78]} />}>
       <Human outfit={OWNER} position={SOFA_ME} rotation={[0, Math.PI, 0]} p={{...SEATED, head: 0.15, twist: -0.25 * (1 - hop), lSh: [0.5 + 0.3 * hop, 0.1], lEl: 1.2 * hop + 0.7}} />
       <Cat position={cat} rotation={[0, lerp(Math.PI * 1.3, Math.PI * 0.6, hop), 0]} pose={hop > 0 && hop < 1 ? 'walk' : hop >= 1 ? 'loaf' : 'sit'} f={f} tail={0.5} headTurn={f > 86 && f < 110 ? 0.6 : 0} />
     </Scene>
@@ -429,7 +432,7 @@ export const C7: React.FC = () => {
 // ---------- 8. 0:00 魔法が切れて「ニャー」 ----------
 export const C8: React.FC = () => {
   const f = useCurrentFrame();
-  const cat: V3 = [0.33, 0.62, 1.45];
+  const cat: V3 = [0.35, 0.6, 1.45];
   const magic = interpolate(f, [30, 38, 60], [0, 1, 0], clamp);
   const cam: CamKey[] = [
     {f: 0, pos: [0.3, 1.4, -1.1], look: [0.2, 0.7, 1.6], fov: 50},
