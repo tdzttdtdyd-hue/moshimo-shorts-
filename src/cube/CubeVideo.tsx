@@ -11,7 +11,7 @@ const COMPS: Record<string, React.FC> = {c1_morph: C1, c2_seas: C2, c3_corner: C
 const POS: Record<string, {cardTop?: number; captionBottom?: number}> = {
   c1_morph: {cardTop: 880},
   c3_corner: {cardTop: 880},
-  c4_slope: {cardTop: 880},
+  c4_slope: {cardTop: 560},
 };
 export const BGM_GAIN = 0.3;
 

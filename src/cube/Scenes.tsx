@@ -447,7 +447,9 @@ export const C6: React.FC = () => {
           <sphereGeometry args={[300, 32, 16]} />
           <meshBasicMaterial color="#02030a" side={THREE.BackSide} />
         </mesh>
-        <Stars count={2200} radius={250} seed={4} />
+        <group rotation={[0, f * 0.003, 0]}>
+          <Stars count={2200} radius={250} seed={4} />
+        </group>
         <Sun position={[-120, 90, -100]} size={4} />
         <ambientLight intensity={0.45} />
         <directionalLight position={[-120, 90, -100]} intensity={2.4} />
@@ -456,8 +458,10 @@ export const C6: React.FC = () => {
           <meshStandardMaterial color="#9a9288" roughness={1} flatShading />
         </mesh>
         <group position={[0.9, y, 0.6]}>
-          <Human outfit={SUIT} rotation={[0, 0.5, 0]} p={p} muscle={1.15} />
-          <Helmet p={[0, 1.74, 0]} />
+          <group rotation={[0, 0.5 + (air ? (f - 20) * 0.025 : 0), 0]}>
+            <Human outfit={SUIT} p={{...p, lSh: [p.lSh[0], p.lSh[1] + 0.25 * Math.sin(f * 0.15)], rSh: [p.rSh[0], p.rSh[1] + 0.25 * Math.cos(f * 0.15)]}} muscle={1.15} />
+            <Helmet p={[0, 1.74, 0]} />
+          </group>
         </group>
       </Stage>
       <JumpHeight f={f} />
