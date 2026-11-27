@@ -281,12 +281,11 @@ const CAM_C4: CamKey[] = [
 ];
 export const C4: React.FC = () => {
   const f = useCurrentFrame();
-  const lean = interpolate(f, [20, 180], [0, 0.72], {...clamp, easing: (x) => x * x * (3 - 2 * x)}); // ラジアン（約41°）
+  const lean = interpolate(f, [20, 180], [0, 0.6], {...clamp, easing: (x) => x * x * (3 - 2 * x)}); // ラジアン（約41°）
   const x = -0.8 + f * 0.012;
   const climb = lean / 0.72;
   const p: Pose = walkPose(f * 0.32, 1 + climb * 0.4);
-  p.spine += climb * 0.25;
-  p.head -= climb * 0.2;
+  p.head -= climb * 0.15;
   const ground = useMemo(
     () =>
       groundGeo(200, 60, 120, 4, (gx, _gz, n) => {
