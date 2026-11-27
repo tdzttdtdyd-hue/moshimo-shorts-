@@ -75,7 +75,7 @@ const Dumbbell: React.FC = () => (
 
 // 手と口の位置を Human と同じ関節の並びで計算（スマホを手から口へ渡すため）
 const MX = 1 + (1.38 - 1) * 0.6;
-const chain = (pos: V3, rotY: number, p: Pose) => {
+const chain = (pos: V3, rotY: number, p: Pose, side = 1) => {
   const root = new THREE.Object3D();
   root.position.set(...pos);
   root.rotation.set(0, rotY, 0);
@@ -87,12 +87,13 @@ const chain = (pos: V3, rotY: number, p: Pose) => {
   off.position.set(0, -0.98, 0);
   upper.add(off);
   const sh = new THREE.Object3D();
-  sh.position.set(0.215 * MX, 1.47, 0);
-  sh.rotation.set(-p.rSh[0], 0, p.rSh[1]);
+  const SH = side > 0 ? p.rSh : p.lSh;
+  sh.position.set(side * 0.215 * MX, 1.47, 0);
+  sh.rotation.set(-SH[0], 0, side * SH[1]);
   off.add(sh);
   const el = new THREE.Object3D();
   el.position.set(0, -0.29, 0);
-  el.rotation.set(-p.rEl, 0, 0);
+  el.rotation.set(-(side > 0 ? p.rEl : p.lEl), 0, 0);
   sh.add(el);
   const hand = new THREE.Object3D();
   hand.position.set(0, -0.3, 0);
@@ -176,16 +177,27 @@ const NightWindow: React.FC<{p: V3; w?: number; h?: number; seed?: number}> = ({
     </group>
   );
 };
-const Bedroom: React.FC<{lamp: number}> = ({lamp}) => (
+const Bedroom: React.FC<{lamp: number; bright?: boolean}> = ({lamp, bright}) => (
   <>
-    <hemisphereLight args={['#6f86b8', '#1a1a22', 0.35 + lamp * 0.25]} />
-    <ambientLight intensity={0.08} />
-    <directionalLight position={[2, 4, -3]} intensity={0.7} color="#9db8ff" />
-    <directionalLight position={[3, 3.5, 6]} intensity={0.9 + lamp * 0.5} color="#b4c6ff" />
+    {bright ? (
+      <>
+        <hemisphereLight args={['#fff6e8', '#8a7a68', 1.3]} />
+        <ambientLight intensity={0.35} />
+        <directionalLight position={[3, 3.5, 6]} intensity={1.4} color="#fff4e6" />
+        <pointLight position={[0, 3.0, 0.5]} intensity={8} distance={9} decay={1.4} color="#fff1dc" />
+      </>
+    ) : (
+      <>
+        <hemisphereLight args={['#6f86b8', '#1a1a22', 0.35 + lamp * 0.25]} />
+        <ambientLight intensity={0.08} />
+        <directionalLight position={[2, 4, -3]} intensity={0.7} color="#9db8ff" />
+        <directionalLight position={[3, 3.5, 6]} intensity={0.9 + lamp * 0.5} color="#b4c6ff" />
+      </>
+    )}
     <pointLight position={[-1.0, 1.1, -0.9]} intensity={6 * lamp} distance={7} decay={1.6} color="#ffc98a" />
-    <Box p={[0, -0.05, 0]} s={[9, 0.1, 9]} c="#5b4636" />
-    <Box p={[0, 1.6, -1.7]} s={[9, 3.4, 0.1]} c="#3d4558" />
-    <Box p={[-2.4, 1.6, 0]} s={[0.1, 3.4, 9]} c="#353c4d" />
+    <Box p={[0, -0.05, 0]} s={[9, 0.1, 9]} c={bright ? '#a8825f' : '#5b4636'} />
+    <Box p={[0, 1.6, -1.7]} s={[9, 3.4, 0.1]} c={bright ? '#ece4d6' : '#3d4558'} />
+    <Box p={[-2.4, 1.6, 0]} s={[0.1, 3.4, 9]} c={bright ? '#e2d8c6' : '#353c4d'} />
     <NightWindow p={[1.15, 1.7, -1.63]} />
     {/* ナイトテーブルとランプ */}
     <Box p={[-1.0, 0.27, -0.9]} s={[0.5, 0.54, 0.45]} c="#6b4f3a" />
@@ -237,8 +249,8 @@ const Building: React.FC<{mode: Mode; f: number; wakeAt?: number}> = ({mode, f, 
     for (let c = 0; c < COLS; c++) {
       const o = unitOrigin(c, fl);
       const k = `${c}-${fl}`;
-      const wall = mode === 'wake' ? mixColor('#283044', '#e8c690', light) : '#202a44';
-      const ei = mode === 'wake' ? 0.5 * light : 0.25;
+      const wall = mode === 'wake' ? mixColor('#283044', '#e8c690', light) : '#ece0c8';
+      const ei = mode === 'wake' ? 0.5 * light : 0.45;
       let man: React.ReactNode;
       if (mode === 'wake') {
         const t = sleeperTransform(u, [-0.6, 0.06, -0.3], [0.65, 0, 0.6], -0.15);
@@ -255,13 +267,13 @@ const Building: React.FC<{mode: Mode; f: number; wakeAt?: number}> = ({mode, f, 
       units.push(
         <group key={k} position={o}>
           <Box p={[0, 0.02, 0]} s={[UW, 0.16, UD]} c="#8d8a84" />
-          <Box p={[0, UH / 2, -UD / 2 + 0.05]} s={[UW - 0.1, UH, 0.1]} c={wall} e={mode === 'wake' ? '#ffcf8a' : '#3b5a9a'} ei={ei} />
+          <Box p={[0, UH / 2, -UD / 2 + 0.05]} s={[UW - 0.1, UH, 0.1]} c={wall} e={'#ffcf8a'} ei={ei} />
           <Box p={[-UW / 2, UH / 2, 0]} s={[0.14, UH, UD]} c="#9a968f" />
           <group position={[-0.6, 0.1, -0.3]}>
             <Bed wake={mode === 'wake' ? u * 1.4 : 2} color={['#5d7088', '#7a5d6a', '#5d7a68', '#7a7058'][(c + fl) % 4]} />
           </group>
           <group position={[0, 0.1, 0]}>{man}</group>
-          {mode === 'phone' && <pointLight position={[0.3, 1.6, 0.9]} intensity={1.2} distance={2.5} color="#8fc3ff" />}
+          {mode === 'phone' && <pointLight position={[0.3, 2.3, 0.9]} intensity={3} distance={3.5} color="#fff1dc" />}
         </group>,
       );
     }
@@ -512,18 +524,17 @@ export const H5: React.FC = () => {
     const co = project(CAM_H5A, f, IQOS_AT);
     return (
       <AbsoluteFill>
-        <Stage bg="#0b0f1c" shadows={false}>
+        <Stage bg="#e9e2d4" shadows={false}>
           <CameraRig keys={CAM_H5A} />
-          <Bedroom lamp={0} />
-          <pointLight position={[0.35, 1.5, 0.5]} intensity={2.2} distance={3} color="#8fc3ff" />
-          <pointLight position={[0.3, 1.6, 1.6]} intensity={2.5} distance={4} color="#e6e2ff" />
+          <Bedroom lamp={1} bright />
+          <pointLight position={[0.35, 1.5, 0.5]} intensity={1.2} distance={2} color="#8fc3ff" />
           <Bed p={[0.9, 0, -0.6]} wake={2} />
           <Box p={[-0.75, 0.27, -0.05]} s={[0.5, 0.54, 0.45]} c="#6b4f3a" />
           <Iqos p={[IQOS_AT[0], 0.557, IQOS_AT[2]]} rot={[0, 0.5, 0]} />
           <Hori position={[0.1, 0, 0]} rotation={[0, -0.2, 0]} p={phonePose(k, f)} />
           <HeldPhone pos={[0.1, 0, 0]} rotY={-0.2} p={phonePose(k, f)} k={k} />
         </Stage>
-        <Vignette strength={0.5} />
+        <Vignette strength={0.3} />
         <CalloutView x={co.x} y={co.y} tag="アイコス" text="こっち" from={56} to={98} dy={-380} dx={60} />
       </AbsoluteFill>
     );
@@ -532,9 +543,9 @@ export const H5: React.FC = () => {
     <AbsoluteFill>
       <Stage bg="#0b1228" shadows={false}>
         <CameraRig keys={CAM_H5B} />
-        <hemisphereLight args={['#6f86b8', '#1a1a22', 0.5]} />
-        <directionalLight position={[4, 8, 10]} intensity={1.2} color="#b9c8ff" />
-        <ambientLight intensity={0.2} />
+        <hemisphereLight args={['#fff2dc', '#3a3530', 0.8]} />
+        <directionalLight position={[4, 8, 10]} intensity={1.4} color="#fff0dc" />
+        <ambientLight intensity={0.3} />
         <NightSky />
         <CityBackdrop lit={1} />
         <Building mode="phone" f={f} />
@@ -555,21 +566,69 @@ const GYM_MEN: {x: number; z: number; ry: number; ph: number}[] = [
 const CAM_H6: CamKey[] = [
   {f: 0, pos: [0.4, 2.0, 5.8], look: [0, 1.65, 0], fov: 50},
   {f: RAGE, pos: [0.1, 1.85, 5.1], look: [0, 1.7, 0], fov: 50, ease: LIN},
-  {f: 195, pos: [-0.2, 1.5, 4.6], look: [0, 1.85, 0], fov: 50, ease: LIN},
+  {f: RAGE + 16, pos: [0.0, 1.8, 5.6], look: [0, 1.25, 0.5], fov: 50},
+  {f: 195, pos: [-0.3, 1.7, 5.2], look: [0, 1.3, 0.5], fov: 50, ease: LIN},
 ];
 const curlPose = (t: number): Pose => {
   const a = (Math.sin(t * 0.16) + 1) / 2, b = (Math.sin(t * 0.16 + Math.PI) + 1) / 2;
   return pose({lSh: [0.1, 0.18], rSh: [0.1, 0.18], lEl: 0.25 + 1.9 * a, rEl: 0.25 + 1.9 * b, head: 0.1});
 };
+// ダンベルを振りかぶって → 投げる → 怒る
+const RELEASE = RAGE + 11;
+const windup = pose({spine: -0.2, head: -0.15, lSh: [2.9, 0.15], rSh: [2.9, 0.15], lEl: 1.0, rEl: 1.0, lKn: 0.2, rKn: 0.2, lHip: [0.1, 0.1], rHip: [0.1, 0.1]});
+const thrown = pose({spine: 0.4, head: 0.15, lSh: [0.55, 0.05], rSh: [0.55, 0.05], lEl: 0.15, rEl: 0.15, lKn: 0.35, rKn: 0.1, lHip: [0.35, 0.1], rHip: [-0.1, 0.1]});
+const gymPose = (f: number, ph: number, i: number): Pose => {
+  if (f < RAGE) return curlPose(f + ph);
+  if (f < RAGE + 7) return lerpPose(curlPose(RAGE + ph), windup, sm((f - RAGE) / 7));
+  if (f < RELEASE + 1) return lerpPose(windup, thrown, sm((f - RAGE - 7) / 5));
+  return lerpPose(thrown, ragePose(f + i * 7), sm((f - RELEASE - 4) / 8));
+};
+// 投げたダンベルの軌道（決まった手順で毎フレーム計算し直す）
+const flight = (start: THREE.Vector3, dir: THREE.Vector3, n: number) => {
+  const p = start.clone();
+  const v = dir.clone();
+  let landed = -1;
+  for (let i = 0; i < n; i++) {
+    for (let k = 0; k < 4; k++) {
+      const dt = 1 / 120;
+      p.addScaledVector(v, dt);
+      v.y -= 9.8 * dt;
+      if (p.y < 0.06) {
+        p.y = 0.06;
+        if (landed < 0) landed = i;
+        v.y = Math.abs(v.y) > 0.6 ? -v.y * 0.25 : 0;
+        v.x *= 0.55;
+        v.z *= 0.55;
+      }
+    }
+  }
+  return {p, landed};
+};
+const FlyingDumbbell: React.FC<{m: (typeof GYM_MEN)[number]; side: number; f: number; i: number}> = ({m, side, f, i}) => {
+  const c = chain([m.x, 0, m.z], m.ry, gymPose(RELEASE, m.ph, i), side);
+  const fwd = new THREE.Vector3(side * 0.35 + Math.sin(m.ry) * 1, 0, Math.cos(m.ry)).normalize();
+  const dir = fwd.multiplyScalar(1.7 + 0.25 * ((i + side + 2) % 2)).add(new THREE.Vector3(0, 2.6, 0));
+  const n = f - RELEASE;
+  const {p, landed} = flight(c.hand, dir, n);
+  const air = landed < 0 ? n : landed;
+  const wob = 0.9 * Math.sin(air * 0.8 + i) * Math.max(0, 1 - air / 14) * (landed < 0 ? 1 : Math.max(0, 1 - (n - landed) / 6));
+  return (
+    <group position={p.toArray() as V3} rotation={[0, air * 0.35 * side + m.ry, wob]}>
+      <group position={[0, 0.06, -0.01]}>
+        <Dumbbell />
+      </group>
+    </group>
+  );
+};
 const ragePose = (t: number): Pose =>
   pose({spine: -0.18, head: -0.25, lSh: [0.35, 2.5 + 0.12 * Math.sin(t * 1.3)], rSh: [0.35, 2.5 + 0.12 * Math.cos(t * 1.5)], lEl: 1.1 + 0.2 * Math.sin(t * 1.7), rEl: 1.1 + 0.2 * Math.cos(t * 1.9), lHip: [0.1, 0.22], rHip: [0.1, 0.22], lKn: 0.25, rKn: 0.25});
 export const H6: React.FC = () => {
   const f = useCurrentFrame();
-  const r = sm((f - RAGE) / 7);
+  const r = sm((f - RELEASE) / 7);
   return (
     <AbsoluteFill>
       <Stage bg="#15181e" shadows={false}>
-        <CameraRig keys={CAM_H6} shakes={[{from: RAGE, dur: 30, amp: 0.05}]} />
+        <CameraRig keys={CAM_H6} shakes={[{from: RAGE, dur: 12, amp: 0.03}, {from: RELEASE + 24, dur: 14, amp: 0.07}]} />
         <hemisphereLight args={['#f2f6ff', '#3a3d44', 0.9]} />
         <ambientLight intensity={0.15} />
         <directionalLight position={[2, 6, 4]} intensity={1.2} color="#ffffff" />
@@ -594,16 +653,19 @@ export const H6: React.FC = () => {
         <Box p={[2.9, 0.25, 0.6]} s={[0.4, 0.5, 1.3]} c="#3c3f47" />
         <Box p={[-3.0, 0.75, 0.0]} s={[0.9, 1.5, 0.9]} c="#4a4f58" />
         {GYM_MEN.map((m, i) => (
-          <Hori key={i} position={[m.x, 0, m.z]} rotation={[0, m.ry, 0]} p={lerpPose(curlPose(f + m.ph), ragePose(f + i * 7), r)} lHand={<Dumbbell />} rHand={<Dumbbell />} />
+          <React.Fragment key={i}>
+            <Hori position={[m.x, 0, m.z]} rotation={[0, m.ry, 0]} p={gymPose(f, m.ph, i)} lHand={f <= RELEASE ? <Dumbbell /> : undefined} rHand={f <= RELEASE ? <Dumbbell /> : undefined} />
+            {f > RELEASE && [-1, 1].map((sd) => <FlyingDumbbell key={sd} m={m} side={sd} f={f} i={i} />)}
+          </React.Fragment>
         ))}
       </Stage>
       <Vignette strength={0.45} />
       <AbsoluteFill style={{background: '#ff3b2e', opacity: 0.12 * r * (0.6 + 0.4 * Math.sin(f * 0.6))}} />
       <CommentCard f={f} />
-      {f >= RAGE + 4 &&
+      {f >= RELEASE + 4 &&
         GYM_MEN.map((m, i) => {
           const pt = project(CAM_H6, f, [m.x, 1.95, m.z]);
-          return <AngerMark key={i} x={pt.x + 40} y={pt.y - 20} s={sm((f - RAGE - 4 - i * 2) / 6) * (1 + 0.12 * Math.sin(f * 0.8 + i))} />;
+          return <AngerMark key={i} x={pt.x + 40} y={pt.y - 20} s={sm((f - RELEASE - 4 - i * 2) / 6) * (1 + 0.12 * Math.sin(f * 0.8 + i))} />;
         })}
     </AbsoluteFill>
   );
@@ -618,7 +680,7 @@ const AngerMark: React.FC<{x: number; y: number; s: number}> = ({x, y, s}) => (
 );
 // 届いたコメント
 const CommentCard: React.FC<{f: number}> = ({f}) => {
-  const from = 38, to = 92 + 40;
+  const from = 38, to = RELEASE + 10;
   if (f < from || f >= to) return null;
   const k = interpolate(f, [from, from + 8, to - 8, to], [0, 1, 1, 0], clamp);
   const shake = f > RAGE ? Math.sin(f * 2.1) * 10 : 0;
