@@ -12,9 +12,9 @@
       "detail": "30/1"
     },
     {
-      "name": "尺 44〜48秒",
+      "name": "尺 46〜50秒",
       "pass": true,
-      "detail": "46.02s / 1380 frames"
+      "detail": "48.00s / 1440 frames"
     },
     {
       "name": "H.264 / yuv420p",
@@ -39,7 +39,7 @@
     {
       "name": "音声ピーク -1dBFS 以下（クリップなし）",
       "pass": true,
-      "detail": "-11.2 dBFS"
+      "detail": "-11.1 dBFS"
     },
     {
       "name": "コンタクトシート作成",
@@ -49,7 +49,7 @@
     {
       "name": "テロップがセーフエリア内",
       "pass": true,
-      "detail": "17 フレーム検査 / 違反 0"
+      "detail": "18 フレーム検査 / 違反 0"
     },
     {
       "name": "テロップ同士の重なりなし",
@@ -69,7 +69,7 @@
     {
       "name": "日本語フォント（ゴシック: Noto Sans JP / 明朝: Noto Serif JP）読込",
       "pass": true,
-      "detail": "sans 75 / serif 50 subsets"
+      "detail": "sans 78 / serif 52 subsets"
     },
     {
       "name": "コンソール / WebGL エラーなし",
@@ -109,73 +109,79 @@
       "issues": []
     },
     {
-      "frame": 356,
+      "frame": 286,
+      "what": "c2_seas caption1",
+      "boxes": 5,
+      "issues": []
+    },
+    {
+      "frame": 416,
       "what": "c3_corner caption0",
       "boxes": 5,
       "issues": []
     },
     {
-      "frame": 364,
+      "frame": 424,
       "what": "c3_corner callout0",
       "boxes": 5,
       "issues": []
     },
     {
-      "frame": 414,
+      "frame": 474,
       "what": "c3_corner card0",
       "boxes": 5,
       "issues": []
     },
     {
-      "frame": 536,
+      "frame": 596,
       "what": "c4_slope caption0",
       "boxes": 6,
       "issues": []
     },
     {
-      "frame": 570,
+      "frame": 630,
       "what": "c4_slope custom@60",
       "boxes": 7,
       "issues": []
     },
     {
-      "frame": 654,
+      "frame": 714,
       "what": "c4_slope card0",
       "boxes": 7,
       "issues": []
     },
     {
-      "frame": 746,
+      "frame": 806,
       "what": "c5_edge caption0",
       "boxes": 6,
       "issues": []
     },
     {
-      "frame": 926,
+      "frame": 986,
       "what": "c6_jump caption0",
       "boxes": 6,
       "issues": []
     },
     {
-      "frame": 990,
+      "frame": 1050,
       "what": "c6_jump custom@90",
       "boxes": 7,
       "issues": []
     },
     {
-      "frame": 1076,
+      "frame": 1136,
       "what": "c7_sunrise caption0",
       "boxes": 4,
       "issues": []
     },
     {
-      "frame": 1226,
+      "frame": 1286,
       "what": "c8_end caption0",
       "boxes": 6,
       "issues": []
     },
     {
-      "frame": 1336,
+      "frame": 1396,
       "what": "c8_end caption1",
       "boxes": 6,
       "issues": []
