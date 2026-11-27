@@ -279,3 +279,25 @@ export const SFX_ISLAND: {at: number; file: string; vol?: number; dur?: number}[
   {at: 1674, file: 'pop', vol: 0.5, dur: 10},
   {at: 1746, file: 'ding', vol: 0.5, dur: 25},
 ];
+
+// もしも1日だけペットと話せたら
+// 場面の開始：0 / 180 / 360 / 540 / 720 / 900 / 1080 / 1290
+export const SFX_PET: {at: number; file: string; vol?: number; dur?: number}[] = [
+  {at: 84, file: 'pop', vol: 0.5, dur: 10},
+  {at: 186, file: 'pop', vol: 0.5, dur: 10},
+  {at: 240, file: 'pop', vol: 0.5, dur: 10},
+  {at: 390, file: 'pop', vol: 0.5, dur: 10},
+  {at: 590, file: 'pop', vol: 0.5, dur: 10},
+  {at: 740, file: 'pop', vol: 0.5, dur: 10},
+  {at: 920, file: 'pop', vol: 0.5, dur: 10},
+  {at: 1090, file: 'pop', vol: 0.5, dur: 10},
+  {at: 1166, file: 'pop', vol: 0.5, dur: 10},
+  {at: 1336, file: 'pop', vol: 0.5, dur: 10},
+  {at: 550, file: 'whoosh', vol: 0.45, dur: 25},
+  {at: 1190, file: 'whoosh', vol: 0.4, dur: 25},
+  {at: 1320, file: 'ding', vol: 0.6, dur: 30},
+  {at: 276, file: 'ding', vol: 0.4, dur: 25},
+  {at: 430, file: 'ding', vol: 0.4, dur: 25},
+  {at: 800, file: 'ding', vol: 0.4, dur: 25},
+  {at: 980, file: 'ding', vol: 0.4, dur: 25},
+];
