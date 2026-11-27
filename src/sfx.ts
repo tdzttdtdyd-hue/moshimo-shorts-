@@ -212,3 +212,25 @@ export const SFX_MOON: {at: number; file: string; vol?: number; dur?: number}[] 
   {at: 1080, file: 'ding', vol: 0.45, dur: 25},
   {at: 1260, file: 'pop', vol: 0.5, dur: 10},
 ];
+
+// もしも地球が立方体だったら
+// 場面の開始：c1 0 / c2 150 / c3 330 / c4 510 / c5 720 / c6 900 / c7 1050 / c8 1200
+export const SFX_CUBE: {at: number; file: string; vol?: number; dur?: number}[] = [
+  {at: 55, file: 'rumble', vol: 0.5, dur: 75},
+  {at: 120, file: 'hit', vol: 0.5, dur: 20},
+  {at: 84, file: 'pop', vol: 0.5, dur: 10},
+  {at: 150, file: 'wind', vol: 0.35, dur: 90},
+  {at: 220, file: 'pop', vol: 0.45, dur: 10},
+  {at: 330, file: 'whoosh', vol: 0.6, dur: 25},
+  {at: 350, file: 'pop', vol: 0.45, dur: 10},
+  {at: 380, file: 'ding', vol: 0.5, dur: 25},
+  {at: 510, file: 'whoosh', vol: 0.5, dur: 25},
+  {at: 620, file: 'ding', vol: 0.5, dur: 25},
+  {at: 720, file: 'whoosh', vol: 0.5, dur: 25},
+  {at: 900, file: 'whoosh', vol: 0.5, dur: 25},
+  {at: 920, file: 'pop', vol: 0.5, dur: 10},
+  {at: 1050, file: 'whoosh', vol: 0.5, dur: 25},
+  {at: 1120, file: 'ding', vol: 0.6, dur: 25},
+  {at: 1200, file: 'whoosh', vol: 0.5, dur: 25},
+  {at: 1316, file: 'pop', vol: 0.5, dur: 10},
+];
