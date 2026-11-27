@@ -7,7 +7,7 @@ import {V3} from '../lib/anim';
 import {fbm3, mulberry32} from '../lib/rand';
 import {project} from '../lib/project';
 import {Human, IDLE, Outfit, Pose, pose, shockPose, walkPose, wavePose} from '../three/Human';
-import {SkyDome} from '../three/Landscape';
+import {Forest, SkyDome, TreeSpec} from '../three/Landscape';
 import {CalloutView, Vignette} from './Overlay';
 import {SCENES} from './script';
 
@@ -97,6 +97,44 @@ const Palm: React.FC<{p: V3; h: number; lean: number; ry: number; f: number; coc
     </group>
   );
 };
+// 島の形：手前の浜（z ≈ 11）から奥へ広がり、奥に山がある
+const IC_Z = -29; // 島の中心（ワールド z）
+const IR = 40; // 島の半径
+const MT: [number, number] = [8, -44]; // 山の位置（ワールド x, z）
+const islandH = (x: number, z: number) => {
+  const r = Math.hypot(x, z - IC_Z);
+  const n = fbm3(x * 0.15, 0, z * 0.15, 5, 3);
+  const beach = Math.min(1, Math.max(0, (IR - r) / 7)) * 0.62 - 0.42;
+  const md = Math.hypot(x - MT[0], z - MT[1]);
+  const mt = 24 * Math.exp(-(md * md) / (2 * 9 * 9)) + 5 * Math.exp(-((x + 14) ** 2 + (z + 40) ** 2) / (2 * 7 * 7));
+  const inland = Math.min(1, Math.max(0, (IR - 14 - r) / 6));
+  return beach + (mt + Math.max(0, n) * 1.5) * inland + n * 0.04;
+};
+const EXTRA_PALMS = (() => {
+  const r = mulberry32(77);
+  const out: {p: V3; h: number; lean: number; ry: number}[] = [];
+  while (out.length < 34) {
+    const a = r() * Math.PI * 2, d = IR - 6 - r() * 6;
+    const x = Math.sin(a) * d, z = IC_Z + Math.cos(a) * d;
+    if (Math.abs(x) < 12 && z > -12) continue; // 撮影している場所はあける
+    out.push({p: [x, islandH(x, z) - 0.05, z], h: 4.5 + r() * 2, lean: 0.1 + r() * 0.3, ry: r() * 6});
+  }
+  return out;
+})();
+const JUNGLE: TreeSpec[] = (() => {
+  const r = mulberry32(91);
+  const out: TreeSpec[] = [];
+  while (out.length < 260) {
+    const x = (r() - 0.5) * 70, z = IC_Z + (r() - 0.5) * 60;
+    const rr = Math.hypot(x, z - IC_Z);
+    if (rr > IR - 14) continue;
+    if (z > -16) continue;
+    const h = islandH(x, z);
+    if (h > 13) continue;
+    out.push({x, z, s: 1.6 + r() * 1.6, type: r() < 0.25 ? 'pine' : 'round', y: h - 0.1});
+  }
+  return out;
+})();
 const ROCKS = (() => {
   const r = mulberry32(3);
   return Array.from({length: 26}).map(() => {
@@ -107,17 +145,21 @@ const ROCKS = (() => {
 const Island: React.FC<{f: number; sky?: Sky; children?: React.ReactNode; water?: number}> = ({f, sky = 'day', children, water = 0}) => {
   const S = SKIES[sky];
   const sand = useMemo(() => {
-    const g = new THREE.CircleGeometry(16, 96, 0, Math.PI * 2);
+    const g = new THREE.PlaneGeometry(2 * IR + 6, 2 * IR + 6, 140, 140);
     g.rotateX(-Math.PI / 2);
     const p = g.attributes.position;
     const cols = new Float32Array(p.count * 3);
     const c = new THREE.Color();
     for (let i = 0; i < p.count; i++) {
-      const x = p.getX(i), z = p.getZ(i);
-      const d = Math.hypot(x, z) / 16;
+      const x = p.getX(i), z = p.getZ(i) + IC_Z;
+      const r = Math.hypot(x, z - IC_Z);
+      const h = islandH(x, z);
+      p.setY(i, r > IR + 1 ? -1.5 : h);
       const n = fbm3(x * 0.3, 0, z * 0.3, 5, 3);
-      p.setY(i, 0.6 * (1 - d * d) - 0.42 + n * 0.08);
-      c.set('#e8d6a8').lerp(new THREE.Color('#c9b27e'), Math.max(0, n * 2)).lerp(new THREE.Color('#8fae52'), Math.max(0, 0.3 - d) * 1.4);
+      const inland = Math.min(1, Math.max(0, (IR - 14 - r) / 4));
+      c.set('#e8d6a8').lerp(new THREE.Color('#c9b27e'), Math.max(0, n * 2));
+      c.lerp(new THREE.Color(h > 9 ? '#5a7a3a' : '#5f9a40'), inland);
+      if (h > 12) c.lerp(new THREE.Color('#8a8070'), Math.min(1, (h - 12) / 3));
       cols.set([c.r, c.g, c.b], i * 3);
     }
     g.setAttribute('color', new THREE.BufferAttribute(cols, 3));
@@ -131,7 +173,7 @@ const Island: React.FC<{f: number; sky?: Sky; children?: React.ReactNode; water?
       <ambientLight intensity={sky === 'night' ? 0.15 : 0.3} />
       <directionalLight position={[S.sun[0] * 30, Math.max(3, S.sun[1] * 30), S.sun[2] * 30]} intensity={S.light} color={S.lightColor} />
       <directionalLight position={[4, 6, 14]} intensity={sky === 'night' ? 0.25 : 0.6} color="#ffffff" />
-      <mesh geometry={sand} position={[0, 0, -2]}>
+      <mesh geometry={sand} position={[0, 0, IC_Z]}>
         <meshStandardMaterial vertexColors roughness={1} />
       </mesh>
       {/* 海（浅瀬は明るく） */}
@@ -139,13 +181,17 @@ const Island: React.FC<{f: number; sky?: Sky; children?: React.ReactNode; water?
         <planeGeometry args={[400, 400]} />
         <meshStandardMaterial color={sky === 'night' ? '#0d2a48' : sky === 'sunset' ? '#3a5f8a' : '#2a8fb8'} roughness={0.15} metalness={0.2} transparent opacity={0.9} />
       </mesh>
-      <mesh position={[0, -0.1, -2]} rotation={[-Math.PI / 2, 0, 0]}>
-        <ringGeometry args={[15.2, 17.5, 96]} />
+      <mesh position={[0, -0.1, IC_Z]} rotation={[-Math.PI / 2, 0, 0]}>
+        <ringGeometry args={[IR - 0.8, IR + 2.5, 128]} />
         <meshBasicMaterial color={sky === 'night' ? '#20507a' : '#7fe0e0'} transparent opacity={0.35 + 0.1 * Math.sin(f * 0.08)} depthWrite={false} />
       </mesh>
       {PALMS.map((pl, i) => (
         <Palm key={i} {...pl} f={f} />
       ))}
+      {EXTRA_PALMS.map((pl, i) => (
+        <Palm key={'x' + i} {...pl} f={f} />
+      ))}
+      <Forest trees={JUNGLE} seed={5} />
       {ROCKS.map((r, i) => (
         <mesh key={i} position={r.p} scale={[r.s, r.s * 0.6, r.s]}>
           <dodecahedronGeometry args={[1, 0]} />
@@ -220,7 +266,8 @@ const Campfire: React.FC<{p: V3; f: number; k: number; smoke?: number}> = ({p, f
 
 // ---------- 1. ワープ：光とともに砂浜へ落ちる ----------
 const CAM_1: CamKey[] = [
-  {f: 0, pos: [3, 2.2, 8], look: [0, 1.0, 0], fov: 50},
+  {f: 0, pos: [30, 38, 52], look: [2, 6, -30], fov: 50},
+  {f: 34, pos: [3, 2.2, 8], look: [0, 1.0, 0], fov: 50},
   {f: 120, pos: [1.5, 1.8, 6], look: [0, 0.9, 0], fov: 50, ease: LIN},
 ];
 export const S1: React.FC = () => {
