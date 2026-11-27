@@ -453,7 +453,7 @@ export const C6: React.FC = () => {
         <ambientLight intensity={0.45} />
         <directionalLight position={[-120, 90, -100]} intensity={2.4} />
         <directionalLight position={[10, 5, 10]} intensity={1.2} />
-        <mesh geometry={peak} rotation={[0, 0.3, 0]}>
+        <mesh geometry={peak} position={[0.9, 0, 0.6]} rotation={[0, 0.3, 0]}>
           <meshStandardMaterial color="#9a9288" roughness={1} flatShading />
         </mesh>
         <group position={[0.9, y, 0.6]}>
