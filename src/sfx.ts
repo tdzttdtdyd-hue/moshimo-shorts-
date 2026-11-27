@@ -320,3 +320,24 @@ export const SFX_SWAP: {at: number; file: string; vol?: number; dur?: number}[] 
   {at: 1210, file: 'pop', vol: 0.45, dur: 10},
   {at: 1296, file: 'pop', vol: 0.45, dur: 10},
 ];
+
+// もしも地球の自転が徐々に速くなったら
+// 場面の開始：0 / 150 / 330 / 480 / 660 / 840 / 990 / 1170
+export const SFX_SPIN: {at: number; file: string; vol?: number; dur?: number}[] = [
+  {at: 66, file: 'pop', vol: 0.45, dur: 10},
+  {at: 90, file: 'whoosh', vol: 0.5, dur: 25},
+  {at: 150, file: 'ff', vol: 0.5, dur: 30},
+  {at: 200, file: 'ding', vol: 0.45, dur: 25},
+  {at: 360, file: 'pop', vol: 0.45, dur: 10},
+  {at: 390, file: 'ding', vol: 0.5, dur: 25},
+  {at: 480, file: 'whoosh', vol: 0.5, dur: 25},
+  {at: 520, file: 'pop', vol: 0.4, dur: 10},
+  {at: 540, file: 'pop', vol: 0.4, dur: 10},
+  {at: 660, file: 'wind', vol: 0.5, dur: 170},
+  {at: 870, file: 'whoosh', vol: 0.5, dur: 25},
+  {at: 950, file: 'hit', vol: 0.4, dur: 20},
+  {at: 1010, file: 'rumble', vol: 0.5, dur: 150},
+  {at: 1030, file: 'ding', vol: 0.45, dur: 25},
+  {at: 1200, file: 'pop', vol: 0.45, dur: 10},
+  {at: 1286, file: 'pop', vol: 0.45, dur: 10},
+];
