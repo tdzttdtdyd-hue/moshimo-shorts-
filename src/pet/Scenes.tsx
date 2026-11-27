@@ -311,8 +311,8 @@ export const C1: React.FC = () => {
 
 // ---------- 2. 8:00 名前を呼んでも背中を向けたまま ----------
 const CAM_2: CamKey[] = [
-  {f: 0, pos: [2.2, 1.5, 2.6], look: [0.4, 0.9, -1.6], fov: 50},
-  {f: 180, pos: [1.6, 1.4, 1.8], look: [0.5, 0.9, -1.8], fov: 50, ease: LIN},
+  {f: 0, pos: [2.6, 1.6, 2.9], look: [0.4, 0.9, -1.6], fov: 50},
+  {f: 180, pos: [1.0, 1.3, 1.2], look: [0.6, 0.95, -1.9], fov: 50, ease: LIN},
 ];
 export const C2: React.FC = () => {
   const f = useCurrentFrame();
@@ -329,8 +329,8 @@ export const C2: React.FC = () => {
 
 // ---------- 3. 12:00 日だまりで昼寝 ----------
 const CAM_3: CamKey[] = [
-  {f: 0, pos: [1.6, 0.9, 0.6], look: [0.6, 0.1, -0.9], fov: 50},
-  {f: 180, pos: [1.2, 0.8, 0.1], look: [0.6, 0.1, -0.9], fov: 50, ease: LIN},
+  {f: 0, pos: [1.9, 1.0, 0.9], look: [0.6, 0.1, -0.9], fov: 50},
+  {f: 180, pos: [0.4, 0.7, 0.2], look: [0.6, 0.1, -0.9], fov: 50, ease: LIN},
 ];
 export const C3: React.FC = () => {
   const f = useCurrentFrame();
@@ -394,8 +394,8 @@ export const C5: React.FC = () => {
 // ---------- 6・7. ソファ：21:00 年齢 → 23:50 お礼 → ひざの上 ----------
 const SOFA_ME: V3 = [0.35, -0.04, 1.75];
 const CAM_6: CamKey[] = [
-  {f: 0, pos: [0.4, 1.6, -1.9], look: [-0.05, 0.75, 1.6], fov: 50},
-  {f: 180, pos: [-0.2, 1.5, -1.6], look: [-0.05, 0.75, 1.6], fov: 50, ease: LIN},
+  {f: 0, pos: [0.9, 1.7, -2.0], look: [-0.05, 0.75, 1.6], fov: 50},
+  {f: 180, pos: [-0.8, 1.4, -1.4], look: [-0.15, 0.75, 1.6], fov: 50, ease: LIN},
 ];
 export const C6: React.FC = () => {
   const f = useCurrentFrame();
@@ -408,7 +408,7 @@ export const C6: React.FC = () => {
   );
 };
 const CAM_7: CamKey[] = [
-  {f: 0, pos: [-0.2, 1.5, -1.6], look: [-0.05, 0.75, 1.6], fov: 50},
+  {f: 0, pos: [-0.8, 1.4, -1.4], look: [-0.15, 0.75, 1.6], fov: 50},
   {f: 210, pos: [0.3, 1.4, -1.1], look: [0.2, 0.7, 1.6], fov: 50, ease: LIN},
 ];
 export const C7: React.FC = () => {

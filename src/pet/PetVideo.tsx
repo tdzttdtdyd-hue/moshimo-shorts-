@@ -9,7 +9,7 @@ import {SAFE, SANS} from '../theme';
 
 const COMPS: Record<string, React.FC> = {c1_wake: C1, c2_name: C2, c3_nap: C3, c4_keyboard: C4, c5_meow: C5, c6_age: C6, c7_thanks: C7, c8_end: C8};
 const POS: Record<string, {cardTop?: number; captionBottom?: number}> = {
-  c2_name: {cardTop: 700},
+  c2_name: {cardTop: 900},
   c3_nap: {cardTop: 540},
   c5_meow: {cardTop: 540},
   c6_age: {cardTop: 540},
