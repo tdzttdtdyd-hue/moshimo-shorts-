@@ -1,0 +1,226 @@
+{
+  "video": "out/pet/pet_final.mp4",
+  "results": [
+    {
+      "name": "解像度 1080x1920",
+      "pass": true,
+      "detail": "1080x1920"
+    },
+    {
+      "name": "30fps",
+      "pass": true,
+      "detail": "30/1"
+    },
+    {
+      "name": "尺 48〜52秒",
+      "pass": true,
+      "detail": "50.01s / 1500 frames"
+    },
+    {
+      "name": "H.264 / yuv420p",
+      "pass": true,
+      "detail": "h264 yuv420p"
+    },
+    {
+      "name": "音声トラック（BGM＋効果音）",
+      "pass": true,
+      "detail": "aac 48000Hz"
+    },
+    {
+      "name": "0.5秒以上の静止区間なし（スライドショー化していない）",
+      "pass": true,
+      "detail": "0件"
+    },
+    {
+      "name": "意図しない黒画面なし",
+      "pass": true,
+      "detail": "0件"
+    },
+    {
+      "name": "音声ピーク -1dBFS 以下（クリップなし）",
+      "pass": true,
+      "detail": "-12 dBFS"
+    },
+    {
+      "name": "コンタクトシート作成",
+      "pass": true,
+      "detail": "out/pet/check/contact_sheet.png"
+    },
+    {
+      "name": "テロップがセーフエリア内",
+      "pass": true,
+      "detail": "24 フレーム検査 / 違反 0"
+    },
+    {
+      "name": "テロップ同士の重なりなし",
+      "pass": true,
+      "detail": "違反 0"
+    },
+    {
+      "name": "テロップが横幅に収まる",
+      "pass": true,
+      "detail": "違反 0"
+    },
+    {
+      "name": "書体：テーマ・経過時間・語りは明朝体、その他はゴシック体",
+      "pass": true,
+      "detail": "違反 0"
+    },
+    {
+      "name": "日本語フォント（ゴシック: Noto Sans JP / 明朝: Noto Serif JP）読込",
+      "pass": true,
+      "detail": "sans 78 / serif 52 subsets"
+    },
+    {
+      "name": "コンソール / WebGL エラーなし",
+      "pass": true,
+      "detail": "0件"
+    }
+  ],
+  "frames": [
+    {
+      "frame": 30,
+      "what": "hook title",
+      "boxes": 4,
+      "issues": []
+    },
+    {
+      "frame": 90,
+      "what": "c1_wake caption0",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 120,
+      "what": "c1_wake custom@120",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 206,
+      "what": "c2_name caption0",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 210,
+      "what": "c2_name custom@30",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 310,
+      "what": "c2_name card0",
+      "boxes": 8,
+      "issues": []
+    },
+    {
+      "frame": 310,
+      "what": "c2_name custom@130",
+      "boxes": 8,
+      "issues": []
+    },
+    {
+      "frame": 386,
+      "what": "c3_nap caption0",
+      "boxes": 6,
+      "issues": []
+    },
+    {
+      "frame": 464,
+      "what": "c3_nap card0",
+      "boxes": 8,
+      "issues": []
+    },
+    {
+      "frame": 480,
+      "what": "c3_nap custom@120",
+      "boxes": 8,
+      "issues": []
+    },
+    {
+      "frame": 566,
+      "what": "c4_keyboard caption0",
+      "boxes": 6,
+      "issues": []
+    },
+    {
+      "frame": 660,
+      "what": "c4_keyboard custom@120",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 746,
+      "what": "c5_meow caption0",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 834,
+      "what": "c5_meow card0",
+      "boxes": 8,
+      "issues": []
+    },
+    {
+      "frame": 840,
+      "what": "c5_meow custom@120",
+      "boxes": 8,
+      "issues": []
+    },
+    {
+      "frame": 926,
+      "what": "c6_age caption0",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 1014,
+      "what": "c6_age card0",
+      "boxes": 8,
+      "issues": []
+    },
+    {
+      "frame": 1020,
+      "what": "c6_age custom@120",
+      "boxes": 8,
+      "issues": []
+    },
+    {
+      "frame": 1120,
+      "what": "c7_thanks custom@40",
+      "boxes": 5,
+      "issues": []
+    },
+    {
+      "frame": 1200,
+      "what": "c7_thanks caption0",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 1200,
+      "what": "c7_thanks custom@120",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 1380,
+      "what": "c8_end caption0",
+      "boxes": 6,
+      "issues": []
+    },
+    {
+      "frame": 1390,
+      "what": "c8_end custom@100",
+      "boxes": 6,
+      "issues": []
+    },
+    {
+      "frame": 1456,
+      "what": "c8_end caption1",
+      "boxes": 6,
+      "issues": []
+    }
+  ]
+}

@@ -23,6 +23,7 @@
 | もしも地球が立方体だったら？（48秒） | バージョンA | `src/cube/`（コンポジション `CubeShort`） | `out/cube/cube_final.mp4` |
 | もし全人類のスマホが1日なくなったら（46秒） | バージョンA | `src/phone/`（コンポジション `PhoneShort`） | `out/phone/phone_final.mp4` |
 | もしも無人島にワープしたら？（60秒） | バージョンA | `src/island/`（コンポジション `IslandShort`） | `out/island/island_final.mp4` |
+| もしも1日だけペットと話せたら（50秒） | バージョンA | `src/pet/`（コンポジション `PetShort`） | `out/pet/pet_final.mp4` |
 
 書き出し：`COMP=VolleyShort OUT=out/volley FINAL=volley_final node scripts/render.mjs`
 検証：`APP=verify/app-volley.tsx CHECK=out/volley/check node scripts/verify.mjs out/volley/volley_final.mp4`
