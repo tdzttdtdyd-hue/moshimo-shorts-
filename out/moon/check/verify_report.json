@@ -1,0 +1,172 @@
+{
+  "video": "out/moon/moon_final.mp4",
+  "results": [
+    {
+      "name": "解像度 1080x1920",
+      "pass": true,
+      "detail": "1080x1920"
+    },
+    {
+      "name": "30fps",
+      "pass": true,
+      "detail": "30/1"
+    },
+    {
+      "name": "尺 44〜48秒",
+      "pass": true,
+      "detail": "46.02s / 1380 frames"
+    },
+    {
+      "name": "H.264 / yuv420p",
+      "pass": true,
+      "detail": "h264 yuv420p"
+    },
+    {
+      "name": "音声トラック（BGM＋効果音）",
+      "pass": true,
+      "detail": "aac 48000Hz"
+    },
+    {
+      "name": "0.5秒以上の静止区間なし（スライドショー化していない）",
+      "pass": true,
+      "detail": "0件"
+    },
+    {
+      "name": "意図しない黒画面なし",
+      "pass": true,
+      "detail": "0件"
+    },
+    {
+      "name": "音声ピーク -1dBFS 以下（クリップなし）",
+      "pass": true,
+      "detail": "-9.5 dBFS"
+    },
+    {
+      "name": "コンタクトシート作成",
+      "pass": true,
+      "detail": "out/moon/check/contact_sheet.png"
+    },
+    {
+      "name": "テロップがセーフエリア内",
+      "pass": true,
+      "detail": "15 フレーム検査 / 違反 0"
+    },
+    {
+      "name": "テロップ同士の重なりなし",
+      "pass": true,
+      "detail": "違反 0"
+    },
+    {
+      "name": "テロップが横幅に収まる",
+      "pass": true,
+      "detail": "違反 0"
+    },
+    {
+      "name": "書体：テーマ・経過時間・語りは明朝体、その他はゴシック体",
+      "pass": true,
+      "detail": "違反 0"
+    },
+    {
+      "name": "日本語フォント（ゴシック: Noto Sans JP / 明朝: Noto Serif JP）読込",
+      "pass": true,
+      "detail": "sans 81 / serif 54 subsets"
+    },
+    {
+      "name": "コンソール / WebGL エラーなし",
+      "pass": true,
+      "detail": "0件"
+    }
+  ],
+  "frames": [
+    {
+      "frame": 30,
+      "what": "hook title",
+      "boxes": 4,
+      "issues": []
+    },
+    {
+      "frame": 88,
+      "what": "m1_now caption0",
+      "boxes": 6,
+      "issues": []
+    },
+    {
+      "frame": 176,
+      "what": "m2_half caption0",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 228,
+      "what": "m2_half card0",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 356,
+      "what": "m3_quarter caption0",
+      "boxes": 6,
+      "issues": []
+    },
+    {
+      "frame": 408,
+      "what": "m3_quarter card0",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 536,
+      "what": "m4_geo caption0",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 594,
+      "what": "m4_geo card0",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 716,
+      "what": "m5_west caption0",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 725,
+      "what": "m5_west custom@35",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 774,
+      "what": "m5_west card0",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 896,
+      "what": "m6_break caption0",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 920,
+      "what": "m6_break callout0",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 1100,
+      "what": "m7_ring caption0",
+      "boxes": 4,
+      "issues": []
+    },
+    {
+      "frame": 1280,
+      "what": "m8_end caption0",
+      "boxes": 4,
+      "issues": []
+    }
+  ]
+}
