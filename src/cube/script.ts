@@ -27,8 +27,11 @@ export const SCENES: SceneSpec[] = [
   },
   {
     id: 'c2_seas',
-    duration: 180,
-    captions: [{from: 6, to: 180, lines: ['海の水は流れ出し、', '6つの面の*真ん中*に集まる']}],
+    duration: 240,
+    captions: [
+      {from: 6, to: 110, lines: ['海の水は流れ出し、', '6つの面の*真ん中*に集まる']},
+      {from: 116, to: 240, lines: ['中心に行くほど「低い」場所で、', '水は低い方へ流れて止まる。']},
+    ],
     callouts: [{key: 'sea', tag: '海', text: '面の真ん中にだけ', from: 70, to: 170, dy: 220, dx: 0}],
   },
   {

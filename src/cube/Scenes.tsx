@@ -163,7 +163,7 @@ export const C1: React.FC = () => {
 // ---------- 2. 海が面の真ん中に集まる ----------
 const CAM_C2: CamKey[] = [
   {f: 0, pos: [3.5, 3.0, 15], look: [0, 0.2, 0], fov: 42},
-  {f: 180, pos: [7.5, 5.0, 12], look: [0, 0.2, 0], fov: 42, ease: LIN},
+  {f: 240, pos: [8.5, 5.6, 11], look: [0, 0.2, 0], fov: 42, ease: LIN},
 ];
 export const C2: React.FC = () => {
   const f = useCurrentFrame();
