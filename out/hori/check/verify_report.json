@@ -1,0 +1,238 @@
+{
+  "video": "out/hori/hori_final.mp4",
+  "results": [
+    {
+      "name": "解像度 1080x1920",
+      "pass": true,
+      "detail": "1080x1920"
+    },
+    {
+      "name": "30fps",
+      "pass": true,
+      "detail": "30/1"
+    },
+    {
+      "name": "尺 44〜50秒",
+      "pass": true,
+      "detail": "48.00s / 1440 frames"
+    },
+    {
+      "name": "H.264 / yuv420p",
+      "pass": true,
+      "detail": "h264 yuv420p"
+    },
+    {
+      "name": "音声トラック（BGM＋効果音）",
+      "pass": true,
+      "detail": "aac 48000Hz"
+    },
+    {
+      "name": "0.5秒以上の静止区間なし（スライドショー化していない）",
+      "pass": true,
+      "detail": "0件"
+    },
+    {
+      "name": "意図しない黒画面なし",
+      "pass": true,
+      "detail": "0件"
+    },
+    {
+      "name": "音声ピーク -1dBFS 以下（クリップなし）",
+      "pass": true,
+      "detail": "-10 dBFS"
+    },
+    {
+      "name": "コンタクトシート作成",
+      "pass": true,
+      "detail": "out/hori/check/contact_sheet.png"
+    },
+    {
+      "name": "テロップがセーフエリア内",
+      "pass": true,
+      "detail": "26 フレーム検査 / 違反 0"
+    },
+    {
+      "name": "テロップ同士の重なりなし",
+      "pass": true,
+      "detail": "違反 0"
+    },
+    {
+      "name": "テロップが横幅に収まる",
+      "pass": true,
+      "detail": "違反 0"
+    },
+    {
+      "name": "書体：テーマ・経過時間・語りは明朝体、その他はゴシック体",
+      "pass": true,
+      "detail": "違反 0"
+    },
+    {
+      "name": "日本語フォント（ゴシック: Noto Sans JP / 明朝: Noto Serif JP）読込",
+      "pass": true,
+      "detail": "sans 102 / serif 68 subsets"
+    },
+    {
+      "name": "コンソール / WebGL エラーなし",
+      "pass": true,
+      "detail": "0件"
+    }
+  ],
+  "frames": [
+    {
+      "frame": 30,
+      "what": "hook title",
+      "boxes": 4,
+      "issues": []
+    },
+    {
+      "frame": 124,
+      "what": "h1_wake caption0",
+      "boxes": 6,
+      "issues": []
+    },
+    {
+      "frame": 176,
+      "what": "h2_all caption0",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 234,
+      "what": "h2_all card0",
+      "boxes": 8,
+      "issues": []
+    },
+    {
+      "frame": 335,
+      "what": "h3_bath custom@20",
+      "boxes": 8,
+      "issues": []
+    },
+    {
+      "frame": 341,
+      "what": "h3_bath caption0",
+      "boxes": 8,
+      "issues": []
+    },
+    {
+      "frame": 499,
+      "what": "h3_bath card0",
+      "boxes": 9,
+      "issues": []
+    },
+    {
+      "frame": 525,
+      "what": "h3_bath custom@210",
+      "boxes": 9,
+      "issues": []
+    },
+    {
+      "frame": 581,
+      "what": "h4_water caption0",
+      "boxes": 8,
+      "issues": []
+    },
+    {
+      "frame": 613,
+      "what": "h4_water card0",
+      "boxes": 8,
+      "issues": []
+    },
+    {
+      "frame": 615,
+      "what": "h4_water custom@60",
+      "boxes": 8,
+      "issues": []
+    },
+    {
+      "frame": 691,
+      "what": "h4_water caption1",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 715,
+      "what": "h4_water custom@160",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 776,
+      "what": "h5_phone caption0",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 826,
+      "what": "h5_phone custom@76",
+      "boxes": 8,
+      "issues": []
+    },
+    {
+      "frame": 872,
+      "what": "h5_phone caption1",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 971,
+      "what": "h6_gym caption0",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 1005,
+      "what": "h6_gym custom@60",
+      "boxes": 8,
+      "issues": []
+    },
+    {
+      "frame": 1055,
+      "what": "h6_gym custom@110",
+      "boxes": 9,
+      "issues": []
+    },
+    {
+      "frame": 1063,
+      "what": "h6_gym caption1",
+      "boxes": 8,
+      "issues": []
+    },
+    {
+      "frame": 1166,
+      "what": "h7_end caption0",
+      "boxes": 5,
+      "issues": []
+    },
+    {
+      "frame": 1194,
+      "what": "h7_end card0",
+      "boxes": 5,
+      "issues": []
+    },
+    {
+      "frame": 1286,
+      "what": "h7_end caption1",
+      "boxes": 6,
+      "issues": []
+    },
+    {
+      "frame": 1340,
+      "what": "h7_end custom@200",
+      "boxes": 6,
+      "issues": []
+    },
+    {
+      "frame": 1392,
+      "what": "h7_end caption2",
+      "boxes": 6,
+      "issues": []
+    },
+    {
+      "frame": 1410,
+      "what": "h7_end custom@270",
+      "boxes": 6,
+      "issues": []
+    }
+  ]
+}
