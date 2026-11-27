@@ -255,3 +255,27 @@ export const SFX_PHONE: {at: number; file: string; vol?: number; dur?: number}[]
   {at: 1300, file: 'ding', vol: 0.5, dur: 25},
   {at: 1316, file: 'pop', vol: 0.5, dur: 10},
 ];
+
+// もしも無人島にワープしたら
+// 場面の開始：0 / 120 / 240 / 420 / 600 / 780 / 960 / 1110 / 1260 / 1410 / 1590
+export const SFX_ISLAND: {at: number; file: string; vol?: number; dur?: number}[] = [
+  {at: 18, file: 'whoosh', vol: 0.7, dur: 25},
+  {at: 40, file: 'hit', vol: 0.5, dur: 20},
+  {at: 66, file: 'pop', vol: 0.45, dur: 10},
+  {at: 140, file: 'pop', vol: 0.45, dur: 10},
+  {at: 302, file: 'whoosh', vol: 0.4, dur: 25},
+  {at: 280, file: 'ding', vol: 0.45, dur: 25},
+  {at: 478, file: 'hit', vol: 0.55, dur: 20},
+  {at: 560, file: 'ding', vol: 0.5, dur: 25},
+  {at: 600, file: 'ff', vol: 0.5, dur: 30},
+  {at: 860, file: 'wind', vol: 0.4, dur: 90},
+  {at: 1000, file: 'whoosh', vol: 0.5, dur: 25},
+  {at: 1020, file: 'ding', vol: 0.6, dur: 25},
+  {at: 1162, file: 'hit', vol: 0.5, dur: 20},
+  {at: 1166, file: 'pop', vol: 0.45, dur: 10},
+  {at: 1260, file: 'whoosh', vol: 0.45, dur: 25},
+  {at: 1450, file: 'pop', vol: 0.45, dur: 10},
+  {at: 1590, file: 'rumble', vol: 0.55, dur: 200},
+  {at: 1674, file: 'pop', vol: 0.5, dur: 10},
+  {at: 1746, file: 'ding', vol: 0.5, dur: 25},
+];

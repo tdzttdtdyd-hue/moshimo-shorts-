@@ -12,6 +12,8 @@ import {HoriVideo} from './hori/HoriVideo';
 import {MoonVideo} from './moon/MoonVideo';
 import {CubeVideo} from './cube/CubeVideo';
 import {PhoneVideo} from './phone/PhoneVideo';
+import {IslandVideo} from './island/IslandVideo';
+import {TOTAL_FRAMES as ISLAND_FRAMES} from './island/script';
 import {TOTAL_FRAMES as PHONE_FRAMES} from './phone/script';
 import {TOTAL_FRAMES as CUBE_FRAMES} from './cube/script';
 import {TOTAL_FRAMES as MOON_FRAMES} from './moon/script';
@@ -39,6 +41,7 @@ export const Root: React.FC = () => (
     <Composition id="MoonShort" component={MoonVideo} durationInFrames={MOON_FRAMES} fps={FPS} width={WIDTH} height={HEIGHT} defaultProps={{withSfx: true, withBgm: true}} />
     <Composition id="CubeShort" component={CubeVideo} durationInFrames={CUBE_FRAMES} fps={FPS} width={WIDTH} height={HEIGHT} defaultProps={{withSfx: true, withBgm: true}} />
     <Composition id="PhoneShort" component={PhoneVideo} durationInFrames={PHONE_FRAMES} fps={FPS} width={WIDTH} height={HEIGHT} defaultProps={{withSfx: true, withBgm: true}} />
+    <Composition id="IslandShort" component={IslandVideo} durationInFrames={ISLAND_FRAMES} fps={FPS} width={WIDTH} height={HEIGHT} defaultProps={{withSfx: true, withBgm: true}} />
     <Composition id="SunLong" component={SunLongVideo} durationInFrames={TOTAL_L} fps={FPS} width={LW} height={LH} defaultProps={{withSfx: true, withBgm: true}} />
   </>
 );
