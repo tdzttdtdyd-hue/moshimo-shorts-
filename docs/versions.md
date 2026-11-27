@@ -21,6 +21,7 @@
 | もし人類が全員、堀大輔の生活を送ったら（48秒） | バージョンA | `src/hori/`（コンポジション `HoriShort`） | `out/hori/hori_final.mp4` |
 | もしも月が地球に少しずつ近づいてきたら？（46秒） | バージョンA | `src/moon/`（コンポジション `MoonShort`） | `out/moon/moon_final.mp4` |
 | もしも地球が立方体だったら？（48秒） | バージョンA | `src/cube/`（コンポジション `CubeShort`） | `out/cube/cube_final.mp4` |
+| もし全人類のスマホが1日なくなったら（46秒） | バージョンA | `src/phone/`（コンポジション `PhoneShort`） | `out/phone/phone_final.mp4` |
 
 書き出し：`COMP=VolleyShort OUT=out/volley FINAL=volley_final node scripts/render.mjs`
 検証：`APP=verify/app-volley.tsx CHECK=out/volley/check node scripts/verify.mjs out/volley/volley_final.mp4`
