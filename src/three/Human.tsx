@@ -146,11 +146,12 @@ type Props = {
   tint?: string; // 凍結などで全身の色を上書き
   muscle?: number; // 筋肉量（1 = ふつう、1.3〜1.4 = マッチョ）
   sleeveless?: boolean; // タンクトップ（腕は肌）
+  longHair?: boolean; // 肩までの長い髪
   lHand?: React.ReactNode; // 手に持たせる物（手首の位置が原点、前腕の向きが -y）
   rHand?: React.ReactNode;
 };
 
-export const Human: React.FC<Props> = ({position = [0, 0, 0], rotation = [0, 0, 0], scale = 1, outfit = OUTFITS[0], p = IDLE, tint, muscle = 1, sleeveless = false, lHand, rHand}) => {
+export const Human: React.FC<Props> = ({position = [0, 0, 0], rotation = [0, 0, 0], scale = 1, outfit = OUTFITS[0], p = IDLE, tint, muscle = 1, sleeveless = false, longHair = false, lHand, rHand}) => {
   const m = muscle;
   const mx = 1 + (m - 1) * 0.6;
   const skin = tint ?? outfit.skin ?? '#e9b99a';
@@ -233,6 +234,12 @@ export const Human: React.FC<Props> = ({position = [0, 0, 0], rotation = [0, 0, 
               <sphereGeometry args={[0.108, 24, 24, 0, Math.PI * 2, 0, Math.PI * 0.55]} />
               <Mat c={hair} r={0.85} />
             </mesh>
+            {longHair && (
+              <mesh position={[0, 0.1, -0.045]} scale={[1.05, 1.9, 0.75]} castShadow>
+                <sphereGeometry args={[0.11, 20, 16]} />
+                <Mat c={hair} r={0.85} />
+              </mesh>
+            )}
           </group>
         </group>
       </group>

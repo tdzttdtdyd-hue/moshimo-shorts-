@@ -301,3 +301,22 @@ export const SFX_PET: {at: number; file: string; vol?: number; dur?: number}[] =
   {at: 800, file: 'ding', vol: 0.4, dur: 25},
   {at: 980, file: 'ding', vol: 0.4, dur: 25},
 ];
+
+// もし1日だけ男女が入れ替わったら
+// 場面の開始：0 / 150 / 330 / 510 / 690 / 870 / 1020 / 1170
+export const SFX_SWAP: {at: number; file: string; vol?: number; dur?: number}[] = [
+  {at: 64, file: 'whoosh', vol: 0.6, dur: 25},
+  {at: 80, file: 'hit', vol: 0.45, dur: 20},
+  {at: 94, file: 'pop', vol: 0.45, dur: 10},
+  {at: 210, file: 'ding', vol: 0.45, dur: 25},
+  {at: 260, file: 'pop', vol: 0.4, dur: 10},
+  {at: 390, file: 'ding', vol: 0.45, dur: 25},
+  {at: 458, file: 'pop', vol: 0.5, dur: 10},
+  {at: 510, file: 'wind', vol: 0.35, dur: 120},
+  {at: 750, file: 'ding', vol: 0.45, dur: 25},
+  {at: 880, file: 'whoosh', vol: 0.4, dur: 25},
+  {at: 1020, file: 'whoosh', vol: 0.4, dur: 25},
+  {at: 1196, file: 'ding', vol: 0.6, dur: 30},
+  {at: 1210, file: 'pop', vol: 0.45, dur: 10},
+  {at: 1296, file: 'pop', vol: 0.45, dur: 10},
+];
