@@ -234,3 +234,24 @@ export const SFX_CUBE: {at: number; file: string; vol?: number; dur?: number}[] 
   {at: 1260, file: 'whoosh', vol: 0.5, dur: 25},
   {at: 1376, file: 'pop', vol: 0.5, dur: 10},
 ];
+
+// もし全人類のスマホが1日なくなったら
+// 場面の開始：p1 0 / p2 150 / p3 330 / p4 495 / p5 675 / p6 855 / p7 1020 / p8 1200
+export const SFX_PHONE: {at: number; file: string; vol?: number; dur?: number}[] = [
+  {at: 66, file: 'pop', vol: 0.45, dur: 10},
+  {at: 100, file: 'whoosh', vol: 0.7, dur: 25},
+  {at: 112, file: 'hit', vol: 0.45, dur: 20},
+  ...[30, 48, 64, 84].map((t) => ({at: 150 + t + 7, file: 'ding', vol: 0.35, dur: 20})),
+  {at: 330, file: 'whoosh', vol: 0.5, dur: 25},
+  {at: 360, file: 'pop', vol: 0.45, dur: 10},
+  {at: 370, file: 'pop', vol: 0.45, dur: 10},
+  {at: 495, file: 'whoosh', vol: 0.5, dur: 25},
+  {at: 675, file: 'whoosh', vol: 0.5, dur: 25},
+  ...[0, 1, 2, 3, 4, 5, 6, 7, 8].map((i) => ({at: 675 + 28 + i * 15, file: 'coin', vol: 0.4, dur: 20})),
+  {at: 855, file: 'whoosh', vol: 0.5, dur: 25},
+  {at: 885, file: 'pop', vol: 0.5, dur: 10},
+  {at: 1020, file: 'wind', vol: 0.3, dur: 120},
+  {at: 1226, file: 'pop', vol: 0.4, dur: 10},
+  {at: 1300, file: 'ding', vol: 0.5, dur: 25},
+  {at: 1316, file: 'pop', vol: 0.5, dur: 10},
+];
