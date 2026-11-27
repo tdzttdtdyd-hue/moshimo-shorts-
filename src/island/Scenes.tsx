@@ -319,8 +319,8 @@ export const S2: React.FC = () => {
 
 // ---------- 3. 海水を飲む → 吐き出す ----------
 const CAM_3: CamKey[] = [
-  {f: 0, pos: [3.2, 1.4, 12.8], look: [0, 0.6, 10.5], fov: 50},
-  {f: 180, pos: [2.0, 1.3, 13.2], look: [0, 0.6, 10.5], fov: 50, ease: LIN},
+  {f: 0, pos: [2.8, 1.5, 11.0], look: [0, 0.7, 7.0], fov: 50},
+  {f: 180, pos: [1.8, 1.4, 11.4], look: [0, 0.7, 7.0], fov: 50, ease: LIN},
 ];
 export const S3: React.FC = () => {
   const f = useCurrentFrame();
@@ -334,12 +334,12 @@ export const S3: React.FC = () => {
   return (
     <AbsoluteFill>
       <IslandStage f={f} cam={CAM_3}>
-        <Human outfit={PAJAMA} position={[0, -0.2 * (1 - spit) * (scoop > 0 ? 1 : 0.5), 10.4]} rotation={[0, Math.PI * 0.9, 0]} p={p} />
+        <Human outfit={PAJAMA} position={[0, -0.05 - 0.2 * (1 - spit) * (scoop > 0 ? 1 : 0.5), 6.9]} rotation={[0, 0.1, 0]} p={p} />
         {/* 吐き出す水しぶき */}
         {spit > 0 &&
           spit < 1 &&
           Array.from({length: 10}).map((_, i) => (
-            <mesh key={i} position={[Math.sin(i) * 0.3 * spit, 1.4 - spit * 1.2 + Math.cos(i * 2) * 0.1, 10.2 - spit * 0.8]} scale={0.03}>
+            <mesh key={i} position={[Math.sin(i) * 0.3 * spit, 1.4 - spit * 1.2 + Math.cos(i * 2) * 0.1, 7.1 + spit * 0.8]} scale={0.03}>
               <sphereGeometry args={[1, 6, 4]} />
               <meshBasicMaterial color="#cfeeff" />
             </mesh>
@@ -498,8 +498,8 @@ export const S7: React.FC = () => {
 
 // ---------- 8. 10日目：魚を突く → 焼き魚 ----------
 const CAM_8: CamKey[] = [
-  {f: 0, pos: [3.6, 1.6, 15.5], look: [0, 0.6, 12.2], fov: 50},
-  {f: 150, pos: [2.0, 1.8, 16.0], look: [0, 0.8, 12.2], fov: 50, ease: LIN},
+  {f: 0, pos: [3.4, 1.7, 11.6], look: [0, 0.7, 7.8], fov: 50},
+  {f: 150, pos: [1.9, 1.9, 12.0], look: [0, 0.9, 7.8], fov: 50, ease: LIN},
 ];
 export const S8: React.FC = () => {
   const f = useCurrentFrame();
@@ -513,8 +513,8 @@ export const S8: React.FC = () => {
       <IslandStage f={f} cam={CAM_8}>
         <Human
           outfit={TAN}
-          position={[0, -0.35, 12.5]}
-          rotation={[0, Math.PI, 0]}
+          position={[0, -0.05, 7.0]}
+          rotation={[0, 0, 0]}
           p={p}
           rHand={
             <group rotation={[Math.PI / 2, 0, 0]}>
@@ -532,7 +532,7 @@ export const S8: React.FC = () => {
           }
         />
         {!caught && (
-          <mesh position={[Math.cos(fishA) * 0.6, -0.2, 11.2 + Math.sin(fishA) * 0.4]} rotation={[0, -fishA, 0]} scale={[1, 0.4, 0.25]}>
+          <mesh position={[Math.cos(fishA) * 0.6, -0.2, 8.8 + Math.sin(fishA) * 0.4]} rotation={[0, -fishA, 0]} scale={[1, 0.4, 0.25]}>
             <sphereGeometry args={[0.16, 12, 8]} />
             <meshStandardMaterial color="#e8885a" />
           </mesh>
@@ -540,14 +540,14 @@ export const S8: React.FC = () => {
         {Array.from({length: 3}).map((_, i) => {
           const a = f * 0.06 + i * 2;
           return (
-            <mesh key={i} position={[1.5 + Math.cos(a) * 0.8, -0.22, 11.0 + Math.sin(a) * 0.6]} rotation={[0, -a, 0]} scale={[1, 0.4, 0.25]}>
+            <mesh key={i} position={[1.5 + Math.cos(a) * 0.8, -0.22, 9.0 + Math.sin(a) * 0.6]} rotation={[0, -a, 0]} scale={[1, 0.4, 0.25]}>
               <sphereGeometry args={[0.13, 10, 6]} />
               <meshStandardMaterial color="#6fa8d8" />
             </mesh>
           );
         })}
         {thrust > 0.5 && (
-          <mesh position={[0, -0.08, 11.0]} rotation={[-Math.PI / 2, 0, 0]} scale={thrust}>
+          <mesh position={[0, -0.08, 8.6]} rotation={[-Math.PI / 2, 0, 0]} scale={thrust}>
             <ringGeometry args={[0.2, 0.5, 24]} />
             <meshBasicMaterial color="#ffffff" transparent opacity={0.6} />
           </mesh>
@@ -729,13 +729,13 @@ const Heli: React.FC<{p: V3; f: number}> = ({p, f}) => (
   </group>
 );
 const CAM_11: CamKey[] = [
-  {f: 0, pos: [3.6, 1.4, 7.2], look: [-0.2, 3.0, -1.5], fov: 56},
-  {f: 210, pos: [2.4, 1.4, 6.0], look: [-0.2, 2.8, -1.5], fov: 56, ease: LIN},
+  {f: 0, pos: [3.6, 1.4, 7.2], look: [0.2, 3.6, -1.5], fov: 56},
+  {f: 210, pos: [2.4, 1.4, 6.0], look: [0.2, 3.4, -1.5], fov: 56, ease: LIN},
 ];
 export const S11: React.FC = () => {
   const f = useCurrentFrame();
   const heliY = interpolate(f, [0, 60], [11, 4.4], {...clamp, easing: (x) => 1 - Math.pow(1 - x, 2)}) + 0.15 * Math.sin(f * 0.12);
-  const heli: V3 = [-1.2, heliY, -4.5];
+  const heli: V3 = [0.8, heliY + 3.4, -7.0];
   // 最初は喜んで手を振る → 振り向いて「ことわる」手ぶり
   const refuse = sm((f - 76) / 10);
   const p = lerpPose(wavePose(f * 1.6), pose({rSh: [1.2, 0.2], rEl: 0.4, lSh: [0.2, 0.2], head: -0.15, twist: 0.25 * Math.sin(f * 0.5)}), refuse);

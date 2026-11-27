@@ -9,7 +9,7 @@ import {SAFE, SANS} from '../theme';
 
 const COMPS: Record<string, React.FC> = {i01_warp: S1, i02_signal: S2, i03_sea: S3, i04_coconut: S4, i05_fire: S5, i06_sos: S6, i07_fire2: S7, i08_fish: S8, i09_hut: S9, i10_day30: S10, i11_heli: S11};
 const POS: Record<string, {cardTop?: number; captionBottom?: number}> = {
-  i03_sea: {cardTop: 600},
+  i03_sea: {cardTop: 890},
 };
 export const BGM_GAIN = 0.3;
 
