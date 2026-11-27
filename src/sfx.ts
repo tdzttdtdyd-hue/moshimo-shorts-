@@ -188,3 +188,27 @@ export const SFX_HORI: {at: number; file: string; vol?: number; dur?: number}[] 
   {at: 1264, file: 'whoosh', vol: 0.5, dur: 25},
   {at: 1372, file: 'pop', vol: 0.5, dur: 10},
 ];
+
+// もしも月が地球に少しずつ近づいてきたら
+// 場面の開始：m1 0 / m2 150 / m3 330 / m4 510 / m5 690 / m6 870 / m7 1050 / m8 1250
+export const SFX_MOON: {at: number; file: string; vol?: number; dur?: number}[] = [
+  {at: 66, file: 'pop', vol: 0.5, dur: 10},
+  {at: 150, file: 'ff', vol: 0.55, dur: 30},
+  {at: 194, file: 'ding', vol: 0.5, dur: 25},
+  {at: 200, file: 'wind', vol: 0.35, dur: 90},
+  {at: 330, file: 'whoosh', vol: 0.6, dur: 25},
+  {at: 374, file: 'ding', vol: 0.5, dur: 25},
+  {at: 400, file: 'rumble', vol: 0.4, dur: 90},
+  {at: 510, file: 'whoosh', vol: 0.6, dur: 25},
+  {at: 560, file: 'ding', vol: 0.5, dur: 25},
+  {at: 690, file: 'whoosh', vol: 0.6, dur: 25},
+  {at: 736, file: 'rumble', vol: 0.7, dur: 140},
+  {at: 740, file: 'ding', vol: 0.5, dur: 25},
+  {at: 750, file: 'boom', vol: 0.5, dur: 45},
+  {at: 890, file: 'pop', vol: 0.5, dur: 10},
+  {at: 930, file: 'glass', vol: 0.55, dur: 40},
+  {at: 932, file: 'boom', vol: 0.6, dur: 45},
+  {at: 1050, file: 'whoosh', vol: 0.5, dur: 25},
+  {at: 1080, file: 'ding', vol: 0.45, dur: 25},
+  {at: 1260, file: 'pop', vol: 0.5, dur: 10},
+];
