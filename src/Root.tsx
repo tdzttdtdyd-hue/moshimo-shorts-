@@ -8,6 +8,8 @@ import {VolleyVideo} from './volley/VolleyVideo';
 import {CoinVideo} from './coin/CoinVideo';
 import {SunVideo} from './sun/SunVideo';
 import {LineVideo} from './line/LineVideo';
+import {HoriVideo} from './hori/HoriVideo';
+import {TOTAL_FRAMES as HORI_FRAMES} from './hori/script';
 import {SunLongVideo} from './sunlong/SunLongVideo';
 import {TOTAL_L, LW, LH} from './sunlong/script';
 import {TOTAL_FRAMES as LINE_FRAMES} from './line/script';
@@ -27,6 +29,7 @@ export const Root: React.FC = () => (
     <Composition id="CoinShort" component={CoinVideo} durationInFrames={COIN_FRAMES} fps={FPS} width={WIDTH} height={HEIGHT} defaultProps={{withSfx: true, withBgm: true}} />
     <Composition id="SunShort" component={SunVideo} durationInFrames={SUN_FRAMES} fps={FPS} width={WIDTH} height={HEIGHT} defaultProps={{withSfx: true, withBgm: true}} />
     <Composition id="LineShort" component={LineVideo} durationInFrames={LINE_FRAMES} fps={FPS} width={WIDTH} height={HEIGHT} defaultProps={{withSfx: true, withBgm: true}} />
+    <Composition id="HoriShort" component={HoriVideo} durationInFrames={HORI_FRAMES} fps={FPS} width={WIDTH} height={HEIGHT} defaultProps={{withSfx: true, withBgm: true}} />
     <Composition id="SunLong" component={SunLongVideo} durationInFrames={TOTAL_L} fps={FPS} width={LW} height={LH} defaultProps={{withSfx: true, withBgm: true}} />
   </>
 );

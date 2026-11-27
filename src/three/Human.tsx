@@ -144,9 +144,15 @@ type Props = {
   outfit?: Outfit;
   p?: Pose;
   tint?: string; // 凍結などで全身の色を上書き
+  muscle?: number; // 筋肉量（1 = ふつう、1.3〜1.4 = マッチョ）
+  sleeveless?: boolean; // タンクトップ（腕は肌）
+  lHand?: React.ReactNode; // 手に持たせる物（手首の位置が原点、前腕の向きが -y）
+  rHand?: React.ReactNode;
 };
 
-export const Human: React.FC<Props> = ({position = [0, 0, 0], rotation = [0, 0, 0], scale = 1, outfit = OUTFITS[0], p = IDLE, tint}) => {
+export const Human: React.FC<Props> = ({position = [0, 0, 0], rotation = [0, 0, 0], scale = 1, outfit = OUTFITS[0], p = IDLE, tint, muscle = 1, sleeveless = false, lHand, rHand}) => {
+  const m = muscle;
+  const mx = 1 + (m - 1) * 0.6;
   const skin = tint ?? outfit.skin ?? '#e9b99a';
   const shirt = tint ?? outfit.shirt;
   const pants = tint ?? outfit.pants;
@@ -154,10 +160,10 @@ export const Human: React.FC<Props> = ({position = [0, 0, 0], rotation = [0, 0, 
   const hair = tint ?? outfit.hair ?? '#2b211c';
 
   const leg = (side: number, hip: [number, number], kn: number) => (
-    <group position={[side * 0.095, 0.93, 0]} rotation={[-hip[0], 0, side * hip[1]]}>
-      <Limb len={0.43} r0={0.082} r1={0.06} color={pants} />
+    <group position={[side * 0.095 * (1 + (m - 1) * 0.3), 0.93, 0]} rotation={[-hip[0], 0, side * hip[1]]}>
+      <Limb len={0.43} r0={0.082 * (1 + (m - 1) * 0.5)} r1={0.06 * (1 + (m - 1) * 0.3)} color={pants} />
       <group position={[0, -0.43, 0]} rotation={[kn, 0, 0]}>
-        <Limb len={0.41} r0={0.058} r1={0.042} color={pants} />
+        <Limb len={0.41} r0={0.058 * (1 + (m - 1) * 0.5)} r1={0.042} color={pants} />
         <mesh position={[0, -0.44, 0.06]} castShadow>
           <boxGeometry args={[0.1, 0.07, 0.25]} />
           <Mat c={shoes} r={0.4} />
@@ -167,18 +173,25 @@ export const Human: React.FC<Props> = ({position = [0, 0, 0], rotation = [0, 0, 
   );
 
   const arm = (side: number, sh: [number, number], el: number) => (
-    <group position={[side * 0.215, 1.47, 0]} rotation={[-sh[0], 0, side * sh[1]]}>
+    <group position={[side * 0.215 * mx, 1.47, 0]} rotation={[-sh[0], 0, side * sh[1]]}>
       <mesh castShadow>
-        <sphereGeometry args={[0.062, SEG, SEG / 2]} />
-        <Mat c={shirt} />
+        <sphereGeometry args={[0.062 * m, SEG, SEG / 2]} />
+        <Mat c={sleeveless ? skin : shirt} />
       </mesh>
-      <Limb len={0.29} r0={0.052} r1={0.042} color={shirt} />
+      <Limb len={0.29} r0={0.052 * m} r1={0.042 * m} color={sleeveless ? skin : shirt} />
+      {m > 1.05 && (
+        <mesh position={[0, -0.14, 0.022 * m]} scale={[1, 1.6, 1]} castShadow>
+          <sphereGeometry args={[0.048 * m, SEG, SEG / 2]} />
+          <Mat c={sleeveless ? skin : shirt} />
+        </mesh>
+      )}
       <group position={[0, -0.29, 0]} rotation={[-el, 0, 0]}>
-        <Limb len={0.25} r0={0.038} r1={0.03} color={skin} />
+        <Limb len={0.25} r0={0.038 * m} r1={0.03 * (1 + (m - 1) * 0.5)} color={skin} />
         <mesh position={[0, -0.3, 0]} scale={[0.75, 1.15, 0.45]} castShadow>
           <sphereGeometry args={[0.055, SEG, SEG / 2]} />
           <Mat c={skin} />
         </mesh>
+        {side > 0 ? rHand && <group position={[0, -0.3, 0]}>{rHand}</group> : lHand && <group position={[0, -0.3, 0]}>{lHand}</group>}
       </group>
     </group>
   );
@@ -195,20 +208,21 @@ export const Human: React.FC<Props> = ({position = [0, 0, 0], rotation = [0, 0, 
       {/* 上半身（腰を支点に前傾・ひねり） */}
       <group position={[0, 0.98, 0]} rotation={[p.spine, p.twist, 0]}>
         <group position={[0, -0.98, 0]}>
-          <mesh position={[0, 1.24, 0]} scale={[1, 1, 0.62]} castShadow>
-            <cylinderGeometry args={[0.2, 0.155, 0.48, SEG]} />
+          <mesh position={[0, 1.24, 0]} scale={[1, 1, 0.62 + (m - 1) * 0.15]} castShadow>
+            <cylinderGeometry args={[0.2 * mx, 0.155 * (1 + (m - 1) * 0.25), 0.48, SEG]} />
             <Mat c={shirt} />
           </mesh>
-          <mesh position={[0, 1.47, 0]} scale={[1.18, 0.42, 0.7]} castShadow>
+          <mesh position={[0, 1.47, 0]} scale={[1.18 * mx, 0.42 + (m - 1) * 0.2, 0.7 + (m - 1) * 0.2]} castShadow>
             <sphereGeometry args={[0.175, SEG, SEG]} />
-            <Mat c={shirt} />
+            <Mat c={sleeveless ? skin : shirt} />
           </mesh>
+
           {arm(-1, p.lSh, p.lEl)}
           {arm(1, p.rSh, p.rEl)}
           {/* 首と頭（顔は描かない） */}
           <group position={[0, 1.53, 0]} rotation={[p.head, 0, 0]}>
             <mesh position={[0, 0.05, 0]} castShadow>
-              <cylinderGeometry args={[0.045, 0.052, 0.1, SEG]} />
+              <cylinderGeometry args={[0.045 * m, 0.052 * m * mx, 0.1, SEG]} />
               <Mat c={skin} />
             </mesh>
             <mesh position={[0, 0.2, 0.01]} scale={[0.92, 1.12, 1]} castShadow>

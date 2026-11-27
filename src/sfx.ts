@@ -166,3 +166,23 @@ export const SFX_SUNLONG: {at: number; file: string; vol?: number; dur?: number}
   {at: 2300, file: 'ice', vol: 0.6, dur: 40},
   {at: 2700, file: 'whoosh', vol: 0.5, dur: 25},
 ];
+
+// もし人類が全員、堀大輔の生活を送ったら
+export const SFX_HORI: {at: number; file: string; vol?: number; dur?: number}[] = [
+  {at: 98, file: 'whoosh', vol: 0.7, dur: 25},
+  {at: 112, file: 'hit', vol: 0.45, dur: 20},
+  {at: 180, file: 'whoosh', vol: 0.7, dur: 25},
+  {at: 194, file: 'hit', vol: 0.5, dur: 20},
+  {at: 200, file: 'pop', vol: 0.5, dur: 10},
+  ...[0, 1, 2, 3, 4, 5].map((i) => ({at: 315 + i * 40 + 2, file: 'ding', vol: 0.32, dur: 25})),
+  {at: 465, file: 'pop', vol: 0.5, dur: 10},
+  {at: 579, file: 'pop', vol: 0.5, dur: 10},
+  {at: 671, file: 'rumble', vol: 0.5, dur: 60},
+  {at: 806, file: 'pop', vol: 0.5, dur: 10},
+  {at: 850, file: 'whoosh', vol: 0.6, dur: 25},
+  {at: 983, file: 'ding', vol: 0.6, dur: 25},
+  {at: 1037, file: 'boom', vol: 0.55, dur: 45},
+  {at: 1160, file: 'pop', vol: 0.5, dur: 10},
+  {at: 1264, file: 'whoosh', vol: 0.5, dur: 25},
+  {at: 1372, file: 'pop', vol: 0.5, dur: 10},
+];
