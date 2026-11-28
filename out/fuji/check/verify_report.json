@@ -12,9 +12,9 @@
       "detail": "30/1"
     },
     {
-      "name": "尺 58〜62秒",
+      "name": "尺 60〜64秒",
       "pass": true,
-      "detail": "60.01s / 1800 frames"
+      "detail": "62.21s / 1866 frames"
     },
     {
       "name": "H.264 / yuv420p",
@@ -39,7 +39,7 @@
     {
       "name": "音声ピーク -1dBFS 以下（クリップなし）",
       "pass": true,
-      "detail": "-10.2 dBFS"
+      "detail": "-8.9 dBFS"
     },
     {
       "name": "コンタクトシート作成",
@@ -49,7 +49,7 @@
     {
       "name": "テロップがセーフエリア内",
       "pass": true,
-      "detail": "21 フレーム検査 / 違反 0"
+      "detail": "23 フレーム検査 / 違反 0"
     },
     {
       "name": "テロップ同士の重なりなし",
@@ -79,127 +79,139 @@
   ],
   "frames": [
     {
+      "frame": 0,
+      "what": "f0_cold custom@0",
+      "boxes": 5,
+      "issues": []
+    },
+    {
       "frame": 30,
       "what": "hook title",
       "boxes": 5,
       "issues": []
     },
     {
-      "frame": 40,
-      "what": "f1_erupt caption0",
+      "frame": 30,
+      "what": "f0_cold custom@30",
       "boxes": 5,
       "issues": []
     },
     {
-      "frame": 130,
+      "frame": 94,
+      "what": "f1_erupt caption0",
+      "boxes": 3,
+      "issues": []
+    },
+    {
+      "frame": 196,
       "what": "f1_erupt caption1",
       "boxes": 6,
       "issues": []
     },
     {
-      "frame": 266,
+      "frame": 332,
       "what": "f2_map caption0",
       "boxes": 7,
       "issues": []
     },
     {
-      "frame": 298,
+      "frame": 364,
       "what": "f2_map card0",
       "boxes": 7,
       "issues": []
     },
     {
-      "frame": 360,
+      "frame": 426,
       "what": "f2_map custom@120",
       "boxes": 7,
       "issues": []
     },
     {
-      "frame": 424,
+      "frame": 490,
       "what": "f2_map callout0",
       "boxes": 8,
       "issues": []
     },
     {
-      "frame": 428,
+      "frame": 494,
       "what": "f2_map callout1",
       "boxes": 8,
       "issues": []
     },
     {
-      "frame": 460,
+      "frame": 526,
       "what": "f2_map custom@220",
       "boxes": 8,
       "issues": []
     },
     {
-      "frame": 510,
+      "frame": 576,
       "what": "f3_dark caption0",
       "boxes": 6,
       "issues": []
     },
     {
-      "frame": 626,
+      "frame": 692,
       "what": "f3_dark caption1",
       "boxes": 5,
       "issues": []
     },
     {
-      "frame": 750,
+      "frame": 816,
       "what": "f4_train caption0",
       "boxes": 6,
       "issues": []
     },
     {
-      "frame": 794,
+      "frame": 860,
       "what": "f4_train card0",
       "boxes": 7,
       "issues": []
     },
     {
-      "frame": 960,
+      "frame": 1026,
       "what": "f5_road caption0",
       "boxes": 6,
       "issues": []
     },
     {
-      "frame": 1014,
+      "frame": 1080,
       "what": "f5_road card0",
       "boxes": 7,
       "issues": []
     },
     {
-      "frame": 1170,
+      "frame": 1236,
       "what": "f6_blackout caption0",
       "boxes": 6,
       "issues": []
     },
     {
-      "frame": 1224,
+      "frame": 1290,
       "what": "f6_blackout card0",
       "boxes": 7,
       "issues": []
     },
     {
-      "frame": 1380,
+      "frame": 1446,
       "what": "f7_cleanup caption0",
       "boxes": 7,
       "issues": []
     },
     {
-      "frame": 1444,
+      "frame": 1510,
       "what": "f7_cleanup card0",
       "boxes": 7,
       "issues": []
     },
     {
-      "frame": 1620,
+      "frame": 1686,
       "what": "f8_end caption0",
       "boxes": 6,
       "issues": []
     },
     {
-      "frame": 1726,
+      "frame": 1792,
       "what": "f8_end caption1",
       "boxes": 6,
       "issues": []
