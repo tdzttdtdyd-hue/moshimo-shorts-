@@ -9,7 +9,7 @@ import {SAFE, SANS} from '../theme';
 
 const COMPS: Record<string, React.FC> = {q1_hook: P1, q2_chips: P2, q3_boil: P3, q4_ball: P4, q5_narcosis: P5, q6_oxygen: P6, q7_venus: P7, q8_end: P8};
 const POS: Record<string, {cardTop?: number; captionBottom?: number}> = {
-  q3_boil: {cardTop: 900},
+  q3_boil: {cardTop: 980},
   q4_ball: {cardTop: 560},
   q5_narcosis: {cardTop: 560},
   q7_venus: {cardTop: 560},

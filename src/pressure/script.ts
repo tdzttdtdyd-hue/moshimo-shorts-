@@ -23,15 +23,17 @@ export const SCENES: SceneSpec[] = [
     id: 'q3_boil',
     duration: 180,
     clock: {value: '2気圧'},
-    captions: [{from: 6, to: 180, lines: ['家じゅうが、', '*圧力鍋*の中']}],
-    cards: [{from: 40, to: 180, label: '水が沸く温度', text: '約120℃', note: '水深10mと同じ圧力'}],
+    captions: [
+      {from: 6, to: 90, lines: ['水が沸く温度が、', '*約120℃*に上がる']},
+      {from: 96, to: 180, lines: ['家じゅうが、', '*圧力鍋*の中']},
+    ],
   },
   {
     id: 'q4_ball',
     duration: 180,
     clock: {value: '3気圧'},
     captions: [{from: 6, to: 180, lines: ['ホームランが、', '*出なくなる*']}],
-    cards: [{from: 70, to: 180, label: '空気の抵抗', text: '約3倍'}],
+    cards: [{from: 66, to: 118, label: '空気の抵抗', text: '約3倍'}],
   },
   {
     id: 'q5_narcosis',
