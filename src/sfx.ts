@@ -449,3 +449,34 @@ export const SFX_BH: {at: number; file: string; vol?: number; dur?: number}[] = 
   {at: 1710, file: 'wind', vol: 0.35, dur: 210},
   {at: 1816, file: 'ding', vol: 0.45, dur: 30},
 ];
+
+// もしも富士山が噴火したら
+// 場面の開始：0 / 240 / 480 / 720 / 930 / 1140 / 1350 / 1590
+export const SFX_FUJI: {at: number; file: string; vol?: number; dur?: number}[] = [
+  {at: 0, file: 'wind', vol: 0.25, dur: 70},
+  {at: 70, file: 'boom', vol: 0.9, dur: 60},
+  {at: 72, file: 'rumble', vol: 0.8, dur: 170},
+  {at: 108, file: 'hit', vol: 0.3, dur: 20},
+  {at: 131, file: 'hit', vol: 0.3, dur: 20},
+  {at: 165, file: 'hit', vol: 0.3, dur: 20},
+  {at: 240, file: 'whoosh', vol: 0.5, dur: 25},
+  {at: 270, file: 'pop', vol: 0.4, dur: 10},
+  {at: 300, file: 'pop', vol: 0.4, dur: 10},
+  {at: 240, file: 'wind', vol: 0.4, dur: 240},
+  {at: 480, file: 'wind', vol: 0.45, dur: 240},
+  {at: 600, file: 'pop', vol: 0.3, dur: 10},
+  {at: 720, file: 'whoosh', vol: 0.4, dur: 25},
+  {at: 770, file: 'ding', vol: 0.45, dur: 25},
+  {at: 930, file: 'wind', vol: 0.5, dur: 210},
+  {at: 980, file: 'ding', vol: 0.45, dur: 25},
+  {at: 950, file: 'rumble', vol: 0.3, dur: 180},
+  {at: 1140, file: 'wind', vol: 0.5, dur: 210},
+  {at: 1190, file: 'ding', vol: 0.4, dur: 25},
+  {at: 1180, file: 'hit', vol: 0.3, dur: 20},
+  {at: 1220, file: 'hit', vol: 0.3, dur: 20},
+  {at: 1260, file: 'hit', vol: 0.3, dur: 20},
+  {at: 1350, file: 'whoosh', vol: 0.4, dur: 25},
+  {at: 1410, file: 'ding', vol: 0.45, dur: 25},
+  {at: 1590, file: 'wind', vol: 0.35, dur: 210},
+  {at: 1706, file: 'pop', vol: 0.45, dur: 10},
+];

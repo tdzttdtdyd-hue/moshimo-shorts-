@@ -21,6 +21,8 @@ import {BeppanVideo} from './beppan/BeppanVideo';
 import {HeartVideo} from './heart/HeartVideo';
 import {BhTest, BhMapTest} from './bh/Test';
 import {BhVideo} from './bh/BhVideo';
+import {FujiVideo} from './fuji/FujiVideo';
+import {TOTAL_FRAMES as FUJI_FRAMES} from './fuji/script';
 import {TOTAL_FRAMES as BH_FRAMES} from './bh/script';
 import {TOTAL_FRAMES as HEART_FRAMES} from './heart/script';
 import {TOTAL_FRAMES as BEPPAN_FRAMES} from './beppan/script';
@@ -64,6 +66,7 @@ export const Root: React.FC = () => (
     <Composition id="BeppanShort" component={BeppanVideo} durationInFrames={BEPPAN_FRAMES} fps={FPS} width={WIDTH} height={HEIGHT} defaultProps={{withSfx: true, withBgm: true}} />
     <Composition id="HeartShort" component={HeartVideo} durationInFrames={HEART_FRAMES} fps={FPS} width={WIDTH} height={HEIGHT} defaultProps={{withSfx: true, withBgm: true}} />
     <Composition id="BhShort" component={BhVideo} durationInFrames={BH_FRAMES} fps={FPS} width={WIDTH} height={HEIGHT} defaultProps={{withSfx: true, withBgm: true}} />
+    <Composition id="FujiShort" component={FujiVideo} durationInFrames={FUJI_FRAMES} fps={FPS} width={WIDTH} height={HEIGHT} defaultProps={{withSfx: true, withBgm: true}} />
     <Composition id="BhTest" component={BhTest} durationInFrames={90} fps={FPS} width={WIDTH} height={HEIGHT} />
     <Composition id="BhMapTest" component={BhMapTest} durationInFrames={60} fps={FPS} width={WIDTH} height={HEIGHT} />
     <Composition id="SunLong" component={SunLongVideo} durationInFrames={TOTAL_L} fps={FPS} width={LW} height={LH} defaultProps={{withSfx: true, withBgm: true}} />

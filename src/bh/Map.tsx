@@ -4,7 +4,7 @@ import * as THREE from 'three';
 import {feature} from 'topojson-client';
 import land10 from 'world-atlas/land-10m.json';
 import {V3} from '../lib/anim';
-import {mulberry32} from '../lib/rand';
+import {fbm3, mulberry32} from '../lib/rand';
 
 export const TOKYO = {lon: 139.70, lat: 35.66}; // 渋谷あたり
 export const FUJI = {lon: 138.73, lat: 35.36};
@@ -65,8 +65,8 @@ const polys = () => {
 
 // 地図の画像：海・陸（標高っぽいむら）・海岸線・街明かり
 const texCache: Record<string, {tex: THREE.CanvasTexture; land: Uint8ClampedArray; W: number; H: number}> = {};
-export const mapTexture = (b: Bounds, W = 2048, H = 2048, night = 0.12) => {
-  const key = `${b.lon0},${b.lon1},${b.lat0},${b.lat1},${W},${H},${night}`;
+export const mapTexture = (b: Bounds, W = 2048, H = 2048, night = 0.12, lights = true, day = false) => {
+  const key = `${b.lon0},${b.lon1},${b.lat0},${b.lat1},${W},${H},${night},${lights},${day}`;
   if (texCache[key]) return texCache[key];
   const cv = document.createElement('canvas');
   cv.width = W;
@@ -76,8 +76,8 @@ export const mapTexture = (b: Bounds, W = 2048, H = 2048, night = 0.12) => {
   const Y = (lat: number) => ((b.lat1 - lat) / (b.lat1 - b.lat0)) * H;
   // 海
   const sea = g.createLinearGradient(0, 0, W, H);
-  sea.addColorStop(0, '#0b2140');
-  sea.addColorStop(1, '#0e2a4e');
+  sea.addColorStop(0, day ? '#2a6496' : '#0b2140');
+  sea.addColorStop(1, day ? '#3576a8' : '#0e2a4e');
   g.fillStyle = sea;
   g.fillRect(0, 0, W, H);
   // 陸
@@ -87,13 +87,35 @@ export const mapTexture = (b: Bounds, W = 2048, H = 2048, night = 0.12) => {
       ring.forEach(([lon, lat], i) => (i === 0 ? path.moveTo(X(lon), Y(lat)) : path.lineTo(X(lon), Y(lat))));
       path.closePath();
     }
-  g.fillStyle = '#9a9070';
+  g.fillStyle = day ? '#7f9e5a' : '#9a9070';
   g.fill(path, 'evenodd');
   // 陸の色むら（山っぽい暗い斑点）
   g.save();
   g.clip(path, 'evenodd');
   const r = mulberry32(5);
-  for (let i = 0; i < 900; i++) {
+  if (day) {
+    // 山地らしい濃淡：なめらかなノイズを小さく描いて、拡大して重ねる
+    const n = document.createElement('canvas');
+    n.width = n.height = 256;
+    const ng = n.getContext('2d')!;
+    const img = ng.createImageData(256, 256);
+    for (let y = 0; y < 256; y++)
+      for (let x = 0; x < 256; x++) {
+        const lon = b.lon0 + ((x + 0.5) / 256) * (b.lon1 - b.lon0), lat = b.lat1 - ((y + 0.5) / 256) * (b.lat1 - b.lat0);
+        const v = fbm3(lon * 2.2, lat * 2.2, 0.5, 4, 5);
+        const k = Math.max(0, Math.min(1, v * 1.6 + 0.35));
+        const i4 = (y * 256 + x) * 4;
+        // 低い所：明るい緑／高い所：濃い緑〜茶
+        img.data[i4] = 120 - k * 60;
+        img.data[i4 + 1] = 150 - k * 70;
+        img.data[i4 + 2] = 90 - k * 45;
+        img.data[i4 + 3] = 150;
+      }
+    ng.putImageData(img, 0, 0);
+    g.imageSmoothingEnabled = true;
+    g.drawImage(n, 0, 0, W, H);
+  }
+  for (let i = 0; i < (day ? 0 : 900); i++) {
     const x = r() * W, y = r() * H, rad = 6 + r() * 50;
     g.fillStyle = r() < 0.5 ? 'rgba(40,52,30,0.08)' : 'rgba(120,108,80,0.07)';
     g.beginPath();
@@ -102,13 +124,14 @@ export const mapTexture = (b: Bounds, W = 2048, H = 2048, night = 0.12) => {
   }
   g.restore();
   // 海岸線と浅瀬
-  g.strokeStyle = 'rgba(120,170,210,0.35)';
+  g.strokeStyle = day ? 'rgba(230,240,250,0.5)' : 'rgba(120,170,210,0.35)';
   g.lineWidth = Math.max(2, W / 600);
   g.stroke(path);
   // 夜の暗さ
   g.fillStyle = `rgba(4,8,20,${night})`;
   g.fillRect(0, 0, W, H);
   // 街明かり（都市のまわりに、人口に応じて光の点）
+  if (lights) {
   g.save();
   g.clip(path, 'evenodd');
   g.globalCompositeOperation = 'lighter';
@@ -127,6 +150,7 @@ export const mapTexture = (b: Bounds, W = 2048, H = 2048, night = 0.12) => {
     }
   }
   g.restore();
+  }
   const tex = new THREE.CanvasTexture(cv);
   tex.colorSpace = THREE.SRGBColorSpace;
   tex.anisotropy = 8;

@@ -63,7 +63,7 @@ const nightWindows = (seed: number) => {
   winTexCache[seed] = t;
   return t;
 };
-export const NightTower: React.FC<{p: V3; w: number; d: number; h: number; seed: number; color?: string}> = ({p, w, d, h, seed, color = '#2a2f3c'}) => {
+export const NightTower: React.FC<{p: V3; w: number; d: number; h: number; seed: number; color?: string; lit?: number}> = ({p, w, d, h, seed, color = '#2a2f3c', lit = 1}) => {
   const tex = useMemo(() => {
     const t = nightWindows(seed % 7).clone();
     // 窓の大きさ：横 約2.5m・縦 約3.5m（1フロア）
@@ -75,7 +75,7 @@ export const NightTower: React.FC<{p: V3; w: number; d: number; h: number; seed:
     <group position={p}>
       <mesh position={[0, h / 2, 0]}>
         <boxGeometry args={[w, h, d]} />
-        <meshStandardMaterial color={color} emissive="#ffffff" emissiveMap={tex} emissiveIntensity={0.75} roughness={0.5} metalness={0.3} />
+        <meshStandardMaterial color={color} emissive="#ffffff" emissiveMap={tex} emissiveIntensity={0.75 * lit} roughness={0.5} metalness={0.3} />
       </mesh>
       <mesh position={[w * 0.3, h + 0.6, 0]}>
         <sphereGeometry args={[0.35, 8, 6]} />
