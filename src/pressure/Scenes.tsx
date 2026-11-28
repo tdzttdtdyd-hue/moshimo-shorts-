@@ -123,8 +123,8 @@ const Table: React.FC = () => (
   </>
 );
 const CAM_2: CamKey[] = [
-  {f: 0, pos: [0.9, 1.5, 2.4], look: [0, 0.95, 0], fov: 46},
-  {f: 150, pos: [-0.4, 1.35, 2.0], look: [0, 0.95, 0], fov: 46, ease: LIN},
+  {f: 0, pos: [1.4, 1.6, 2.6], look: [0, 0.95, 0], fov: 46},
+  {f: 150, pos: [-1.0, 1.3, 1.6], look: [0, 0.95, 0], fov: 46, ease: LIN},
 ];
 export const P2: React.FC = () => {
   const f = useCurrentFrame();
@@ -134,7 +134,7 @@ export const P2: React.FC = () => {
       <Stage bg="#efe8dc" shadows={false}>
         <CameraRig keys={CAM_2} />
         <Table />
-        <Bag p={[0, 0.98, 0]} puff={puff} f={f} rot={0.2} />
+        <Bag p={[0, 0.98, 0]} puff={puff} f={f} rot={0.2 + f * 0.004} />
       </Stage>
       <Vignette strength={0.25} />
     </AbsoluteFill>
@@ -143,8 +143,8 @@ export const P2: React.FC = () => {
 
 // ---------- 3. 2気圧：耳がキーン・お湯が沸かない ----------
 const CAM_3: CamKey[] = [
-  {f: 0, pos: [1.0, 1.7, 3.6], look: [-0.1, 1.0, -0.1], fov: 50},
-  {f: 180, pos: [0.2, 1.6, 3.2], look: [-0.1, 1.0, -0.1], fov: 50, ease: LIN},
+  {f: 0, pos: [1.8, 1.8, 3.8], look: [-0.1, 1.0, -0.1], fov: 50},
+  {f: 180, pos: [-0.8, 1.5, 3.0], look: [0.0, 1.0, -0.1], fov: 50, ease: LIN},
 ];
 const EARS: Pose = pose({lSh: [1.7, 0.75], rSh: [1.7, 0.75], lEl: 2.5, rEl: 2.5, head: 0.2, spine: 0.15});
 export const P3: React.FC = () => {
@@ -323,7 +323,8 @@ export const P7: React.FC = () => {
 // ---------- 8. 気圧が戻って、世界中の袋が「パン！」 ----------
 const CAM_8: CamKey[] = [
   {f: 0, pos: [0, 1.3, 2.4], look: [0, 1.1, -0.6], fov: 52},
-  {f: 180, pos: [0.6, 1.4, 3.2], look: [0, 1.1, -0.6], fov: 52, ease: LIN},
+  {f: 60, pos: [0.3, 1.35, 2.8], look: [0, 1.1, -0.6], fov: 52, ease: LIN},
+  {f: 180, pos: [1.8, 1.8, 4.2], look: [0, 0.8, -0.4], fov: 52, ease: LIN},
 ];
 const SHELF_BAGS = (() => {
   const out: V3[] = [];
@@ -356,7 +357,7 @@ export const P8: React.FC = () => {
           chips.map((c, i) => {
             const t = (f - 60) / 30;
             return (
-              <mesh key={i} position={[c.b[0] + c.v[0] * t, c.b[1] + c.v[1] * t - 4.9 * t * t * 0.6, c.b[2] + c.v[2] * t]} rotation={[c.s + t * 6, c.s * 2, t * 4]}>
+              <mesh key={i} position={[c.b[0] + c.v[0] * Math.min(t, 1.2), Math.max(0.01, c.b[1] + c.v[1] * t - 4.9 * t * t * 0.6), c.b[2] + c.v[2] * Math.min(t, 1.2)]} rotation={[c.s + Math.min(t, 1.2) * 6, c.s * 2, Math.min(t, 1.2) * 4]}>
                 <cylinderGeometry args={[0.04, 0.04, 0.006, 10]} />
                 <meshStandardMaterial color="#f2c860" />
               </mesh>
