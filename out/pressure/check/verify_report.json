@@ -28,8 +28,8 @@
     },
     {
       "name": "0.5秒以上の静止区間なし（スライドショー化していない）",
-      "pass": false,
-      "detail": "start at 16.7s"
+      "pass": true,
+      "detail": "0件"
     },
     {
       "name": "意図しない黒画面なし",
