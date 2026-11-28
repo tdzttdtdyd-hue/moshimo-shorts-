@@ -295,7 +295,7 @@ const Bat: React.FC<{f: number}> = ({f}) => {
 // カメラ：ホームの後ろ・高い位置から（ピッチャーが上、バッターが下に並ぶ）。打ったあとは打球を目で追う
 const LAND = ballAfterHit(4.0);
 const cam4 = (f: number): CamKey[] => {
-  const pre = {pos: [1.4 + f * 0.004, 3.4, 6.8] as V3, look: [-0.3, 0.9, -8] as V3};
+  const pre = {pos: [1.4 + Math.min(f, CONTACT) * 0.012, 3.4 - Math.min(f, CONTACT) * 0.008, 6.8 - Math.min(f, CONTACT) * 0.02] as V3, look: [-0.3, 0.9, -8] as V3};
   if (f < CONTACT) return [{f: 0, ...pre, fov: 48}];
   const t = (f - CONTACT) / 30;
   const b = ballAfterHit(t);
