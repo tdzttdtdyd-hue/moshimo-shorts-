@@ -418,8 +418,8 @@ export const H5: React.FC = () => {
 const CLERK_6: V3 = [0, 0, -1.2];
 const ME_6: V3 = [0.15, 0, 0.15];
 const CAM_6: CamKey[] = [
-  {f: 0, pos: [1.9, 1.7, 2.3], look: [0, 1.15, -0.6], fov: 48},
-  {f: 180, pos: [1.0, 1.6, 2.0], look: [0, 1.1, -0.6], fov: 48, ease: LIN},
+  {f: 0, pos: [-1.9, 1.45, 3.4], look: [0.0, 1.45, -0.8], fov: 48},
+  {f: 180, pos: [-0.9, 1.4, 3.2], look: [0.0, 1.4, -0.8], fov: 48, ease: LIN},
 ];
 export const H6: React.FC = () => {
   const f = useCurrentFrame();
