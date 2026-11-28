@@ -506,7 +506,7 @@ const PhoneScreen: React.FC<{f: number}> = ({f}) => {
   const calling = f >= CALL_FROM;
   const noAnswer = f >= CALL_FROM + 36;
   return (
-    <div style={{position: 'absolute', left: (1080 - W) / 2 - 40, top: 540, width: W, height: H, opacity: k, transform: `translateY(${(1 - k) * 30 + 6 * Math.sin(f * 0.07)}px) rotate(${1.2 * Math.sin(f * 0.05)}deg)`, borderRadius: 48, background: '#111216', padding: 14, boxSizing: 'border-box', boxShadow: '0 16px 50px rgba(0,0,0,0.5)'}}>
+    <div style={{position: 'absolute', left: (1080 - W) / 2 - 40, top: 540, width: W, height: H, opacity: k, transform: `translate(${10 * Math.sin(f * 0.06)}px, ${(1 - k) * 30 + 14 * Math.sin(f * 0.09)}px) rotate(${2.5 * Math.sin(f * 0.07)}deg)`, borderRadius: 48, background: '#111216', padding: 14, boxSizing: 'border-box', boxShadow: '0 16px 50px rgba(0,0,0,0.5)'}}>
       <div data-telop="phone" style={{position: 'relative', width: '100%', height: '100%', borderRadius: 36, overflow: 'hidden', background: calling ? '#1d2230' : '#eef0f3', fontFamily: SANS}}>
         {!calling ? (
           <>
@@ -540,8 +540,8 @@ const PhoneScreen: React.FC<{f: number}> = ({f}) => {
   );
 };
 const CAM_5: CamKey[] = [
-  {f: 0, pos: [1.2, 1.6, 3.2], look: [0, 0.8, -1.2], fov: 48},
-  {f: 300, pos: [-1.0, 1.3, 2.0], look: [-0.1, 0.85, -1.2], fov: 48, ease: LIN},
+  {f: 0, pos: [1.8, 1.7, 3.4], look: [0, 0.8, -1.2], fov: 48},
+  {f: 300, pos: [-1.6, 1.25, 1.8], look: [-0.1, 0.85, -1.2], fov: 48, ease: LIN},
 ];
 export const B5: React.FC = () => {
   const f = useCurrentFrame();
