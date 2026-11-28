@@ -30,6 +30,7 @@
 | もし彼氏が別班だったら（76秒） | バージョンA | `src/beppan/`（コンポジション `BeppanShort`） | `out/beppan/beppan_final.mp4` |
 | もしも1日だけ心の声が全部聞こえたら（58秒） | バージョンA | `src/heart/`（コンポジション `HeartShort`） | `out/heart/heart_final.mp4` |
 | もしもブラックホールが東京に5秒間現れたら？（64秒） | バージョンA（作り込み版） | `src/bh/`（コンポジション `BhShort`） | `out/bh/bh_final.mp4` |
+| もしも富士山が噴火したら？（60秒） | バージョンA（作り込み版） | `src/fuji/`（コンポジション `FujiShort`） | `out/fuji/fuji_final.mp4` |
 
 書き出し：`COMP=VolleyShort OUT=out/volley FINAL=volley_final node scripts/render.mjs`
 検証：`APP=verify/app-volley.tsx CHECK=out/volley/check node scripts/verify.mjs out/volley/volley_final.mp4`
