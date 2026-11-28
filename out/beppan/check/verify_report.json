@@ -1,0 +1,226 @@
+{
+  "video": "out/beppan/beppan_final.mp4",
+  "results": [
+    {
+      "name": "解像度 1080x1920",
+      "pass": true,
+      "detail": "1080x1920"
+    },
+    {
+      "name": "30fps",
+      "pass": true,
+      "detail": "30/1"
+    },
+    {
+      "name": "尺 74〜78秒",
+      "pass": true,
+      "detail": "76.01s / 2280 frames"
+    },
+    {
+      "name": "H.264 / yuv420p",
+      "pass": true,
+      "detail": "h264 yuv420p"
+    },
+    {
+      "name": "音声トラック（BGM＋効果音）",
+      "pass": true,
+      "detail": "aac 48000Hz"
+    },
+    {
+      "name": "0.5秒以上の静止区間なし（スライドショー化していない）",
+      "pass": true,
+      "detail": "0件"
+    },
+    {
+      "name": "意図しない黒画面なし",
+      "pass": true,
+      "detail": "0件"
+    },
+    {
+      "name": "音声ピーク -1dBFS 以下（クリップなし）",
+      "pass": true,
+      "detail": "-11.9 dBFS"
+    },
+    {
+      "name": "コンタクトシート作成",
+      "pass": true,
+      "detail": "out/beppan/check/contact_sheet.png"
+    },
+    {
+      "name": "テロップがセーフエリア内",
+      "pass": true,
+      "detail": "24 フレーム検査 / 違反 0"
+    },
+    {
+      "name": "テロップ同士の重なりなし",
+      "pass": true,
+      "detail": "違反 0"
+    },
+    {
+      "name": "テロップが横幅に収まる",
+      "pass": true,
+      "detail": "違反 0"
+    },
+    {
+      "name": "書体：テーマ・経過時間・語りは明朝体、その他はゴシック体",
+      "pass": true,
+      "detail": "違反 0"
+    },
+    {
+      "name": "日本語フォント（ゴシック: Noto Sans JP / 明朝: Noto Serif JP）読込",
+      "pass": true,
+      "detail": "sans 90 / serif 60 subsets"
+    },
+    {
+      "name": "コンソール / WebGL エラーなし",
+      "pass": true,
+      "detail": "0件"
+    }
+  ],
+  "frames": [
+    {
+      "frame": 30,
+      "what": "hook title",
+      "boxes": 4,
+      "issues": []
+    },
+    {
+      "frame": 120,
+      "what": "b1_day1 custom@120",
+      "boxes": 5,
+      "issues": []
+    },
+    {
+      "frame": 196,
+      "what": "b1_day1 caption0",
+      "boxes": 6,
+      "issues": []
+    },
+    {
+      "frame": 360,
+      "what": "b2_day30 custom@90",
+      "boxes": 5,
+      "issues": []
+    },
+    {
+      "frame": 440,
+      "what": "b2_day30 caption0",
+      "boxes": 6,
+      "issues": []
+    },
+    {
+      "frame": 590,
+      "what": "b3_day60 custom@50",
+      "boxes": 5,
+      "issues": []
+    },
+    {
+      "frame": 660,
+      "what": "b3_day60 custom@120",
+      "boxes": 5,
+      "issues": []
+    },
+    {
+      "frame": 730,
+      "what": "b3_day60 caption0",
+      "boxes": 6,
+      "issues": []
+    },
+    {
+      "frame": 850,
+      "what": "b4_day90 caption0",
+      "boxes": 6,
+      "issues": []
+    },
+    {
+      "frame": 1050,
+      "what": "b4_day90 custom@240",
+      "boxes": 5,
+      "issues": []
+    },
+    {
+      "frame": 1150,
+      "what": "b5_day120 caption0",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 1240,
+      "what": "b5_day120 custom@130",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 1276,
+      "what": "b5_day120 caption1",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 1310,
+      "what": "b5_day120 custom@200",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 1370,
+      "what": "b5_day120 custom@260",
+      "boxes": 5,
+      "issues": []
+    },
+    {
+      "frame": 1450,
+      "what": "b6_day180 custom@40",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 1460,
+      "what": "b6_day180 caption0",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 1580,
+      "what": "b6_day180 custom@170",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 1800,
+      "what": "b7_day365 custom@120",
+      "boxes": 5,
+      "issues": []
+    },
+    {
+      "frame": 1876,
+      "what": "b7_day365 caption0",
+      "boxes": 6,
+      "issues": []
+    },
+    {
+      "frame": 2000,
+      "what": "b8_end custom@50",
+      "boxes": 5,
+      "issues": []
+    },
+    {
+      "frame": 2100,
+      "what": "b8_end caption0",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 2120,
+      "what": "b8_end custom@170",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 2212,
+      "what": "b8_end caption1",
+      "boxes": 6,
+      "issues": []
+    }
+  ]
+}
