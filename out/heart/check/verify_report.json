@@ -1,0 +1,196 @@
+{
+  "video": "out/heart/heart_final.mp4",
+  "results": [
+    {
+      "name": "解像度 1080x1920",
+      "pass": true,
+      "detail": "1080x1920"
+    },
+    {
+      "name": "30fps",
+      "pass": true,
+      "detail": "30/1"
+    },
+    {
+      "name": "尺 56〜60秒",
+      "pass": true,
+      "detail": "58.01s / 1740 frames"
+    },
+    {
+      "name": "H.264 / yuv420p",
+      "pass": true,
+      "detail": "h264 yuv420p"
+    },
+    {
+      "name": "音声トラック（BGM＋効果音）",
+      "pass": true,
+      "detail": "aac 48000Hz"
+    },
+    {
+      "name": "0.5秒以上の静止区間なし（スライドショー化していない）",
+      "pass": true,
+      "detail": "0件"
+    },
+    {
+      "name": "意図しない黒画面なし",
+      "pass": true,
+      "detail": "0件"
+    },
+    {
+      "name": "音声ピーク -1dBFS 以下（クリップなし）",
+      "pass": true,
+      "detail": "-11.5 dBFS"
+    },
+    {
+      "name": "コンタクトシート作成",
+      "pass": true,
+      "detail": "out/heart/check/contact_sheet.png"
+    },
+    {
+      "name": "テロップがセーフエリア内",
+      "pass": true,
+      "detail": "19 フレーム検査 / 違反 0"
+    },
+    {
+      "name": "テロップ同士の重なりなし",
+      "pass": true,
+      "detail": "違反 0"
+    },
+    {
+      "name": "テロップが横幅に収まる",
+      "pass": true,
+      "detail": "違反 0"
+    },
+    {
+      "name": "書体：テーマ・経過時間・語りは明朝体、その他はゴシック体",
+      "pass": true,
+      "detail": "違反 0"
+    },
+    {
+      "name": "日本語フォント（ゴシック: Noto Sans JP / 明朝: Noto Serif JP）読込",
+      "pass": true,
+      "detail": "sans 75 / serif 50 subsets"
+    },
+    {
+      "name": "コンソール / WebGL エラーなし",
+      "pass": true,
+      "detail": "0件"
+    }
+  ],
+  "frames": [
+    {
+      "frame": 30,
+      "what": "hook title",
+      "boxes": 4,
+      "issues": []
+    },
+    {
+      "frame": 86,
+      "what": "h1_morning caption0",
+      "boxes": 6,
+      "issues": []
+    },
+    {
+      "frame": 180,
+      "what": "h1_morning custom@180",
+      "boxes": 8,
+      "issues": []
+    },
+    {
+      "frame": 266,
+      "what": "h2_train caption0",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 390,
+      "what": "h2_train custom@150",
+      "boxes": 10,
+      "issues": []
+    },
+    {
+      "frame": 540,
+      "what": "h3_meeting custom@90",
+      "boxes": 6,
+      "issues": []
+    },
+    {
+      "frame": 600,
+      "what": "h3_meeting caption0",
+      "boxes": 9,
+      "issues": []
+    },
+    {
+      "frame": 650,
+      "what": "h3_meeting custom@200",
+      "boxes": 9,
+      "issues": []
+    },
+    {
+      "frame": 820,
+      "what": "h4_lunch caption0",
+      "boxes": 8,
+      "issues": []
+    },
+    {
+      "frame": 830,
+      "what": "h4_lunch custom@140",
+      "boxes": 8,
+      "issues": []
+    },
+    {
+      "frame": 990,
+      "what": "h5_client caption0",
+      "boxes": 8,
+      "issues": []
+    },
+    {
+      "frame": 1010,
+      "what": "h5_client custom@140",
+      "boxes": 8,
+      "issues": []
+    },
+    {
+      "frame": 1130,
+      "what": "h6_store custom@80",
+      "boxes": 6,
+      "issues": []
+    },
+    {
+      "frame": 1180,
+      "what": "h6_store caption0",
+      "boxes": 6,
+      "issues": []
+    },
+    {
+      "frame": 1370,
+      "what": "h7_home caption0",
+      "boxes": 8,
+      "issues": []
+    },
+    {
+      "frame": 1380,
+      "what": "h7_home custom@150",
+      "boxes": 8,
+      "issues": []
+    },
+    {
+      "frame": 1610,
+      "what": "h8_child caption0",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 1620,
+      "what": "h8_child custom@180",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 1692,
+      "what": "h8_child caption1",
+      "boxes": 6,
+      "issues": []
+    }
+  ]
+}
