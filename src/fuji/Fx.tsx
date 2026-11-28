@@ -241,7 +241,7 @@ export const AshCloud: React.FC<{from: V3; dir: V3; len: number; reach: number; 
         const size = (8 + along * 0.3) * b.s;
         const fade = Math.min(1, (reach - b.d) * 8);
         return (
-          <sprite key={i} position={[p.x + Math.sin(f * 0.02 + b.ph) * 1.5, 3 + b.sh * 4, p.z]} scale={[size, size, 1]}>
+          <sprite key={i} position={[p.x + Math.sin(f * 0.05 + b.ph) * 3 + f * 0.04, 3 + b.sh * 4, p.z + Math.cos(f * 0.04 + b.ph) * 2]} scale={[size, size, 1]}>
             <spriteMaterial map={softTex()} color={'#' + new THREE.Color('#5a524c').lerp(new THREE.Color('#9a928a'), b.sh).getHexString()} transparent opacity={0.65 * fade} depthWrite={false} />
           </sprite>
         );

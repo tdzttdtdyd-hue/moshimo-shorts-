@@ -118,7 +118,7 @@ export const F1: React.FC = () => {
 };
 
 // ---------- 2. 地図：灰の雲が東京へ（単位 1km、東京が原点） ----------
-const MAPB = {lon0: 137.6, lon1: 141.2, lat0: 34.2, lat1: 37.2};
+const MAPB = {lon0: 135.6, lon1: 142.8, lat0: 32.6, lat1: 40.2};
 const [FX, FZ] = toKm(FUJI.lon, FUJI.lat);
 const FUJI_M: V3 = [FX, 0, FZ];
 const TOKYO_M: V3 = [0, 0, 0];
@@ -134,8 +134,8 @@ const MapPlane: React.FC = () => {
   );
 };
 const CAM_2: CamKey[] = [
-  {f: 0, pos: [-52, 230, 250], look: [-44, 0, 6], fov: 50},
-  {f: 240, pos: [-36, 250, 270], look: [-42, 0, 4], fov: 50, ease: LIN},
+  {f: 0, pos: [-70, 330, 190], look: [-46, 0, 0], fov: 50},
+  {f: 240, pos: [-22, 260, 150], look: [-38, 0, -4], fov: 50, ease: LIN},
 ];
 export const F2: React.FC = () => {
   const f = useCurrentFrame();
