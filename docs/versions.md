@@ -26,6 +26,7 @@
 | もしも1日だけペットと話せたら（50秒） | バージョンA | `src/pet/`（コンポジション `PetShort`） | `out/pet/pet_final.mp4` |
 | もし1日だけ男女が入れ替わったら（45秒） | バージョンA | `src/swap/`（コンポジション `SwapShort`） | `out/swap/swap_final.mp4` |
 | もしも地球の自転が徐々に速くなったら？（45秒） | バージョンA | `src/spin/`（コンポジション `SpinShort`） | `out/spin/spin_final.mp4` |
+| もしも気圧がどんどん上がっていったら？（45秒） | バージョンA | `src/pressure/`（コンポジション `PressureShort`） | `out/pressure/pressure_final.mp4` |
 
 書き出し：`COMP=VolleyShort OUT=out/volley FINAL=volley_final node scripts/render.mjs`
 検証：`APP=verify/app-volley.tsx CHECK=out/volley/check node scripts/verify.mjs out/volley/volley_final.mp4`
