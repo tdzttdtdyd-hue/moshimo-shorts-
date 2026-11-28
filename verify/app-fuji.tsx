@@ -22,7 +22,7 @@ for (const s of SCENES) {
   (s.callouts ?? []).forEach((c, i) => checks.push({frame: st + Math.round((c.from + c.to) / 2), what: `${s.id} callout${i}`}));
 }
 // 場面内の独自テロップ（入浴バッジ・水ゲージ・アイコスの吹き出し・コメント・グラフ）
-for (const [id, fr] of [['f2_map', 120], ['f2_map', 220]] as const) checks.push({frame: sceneStart(id) + fr, what: `${id} custom@${fr}`});
+for (const [id, fr] of [['f0_cold', 0], ['f0_cold', 30], ['f2_map', 120], ['f2_map', 220]] as const) checks.push({frame: sceneStart(id) + fr, what: `${id} custom@${fr}`});
 window.__checks = checks.sort((a, b) => a.frame - b.frame);
 window.__safe = SAFE_BOX;
 

@@ -88,9 +88,11 @@ export const Plume: React.FC<{f: number; topH?: number; wind?: V3; scale?: numbe
       ref={(m) => {
         if (!m) return;
         PUFFS.forEach((p, i) => {
-          // 噴火が続くあいだ、煙はくり返し湧き上がる（1周 260フレーム）
+          // 噴火が続くあいだ、煙はくり返し湧き上がる。
+          // 煙は 224フレームかけて全部が湧き出すので、224フレームごとにくり返すと根元がとぎれない
+          const LOOP = 224;
           const raw = f - p.born;
-          const age = raw > 260 ? raw % 260 : raw;
+          const age = f > LOOP ? (((f - p.born) % LOOP) + LOOP) % LOOP : raw;
           if (raw < 0) {
             tmp.scale.setScalar(0);
             tmp.updateMatrix();

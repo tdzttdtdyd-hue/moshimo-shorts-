@@ -47,12 +47,14 @@ export const Shades: React.FC = () => (
 );
 
 // ---------- テーマ（明朝体）：冒頭は中央に大きく → 上部に小さく常駐 ----------
-const HOOK_END = 58;
+// 冒頭（噴火のまっ最中）のあいだは大きく出したまま、そのあと上へ
+const HOOK_END = 62;
 export const ThemeTitle: React.FC = () => {
   const f = useCurrentFrame();
   const {fps} = useVideoConfig();
   const settle = spring({frame: f - HOOK_END, fps, config: {damping: 18, stiffness: 120}});
-  const intro = interpolate(f, [0, 10], [0, 1], clamp);
+  // 1コマ目から出しておく（フェードインしない）
+  const intro = 1;
   const big = settle < 0.5;
   const lines = big ? THEME.hook : [THEME.top];
   const base = big ? 84 : 42;

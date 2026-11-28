@@ -21,14 +21,17 @@ export type Callout = {key: string; tag: string; text: string; from: number; to:
 export type SceneSpec = {id: string; duration: number; clock?: Clock; assumption?: string; captions: Caption[]; cards?: DataCard[]; callouts?: Callout[]};
 
 export const ERUPT = 70; // 1場面目のこのフレームで噴火
+export const COLD = 66; // 冒頭の「いちばんすごい絵」（噴火のまっ最中）の長さ
 
 export const SCENES: SceneSpec[] = [
+  // 冒頭：1コマ目から噴火のまっ最中。タイトルとひと言は最初から出しておく（スワイプ対策）
+  {id: 'f0_cold', duration: COLD, captions: []},
   {
     id: 'f1_erupt',
     duration: 240,
     clock: {value: '3分', from: ERUPT, seq: [{from: 0, value: '0分'}, {from: ERUPT + 60, value: '1分'}, {from: ERUPT + 120, value: '3分'}]},
     captions: [
-      {from: 20, to: ERUPT, lines: ['ある朝、富士山が…']},
+      {from: 8, to: ERUPT, lines: ['はじまりは、ある朝――']},
       {from: ERUPT + 40, to: 240, lines: ['噴煙は、*1万m以上*の', '高さまで立ちのぼる']},
     ],
   },

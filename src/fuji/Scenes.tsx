@@ -39,6 +39,49 @@ const Box: React.FC<{p: V3; s: V3; c: string; r?: number; e?: string; ei?: numbe
   </mesh>
 );
 
+// ---------- 0. 冒頭：噴火のまっ最中（1コマ目から動いている・雷が光る） ----------
+const CAM_0: CamKey[] = [
+  // 富士山の形が下に見え、噴煙が画面いっぱいに立ちのぼる構図
+  {f: 0, pos: [-24, 8, 330], look: [6, 62, 0], fov: 52},
+  {f: 66, pos: [-14, 9, 285], look: [10, 66, 0], fov: 52, ease: LIN},
+];
+export const F0: React.FC = () => {
+  const f = useCurrentFrame();
+  const e = 175 + f; // 噴煙が大きく育ったところから
+  const flash = interpolate(f, [22, 23, 30], [0, 0.25, 0], clamp) + interpolate(f, [44, 45, 52], [0, 0.2, 0], clamp);
+  return (
+    <AbsoluteFill>
+      <Stage bg="#6a6a70" shadows={false} fog={['#8a8478', 400, 2200]}>
+        <CameraRig keys={CAM_0} shakes={[{from: 0, dur: 36, amp: 0.9}]} />
+        <SkyDome top="#3a3a44" horizon="#a8886a" sunDir={[0.6, 0.18, 0.4]} sunColor="#ffd0a0" sunPower={14} radius={2000} />
+        <hemisphereLight args={['#a8a4a0', '#4a4a3a', 0.9]} />
+        <directionalLight position={[600, 260, 400]} intensity={1.3} color="#ffe0c0" />
+        <ambientLight intensity={0.25} />
+        <Fields />
+        <Fuji />
+        <Plume f={e} topH={160} wind={[1, 0, 0.1]} />
+        <Lightning f={f} at={[2, 22, 44]} base={[0, FUJI_H, 0]} />
+        <pointLight position={[0, FUJI_H + 4, 0]} intensity={16000} distance={300} color="#ff6a2a" />
+        {Array.from({length: 70}).map((_, i) => {
+          const r = mulberry32(i + 40);
+          const a = r() * Math.PI * 2, v = 0.5 + r() * 1.3, up = 1.6 + r() * 2.6;
+          const t = ((f + Math.floor(r() * 50)) % 50) * 0.6;
+          const y = FUJI_H + up * t - 0.04 * t * t;
+          if (y < FUJI_H * 0.6) return null;
+          return (
+            <mesh key={'b' + i} position={[Math.cos(a) * v * t, y, Math.sin(a) * v * t]} scale={0.8}>
+              <sphereGeometry args={[1, 6, 4]} />
+              <meshBasicMaterial color="#ffb060" toneMapped={false} />
+            </mesh>
+          );
+        })}
+      </Stage>
+      <AbsoluteFill style={{background: '#fff2e0', opacity: flash}} />
+      <Vignette strength={0.4} />
+    </AbsoluteFill>
+  );
+};
+
 // ---------- 1. 噴火（単位 100m）：朝の富士山 → 山頂から噴煙 ----------
 const Fields: React.FC<{ash?: number}> = ({ash = 0}) => {
   const geo = useMemo(() => {
