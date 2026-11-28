@@ -396,3 +396,32 @@ export const SFX_BEPPAN: {at: number; file: string; vol?: number; dur?: number}[
   {at: 1278, file: 'ding', vol: 0.4, dur: 25},
   {at: 1346, file: 'pop', vol: 0.35, dur: 10},
 ];
+
+// もしも1日だけ心の声が全部聞こえたら
+// 場面の開始：0 / 240 / 450 / 690 / 870 / 1050 / 1230 / 1440
+export const SFX_HEART: {at: number; file: string; vol?: number; dur?: number}[] = [
+  {at: 96, file: 'pop', vol: 0.4, dur: 10},
+  {at: 132, file: 'pop', vol: 0.4, dur: 10},
+  {at: 240, file: 'whoosh', vol: 0.4, dur: 25},
+  {at: 260, file: 'pop', vol: 0.4, dur: 10},
+  {at: 284, file: 'pop', vol: 0.4, dur: 10},
+  {at: 308, file: 'pop', vol: 0.4, dur: 10},
+  {at: 332, file: 'pop', vol: 0.4, dur: 10},
+  {at: 466, file: 'pop', vol: 0.4, dur: 10},
+  {at: 494, file: 'pop', vol: 0.4, dur: 10},
+  {at: 576, file: 'ding', vol: 0.35, dur: 25},
+  {at: 576, file: 'pop', vol: 0.4, dur: 10},
+  {at: 586, file: 'pop', vol: 0.4, dur: 10},
+  {at: 596, file: 'pop', vol: 0.4, dur: 10},
+  {at: 706, file: 'pop', vol: 0.4, dur: 10},
+  {at: 750, file: 'pop', vol: 0.4, dur: 10},
+  {at: 886, file: 'pop', vol: 0.4, dur: 10},
+  {at: 934, file: 'pop', vol: 0.4, dur: 10},
+  {at: 1066, file: 'pop', vol: 0.4, dur: 10},
+  {at: 1094, file: 'pop', vol: 0.4, dur: 10},
+  {at: 1156, file: 'whoosh', vol: 0.35, dur: 25},
+  {at: 1246, file: 'pop', vol: 0.4, dur: 10},
+  {at: 1290, file: 'pop', vol: 0.4, dur: 10},
+  {at: 1506, file: 'ding', vol: 0.5, dur: 30},
+  {at: 1506, file: 'pop', vol: 0.4, dur: 10},
+];
