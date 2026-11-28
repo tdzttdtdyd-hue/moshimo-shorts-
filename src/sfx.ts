@@ -361,3 +361,33 @@ export const SFX_PRESSURE: {at: number; file: string; vol?: number; dur?: number
   {at: 1230, file: 'glass', vol: 0.4, dur: 40},
   {at: 1296, file: 'pop', vol: 0.45, dur: 10},
 ];
+
+// もし彼氏が別班だったら
+// 場面の開始：0 / 270 / 540 / 810 / 1110 / 1410 / 1680 / 1950
+export const SFX_BEPPAN: {at: number; file: string; vol?: number; dur?: number}[] = [
+  {at: 66, file: 'pop', vol: 0.45, dur: 10},
+  {at: 70, file: 'pop', vol: 0.35, dur: 10},
+  {at: 196, file: 'hit', vol: 0.35, dur: 20},
+  {at: 288, file: 'ding', vol: 0.4, dur: 25},
+  {at: 320, file: 'pop', vol: 0.4, dur: 10},
+  {at: 482, file: 'whoosh', vol: 0.6, dur: 25},
+  {at: 560, file: 'pop', vol: 0.4, dur: 10},
+  {at: 630, file: 'pop', vol: 0.4, dur: 10},
+  {at: 960, file: 'hit', vol: 0.25, dur: 20},
+  {at: 1004, file: 'hit', vol: 0.4, dur: 10},
+  {at: 1015, file: 'hit', vol: 0.4, dur: 10},
+  {at: 1000, file: 'pop', vol: 0.35, dur: 10},
+  {at: 1120, file: 'pop', vol: 0.4, dur: 10},
+  {at: 1206, file: 'whoosh', vol: 0.6, dur: 25},
+  {at: 1430, file: 'pop', vol: 0.35, dur: 10},
+  {at: 1474, file: 'pop', vol: 0.35, dur: 10},
+  {at: 1518, file: 'pop', vol: 0.35, dur: 10},
+  {at: 1562, file: 'pop', vol: 0.35, dur: 10},
+  {at: 1606, file: 'pop', vol: 0.35, dur: 10},
+  {at: 1738, file: 'hit', vol: 0.35, dur: 20},
+  {at: 1750, file: 'pop', vol: 0.4, dur: 10},
+  {at: 1970, file: 'pop', vol: 0.4, dur: 10},
+  {at: 2042, file: 'boom', vol: 0.5, dur: 45},
+  {at: 2100, file: 'pop', vol: 0.4, dur: 10},
+  {at: 2192, file: 'ding', vol: 0.45, dur: 25},
+];

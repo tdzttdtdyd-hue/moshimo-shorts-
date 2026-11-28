@@ -17,6 +17,8 @@ import {PetVideo} from './pet/PetVideo';
 import {SwapVideo} from './swap/SwapVideo';
 import {SpinVideo} from './spin/SpinVideo';
 import {PressureVideo} from './pressure/PressureVideo';
+import {BeppanVideo} from './beppan/BeppanVideo';
+import {TOTAL_FRAMES as BEPPAN_FRAMES} from './beppan/script';
 import {TOTAL_FRAMES as PRESSURE_FRAMES} from './pressure/script';
 import {TOTAL_FRAMES as SPIN_FRAMES} from './spin/script';
 import {TOTAL_FRAMES as SWAP_FRAMES} from './swap/script';
@@ -54,6 +56,7 @@ export const Root: React.FC = () => (
     <Composition id="SwapShort" component={SwapVideo} durationInFrames={SWAP_FRAMES} fps={FPS} width={WIDTH} height={HEIGHT} defaultProps={{withSfx: true, withBgm: true}} />
     <Composition id="SpinShort" component={SpinVideo} durationInFrames={SPIN_FRAMES} fps={FPS} width={WIDTH} height={HEIGHT} defaultProps={{withSfx: true, withBgm: true}} />
     <Composition id="PressureShort" component={PressureVideo} durationInFrames={PRESSURE_FRAMES} fps={FPS} width={WIDTH} height={HEIGHT} defaultProps={{withSfx: true, withBgm: true}} />
+    <Composition id="BeppanShort" component={BeppanVideo} durationInFrames={BEPPAN_FRAMES} fps={FPS} width={WIDTH} height={HEIGHT} defaultProps={{withSfx: true, withBgm: true}} />
     <Composition id="SunLong" component={SunLongVideo} durationInFrames={TOTAL_L} fps={FPS} width={LW} height={LH} defaultProps={{withSfx: true, withBgm: true}} />
   </>
 );
