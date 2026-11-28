@@ -173,8 +173,8 @@ export const P2: React.FC = () => {
 
 // ---------- 3. 2気圧：耳がキーン・お湯が沸かない ----------
 const CAM_3: CamKey[] = [
-  {f: 0, pos: [0.9, 1.9, 3.6], look: [-0.75, 0.95, 0], fov: 50},
-  {f: 180, pos: [0.1, 1.8, 3.3], look: [-0.75, 0.95, 0], fov: 50, ease: LIN},
+  {f: 0, pos: [1.4, 2.0, 3.8], look: [-0.75, 0.95, 0], fov: 50},
+  {f: 180, pos: [-0.6, 1.9, 3.7], look: [-0.7, 0.85, 0], fov: 50, ease: LIN},
 ];
 const EARS: Pose = pose({lSh: [1.7, 0.75], rSh: [1.7, 0.75], lEl: 2.5, rEl: 2.5, head: 0.2, spine: 0.15});
 export const P3: React.FC = () => {
@@ -202,6 +202,16 @@ export const P3: React.FC = () => {
             <meshBasicMaterial color="#4f8fff" />
           </mesh>
         ))}
+        {/* 鍋からの湯気（ゆらゆら上る） */}
+        {Array.from({length: 8}).map((_, i) => {
+          const t = ((f * 0.012 + i / 8) % 1);
+          return (
+            <mesh key={'st' + i} position={[-0.3 + 0.06 * Math.sin(i * 2 + f * 0.05), 1.05 + t * 0.7, -0.1 + 0.04 * Math.cos(i)]} scale={0.04 + t * 0.1}>
+              <sphereGeometry args={[1, 10, 8]} />
+              <meshBasicMaterial color="#ffffff" transparent opacity={0.35 * Math.sin(t * Math.PI)} depthWrite={false} />
+            </mesh>
+          );
+        })}
         {/* 小さな泡 → ずっと沸かない（最後だけ沸く） */}
         {Array.from({length: boil ? 14 : 3}).map((_, i) => {
           const t = ((f * 0.05 + i * 0.17) % 1);
@@ -212,7 +222,7 @@ export const P3: React.FC = () => {
             </mesh>
           );
         })}
-        <Human outfit={OUTFITS[0]} position={[-1.2, 0, 0.25]} rotation={[0, Math.PI / 2 - 0.5, 0]} p={{...EARS, twist: 0.15 * Math.sin(f * 0.15)}} />
+        <Human outfit={OUTFITS[0]} position={[-1.2, 0, 0.25]} rotation={[0, Math.PI / 2 - 0.5, 0]} p={{...EARS, twist: 0.35 * Math.sin(f * 0.12), head: 0.2 + 0.12 * Math.sin(f * 0.21), spine: 0.15 + 0.08 * Math.sin(f * 0.09)}} />
       </Stage>
       <Vignette strength={0.25} />
     </AbsoluteFill>

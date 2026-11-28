@@ -28,8 +28,8 @@
     },
     {
       "name": "0.5秒以上の静止区間なし（スライドショー化していない）",
-      "pass": true,
-      "detail": "0件"
+      "pass": false,
+      "detail": "start at 10.8333, 11.4667, 12.1333, 13.7, 14.2, 15.0667, 16.7s"
     },
     {
       "name": "意図しない黒画面なし",
@@ -103,9 +103,9 @@
       "issues": []
     },
     {
-      "frame": 374,
-      "what": "q3_boil card0",
-      "boxes": 7,
+      "frame": 416,
+      "what": "q3_boil caption1",
+      "boxes": 6,
       "issues": []
     },
     {
@@ -115,7 +115,7 @@
       "issues": []
     },
     {
-      "frame": 584,
+      "frame": 580,
       "what": "q4_ball card0",
       "boxes": 7,
       "issues": []
