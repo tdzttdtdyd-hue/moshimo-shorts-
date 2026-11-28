@@ -67,7 +67,8 @@ const BubbleView: React.FC<{b: Bubble; x: number; y: number; f: number}> = ({b, 
   const w = maxEm * size + 70;
   const h = lines.length * size * 1.32 + 40;
   const think = b.kind === 'think';
-  const bx = Math.min(SAFE.left + (1080 - SAFE.left - SAFE.right) - w, Math.max(SAFE.left, x - w / 2));
+  // 出るときに少し拡大するぶんも含めて、セーフエリアの内側に収める
+  const bx = Math.min(1080 - SAFE.right - w * 1.08, Math.max(SAFE.left + w * 0.06, x - w / 2));
   const by = Math.min(1150 - h, Math.max(540, y - h - 110));
   const tx = Math.min(bx + w - 50, Math.max(bx + 50, x));
   const bg = b.who === 'her' ? '#fff4f6' : '#ffffff';
@@ -505,7 +506,7 @@ const PhoneScreen: React.FC<{f: number}> = ({f}) => {
   const calling = f >= CALL_FROM;
   const noAnswer = f >= CALL_FROM + 36;
   return (
-    <div style={{position: 'absolute', left: (1080 - W) / 2 - 40, top: 540, width: W, height: H, opacity: k, transform: `translateY(${(1 - k) * 30}px)`, borderRadius: 48, background: '#111216', padding: 14, boxSizing: 'border-box', boxShadow: '0 16px 50px rgba(0,0,0,0.5)'}}>
+    <div style={{position: 'absolute', left: (1080 - W) / 2 - 40, top: 540, width: W, height: H, opacity: k, transform: `translateY(${(1 - k) * 30 + 6 * Math.sin(f * 0.07)}px) rotate(${1.2 * Math.sin(f * 0.05)}deg)`, borderRadius: 48, background: '#111216', padding: 14, boxSizing: 'border-box', boxShadow: '0 16px 50px rgba(0,0,0,0.5)'}}>
       <div data-telop="phone" style={{position: 'relative', width: '100%', height: '100%', borderRadius: 36, overflow: 'hidden', background: calling ? '#1d2230' : '#eef0f3', fontFamily: SANS}}>
         {!calling ? (
           <>
@@ -539,8 +540,8 @@ const PhoneScreen: React.FC<{f: number}> = ({f}) => {
   );
 };
 const CAM_5: CamKey[] = [
-  {f: 0, pos: [0.4, 1.5, 3.0], look: [0, 0.8, -1.2], fov: 48},
-  {f: 300, pos: [-0.5, 1.35, 2.2], look: [-0.1, 0.85, -1.2], fov: 48, ease: LIN},
+  {f: 0, pos: [1.2, 1.6, 3.2], look: [0, 0.8, -1.2], fov: 48},
+  {f: 300, pos: [-1.0, 1.3, 2.0], look: [-0.1, 0.85, -1.2], fov: 48, ease: LIN},
 ];
 export const B5: React.FC = () => {
   const f = useCurrentFrame();
@@ -548,7 +549,7 @@ export const B5: React.FC = () => {
   // 座面の高さ 0.5m のソファ
   const sitY = 0.5 - 0.93 * HER_S + 0.06;
   const toEar = sm((f - CALL_FROM) / 10) * (1 - sm((f - 222) / 10));
-  const herP: Pose = lerpPose({...SEATED, rSh: [1.1, 0.1], rEl: 1.6, lSh: [0.6, 0.1], lEl: 1.2, head: 0.45, spine: 0.15}, {...SEATED, rSh: [1.6, 0.6], rEl: 2.4, head: 0.1, spine: 0.05}, toEar);
+  const herP: Pose = lerpPose({...SEATED, rSh: [1.1 + 0.05 * Math.sin(f * 0.9), 0.1], rEl: 1.6 + 0.08 * Math.sin(f * 1.3), lSh: [0.6, 0.1], lEl: 1.2, head: 0.45 + 0.05 * Math.sin(f * 0.11), spine: 0.15}, {...SEATED, rSh: [1.6, 0.6], rEl: 2.4, head: 0.1, spine: 0.05}, toEar);
   const slump = sm((f - 226) / 14);
   return (
     <AbsoluteFill>
