@@ -28,7 +28,7 @@ const HookLine: React.FC = () => {
   return (
     <div style={{position: 'absolute', left: SAFE.left, width: 1080 - SAFE.left - SAFE.right, bottom: 505, display: 'flex', flexDirection: 'column', alignItems: 'center', opacity: o}}>
       {lines.map((l, i) => (
-        <div key={i} data-telop="caption" style={{fontFamily: SANS, fontWeight: 900, fontSize: 70, lineHeight: 1.22, color: '#fff', letterSpacing: '0.03em', textShadow: '0 3px 14px rgba(0,0,0,0.7), 0 1px 3px rgba(0,0,0,0.7)', whiteSpace: 'pre'}}>
+        <div key={i} data-telop="caption" style={{fontFamily: SANS, fontWeight: 900, fontSize: 64, lineHeight: 1.22, color: '#fff', letterSpacing: '0.03em', textShadow: '0 3px 14px rgba(0,0,0,0.7), 0 1px 3px rgba(0,0,0,0.7)', whiteSpace: 'pre'}}>
           <Rich text={l} />
         </div>
       ))}
