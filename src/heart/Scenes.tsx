@@ -419,7 +419,8 @@ const CLERK_6: V3 = [0, 0, -1.2];
 const ME_6: V3 = [0.15, 0, 0.15];
 const CAM_6: CamKey[] = [
   {f: 0, pos: [-1.9, 1.45, 3.4], look: [0.0, 1.45, -0.8], fov: 48},
-  {f: 180, pos: [-0.9, 1.4, 3.2], look: [0.0, 1.4, -0.8], fov: 48, ease: LIN},
+  {f: 110, pos: [-1.3, 1.42, 3.3], look: [0.0, 1.4, -0.8], fov: 48, ease: LIN},
+  {f: 180, pos: [0.4, 1.5, 3.4], look: [0.4, 1.2, 0.2], fov: 50},
 ];
 export const H6: React.FC = () => {
   const f = useCurrentFrame();
@@ -443,7 +444,7 @@ export const H6: React.FC = () => {
         <Box p={[0, 0.92, -0.75]} s={[2.05, 0.05, 0.65]} c="#8a8f99" />
         <Box p={[-0.5, 1.08, -0.85]} s={[0.36, 0.26, 0.28]} c="#3d4250" />
         <Box p={[-0.5, 1.26, -0.95]} s={[0.32, 0.2, 0.04]} c="#9fd0ff" e="#7fc0ff" ei={0.6} />
-        <Human outfit={CLERK} position={CLERK_6} p={pose({spine: 0.7 * bow, head: 0.2 * bow, lSh: [0.2, 0.1], rSh: [0.2, 0.1]})} />
+        <Human outfit={CLERK} position={CLERK_6} p={pose({spine: 0.7 * bow, head: 0.2 * bow + (f > 110 ? 0.3 : 0), lSh: [0.2 + (f > 110 ? 0.6 + 0.2 * Math.sin(f * 0.3) : 0), 0.1], rSh: [0.2 + (f > 110 ? 0.6 + 0.2 * Math.cos(f * 0.3) : 0), 0.1], lEl: f > 110 ? 1.2 : 0.15, rEl: f > 110 ? 1.2 : 0.15})} />
         <Human
           outfit={ME}
           position={[ME_6[0] + walk * 0.2, 0, ME_6[2] + walk * 0.9]}
