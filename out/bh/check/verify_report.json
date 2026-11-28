@@ -1,0 +1,226 @@
+{
+  "video": "out/bh/bh_final.mp4",
+  "results": [
+    {
+      "name": "解像度 1080x1920",
+      "pass": true,
+      "detail": "1080x1920"
+    },
+    {
+      "name": "30fps",
+      "pass": true,
+      "detail": "30/1"
+    },
+    {
+      "name": "尺 62〜66秒",
+      "pass": true,
+      "detail": "64.00s / 1920 frames"
+    },
+    {
+      "name": "H.264 / yuv420p",
+      "pass": true,
+      "detail": "h264 yuv420p"
+    },
+    {
+      "name": "音声トラック（BGM＋効果音）",
+      "pass": true,
+      "detail": "aac 48000Hz"
+    },
+    {
+      "name": "0.5秒以上の静止区間なし（スライドショー化していない）",
+      "pass": true,
+      "detail": "0件"
+    },
+    {
+      "name": "意図しない黒画面なし",
+      "pass": true,
+      "detail": "0件"
+    },
+    {
+      "name": "音声ピーク -1dBFS 以下（クリップなし）",
+      "pass": true,
+      "detail": "-9.6 dBFS"
+    },
+    {
+      "name": "コンタクトシート作成",
+      "pass": true,
+      "detail": "out/bh/check/contact_sheet.png"
+    },
+    {
+      "name": "テロップがセーフエリア内",
+      "pass": true,
+      "detail": "24 フレーム検査 / 違反 0"
+    },
+    {
+      "name": "テロップ同士の重なりなし",
+      "pass": true,
+      "detail": "違反 0"
+    },
+    {
+      "name": "テロップが横幅に収まる",
+      "pass": true,
+      "detail": "違反 0"
+    },
+    {
+      "name": "書体：テーマ・経過時間・語りは明朝体、その他はゴシック体",
+      "pass": true,
+      "detail": "違反 0"
+    },
+    {
+      "name": "日本語フォント（ゴシック: Noto Sans JP / 明朝: Noto Serif JP）読込",
+      "pass": true,
+      "detail": "sans 84 / serif 52 subsets"
+    },
+    {
+      "name": "コンソール / WebGL エラーなし",
+      "pass": true,
+      "detail": "0件"
+    }
+  ],
+  "frames": [
+    {
+      "frame": 30,
+      "what": "hook title",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 86,
+      "what": "s1_city caption0",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 100,
+      "what": "s1_city custom@100",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 176,
+      "what": "s1_city caption1",
+      "boxes": 6,
+      "issues": []
+    },
+    {
+      "frame": 236,
+      "what": "s2_coin caption0",
+      "boxes": 8,
+      "issues": []
+    },
+    {
+      "frame": 268,
+      "what": "s2_coin card0",
+      "boxes": 8,
+      "issues": []
+    },
+    {
+      "frame": 354,
+      "what": "s2_coin caption1",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 476,
+      "what": "s3_spaghetti caption0",
+      "boxes": 8,
+      "issues": []
+    },
+    {
+      "frame": 596,
+      "what": "s3_spaghetti caption1",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 610,
+      "what": "s3_spaghetti custom@160",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 822,
+      "what": "s4_kanto caption0",
+      "boxes": 8,
+      "issues": []
+    },
+    {
+      "frame": 840,
+      "what": "s4_kanto custom@150",
+      "boxes": 8,
+      "issues": []
+    },
+    {
+      "frame": 916,
+      "what": "s4_kanto caption1",
+      "boxes": 8,
+      "issues": []
+    },
+    {
+      "frame": 1016,
+      "what": "s5_japan caption0",
+      "boxes": 9,
+      "issues": []
+    },
+    {
+      "frame": 1090,
+      "what": "s5_japan custom@100",
+      "boxes": 9,
+      "issues": []
+    },
+    {
+      "frame": 1176,
+      "what": "s5_japan caption1",
+      "boxes": 8,
+      "issues": []
+    },
+    {
+      "frame": 1316,
+      "what": "s6_earth caption0",
+      "boxes": 8,
+      "issues": []
+    },
+    {
+      "frame": 1350,
+      "what": "s6_earth custom@60",
+      "boxes": 8,
+      "issues": []
+    },
+    {
+      "frame": 1470,
+      "what": "s6_earth caption1",
+      "boxes": 6,
+      "issues": []
+    },
+    {
+      "frame": 1526,
+      "what": "s7_after caption0",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 1632,
+      "what": "s7_after caption1",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 1736,
+      "what": "s8_sky caption0",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 1836,
+      "what": "s8_sky caption1",
+      "boxes": 7,
+      "issues": []
+    },
+    {
+      "frame": 1860,
+      "what": "s8_sky custom@150",
+      "boxes": 7,
+      "issues": []
+    }
+  ]
+}
