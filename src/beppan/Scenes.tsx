@@ -489,83 +489,87 @@ export const B4: React.FC = () => {
   );
 };
 
-// ---------- 5. 120日目：方向音痴のはずが、裏道を迷わず逃げる ----------
-// 道すじ：大通りを奥（−z）へ走り、z = −8 で左の路地（−x）へ曲がる
-const RUN_PATH: V3[] = [
-  [0.2, 0, 0],
-  [0.2, 0, -8],
-  [-12, 0, -8],
+// ---------- 5. 120日目：出張中、連絡してもまったくつながらない ----------
+// 夜の部屋で、ソファに座ってスマホを見つめる彼女。画面には、既読のつかないメッセージと、つながらない電話
+const MSGS: {at: number; text: string; time: string}[] = [
+  {at: 24, text: '今どこ？', time: '21:03'},
+  {at: 52, text: '大丈夫？', time: '23:41'},
+  {at: 80, text: 'おーい', time: '2:15'},
+  {at: 108, text: '生きてる？', time: '7:30'},
 ];
-const Alley: React.FC = () => {
-  const r = mulberry32(5);
-  const blocks = useMemo(() => {
-    const out: {p: V3; s: V3; c: string}[] = [];
-    // 大通りの両側（路地の入口 z = −7〜−9 はあける）
-    for (let z = 4; z > -30; z -= 4) {
-      if (!(z < -5 && z > -11)) out.push({p: [-3.6, 4, z], s: [3, 8, 3.8], c: ['#b8b0a4', '#a8a8b0', '#c4b8a8'][Math.floor(r() * 3)]});
-      out.push({p: [3.6, 4, z], s: [3, 8, 3.8], c: ['#b8b0a4', '#a8a8b0', '#c4b8a8'][Math.floor(r() * 3)]});
-    }
-    // 路地の両側
-    for (let x = -6; x > -30; x -= 4) {
-      out.push({p: [x, 3.5, -10.6], s: [3.8, 7, 3], c: '#9a948a'});
-      out.push({p: [x, 3.5, -5.4], s: [3.8, 7, 3], c: '#a49c90'});
-    }
-    return out;
-  }, []);
+const CALL_FROM = 150;
+const PhoneScreen: React.FC<{f: number}> = ({f}) => {
+  const k = interpolate(f, [14, 24, 220, 230], [0, 1, 1, 0], clamp);
+  if (k <= 0) return null;
+  const W = 400, H = 620;
+  const calling = f >= CALL_FROM;
+  const noAnswer = f >= CALL_FROM + 36;
   return (
-    <>
-      {blocks.map((b, i) => (
-        <Box key={i} p={b.p} s={b.s} c={b.c} />
-      ))}
-      <Box p={[0, -0.05, -10]} s={[40, 0.1, 60]} c="#7a7a7e" />
-      <Box p={[0, 0.0, -10]} s={[4.2, 0.02, 60]} c="#5a5a60" />
-    </>
+    <div style={{position: 'absolute', left: (1080 - W) / 2 - 40, top: 540, width: W, height: H, opacity: k, transform: `translateY(${(1 - k) * 30}px)`, borderRadius: 48, background: '#111216', padding: 14, boxSizing: 'border-box', boxShadow: '0 16px 50px rgba(0,0,0,0.5)'}}>
+      <div data-telop="phone" style={{position: 'relative', width: '100%', height: '100%', borderRadius: 36, overflow: 'hidden', background: calling ? '#1d2230' : '#eef0f3', fontFamily: SANS}}>
+        {!calling ? (
+          <>
+            <div style={{height: 70, background: '#ffffff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 900, fontSize: 30, color: '#1d1d22', borderBottom: '1px solid #ddd'}}>彼</div>
+            <div style={{padding: '18px 18px', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 16}}>
+              {MSGS.filter((m) => f >= m.at).map((m, i) => {
+                const pop = Math.min(1, (f - m.at) / 6);
+                return (
+                  <div key={i} style={{display: 'flex', alignItems: 'flex-end', gap: 8, opacity: pop, transform: `scale(${0.9 + 0.1 * pop})`, transformOrigin: 'right bottom'}}>
+                    {/* 既読はつかない：時刻だけ */}
+                    <span style={{fontSize: 18, color: '#8a8f99', whiteSpace: 'pre'}}>{m.time}</span>
+                    <span style={{background: '#7bd86a', color: '#1d1d22', fontWeight: 700, fontSize: 32, borderRadius: 22, padding: '10px 18px', whiteSpace: 'pre'}}>{m.text}</span>
+                  </div>
+                );
+              })}
+            </div>
+          </>
+        ) : (
+          <div style={{position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: 90, color: '#fff'}}>
+            <div style={{width: 120, height: 120, borderRadius: 60, background: '#5a6478'}} />
+            <div style={{marginTop: 22, fontSize: 40, fontWeight: 900}}>彼</div>
+            {!noAnswer ? (
+              <div style={{marginTop: 12, fontSize: 28, opacity: 0.6 + 0.4 * Math.abs(Math.sin(f * 0.15)), whiteSpace: 'pre'}}>発信中…</div>
+            ) : (
+              <div style={{marginTop: 28, fontSize: 25, lineHeight: 1.6, textAlign: 'center', color: '#e8eaf0', whiteSpace: 'pre'}}>{'おかけになった電話は\n電波の届かない場所にあるか\n電源が入っていないため\nかかりません'}</div>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
   );
 };
-const RUN_START = 96;
-// カメラ：走る前は2人の正面（後ろから男たちが近づくのが見える）→ 路地の入口の先から、走ってくる2人を迎える → 路地の前で見失う男たち
-const CAM_5 = (f: number): CamKey[] => {
-  if (f < RUN_START) return [{f: 0, pos: [1.3 - f * 0.003, 1.7, -4.6 + f * 0.004], look: [0, 1.2, 3], fov: 52}];
-  const d = ((f - RUN_START) / 30) * 4.5;
-  const p = along(RUN_PATH, d);
-  if (f < 210) return [{f: 0, pos: [2.2, 2.4, -12.5], look: [p.pos[0], 1.1, p.pos[2]], fov: 50}];
-  const k = sm((f - 210) / 30);
-  return [{f: 0, pos: [lerp(2.2, -2.5, k), lerp(2.4, 2.6, k), lerp(-12.5, -12.8, k)], look: [lerp(p.pos[0], -0.2, k), 1.2, lerp(p.pos[2], -7, k)], fov: 50}];
-};
+const CAM_5: CamKey[] = [
+  {f: 0, pos: [0.4, 1.5, 3.0], look: [0, 0.8, -1.2], fov: 48},
+  {f: 300, pos: [-0.5, 1.35, 2.2], look: [-0.1, 0.85, -1.2], fov: 48, ease: LIN},
+];
 export const B5: React.FC = () => {
   const f = useCurrentFrame();
-  const cam = CAM_5(f);
-  const d = Math.max(0, ((f - RUN_START) / 30) * 4.5); // 4.5m/秒で走る
-  const run = f >= RUN_START;
-  const himW = along(RUN_PATH, d);
-  const herW = along(RUN_PATH, Math.max(0, d - 0.9));
-  // 黒い服の男たち：後ろから歩いてきて、追いかけるが、路地の前で見失う
-  const menStart = 60;
-  const menD = f < RUN_START ? ((f - menStart) / 30) * 1.4 : ((RUN_START - menStart) / 30) * 1.4 + ((f - RUN_START) / 30) * 3.4;
-  const men = [0, 1, 2].map((i) => {
-    const pathMen: V3[] = [[-0.8 + i * 0.8, 0, 14], [-0.8 + i * 0.8, 0, -7.2]];
-    const lost = f > 250;
-    const w = along(pathMen, Math.max(0, menD - i * 0.6));
-    return {pos: w.pos, ry: lost ? Math.PI + Math.sin(f * 0.1 + i) * 1.2 : w.ry, moving: f >= menStart && w.pos[2] > -7.1, dist: Math.max(0, menD - i * 0.6)};
-  });
-  const confused = pose({rSh: [1.2, 0.1], rEl: 1.9, head: 0.35 + 0.15 * Math.sin(f * 0.2), twist: 0.4 * Math.sin(f * 0.05)});
+  const SOFA_Z = -1.6;
+  // 座面の高さ 0.5m のソファ
+  const sitY = 0.5 - 0.93 * HER_S + 0.06;
+  const toEar = sm((f - CALL_FROM) / 10) * (1 - sm((f - 222) / 10));
+  const herP: Pose = lerpPose({...SEATED, rSh: [1.1, 0.1], rEl: 1.6, lSh: [0.6, 0.1], lEl: 1.2, head: 0.45, spine: 0.15}, {...SEATED, rSh: [1.6, 0.6], rEl: 2.4, head: 0.1, spine: 0.05}, toEar);
+  const slump = sm((f - 226) / 14);
   return (
     <AbsoluteFill>
-      <Stage bg="#b8c4d0" shadows={false}>
-        <CameraRig keys={cam} />
-        <SkyDome top="#7fa8d0" horizon="#dfe8f0" />
-        <hemisphereLight args={['#eef4ff', '#6a6a60', 1.0]} />
-        <ambientLight intensity={0.3} />
-        <directionalLight position={[6, 12, 6]} intensity={1.4} />
-        <Alley />
-        <Him position={run ? himW.pos : [0.2, 0, 0]} rotation={[0, run ? himW.ry : Math.PI * 0.85 + 0.3 * Math.sin(f * 0.04), 0]} p={run ? runPose((d / 2.4) * Math.PI * 2, 1) : confused} rHand={!run ? <HandPhone /> : undefined} />
-        <Her position={run ? herW.pos : [-0.55, 0, 0.3]} rotation={[0, run ? herW.ry : Math.PI, 0]} p={run ? runPose((Math.max(0, d - 0.9) / 2.4) * Math.PI * 2 + 1, 0.9) : pose({head: 0.1})} />
-        {men.map((m, i) => (
-          <Human key={i} outfit={BLACK} position={m.pos} rotation={[0, m.ry, 0]} p={m.moving ? (f < RUN_START ? walkPose((m.dist / STRIDE) * Math.PI * 2, 1) : runPose((m.dist / 2.4) * Math.PI * 2, 0.9)) : pose({head: -0.1, lSh: [0.2, 0.3], rSh: [0.2, 0.3]})} />
-        ))}
+      <Stage bg="#1c2236" shadows={false}>
+        <CameraRig keys={CAM_5} />
+        <Interior wall="#3a4258" floor="#4a3a30" night />
+        <group position={[0, 0, SOFA_Z]}>
+          <Box p={[0, 0.25, 0]} s={[2.2, 0.5, 0.9]} c="#6a7fa8" />
+          <Box p={[0, 0.7, -0.38]} s={[2.2, 0.6, 0.2]} c="#5f739a" />
+          <Box p={[-1.05, 0.45, 0]} s={[0.15, 0.4, 0.9]} c="#5f739a" />
+          <Box p={[1.05, 0.45, 0]} s={[0.15, 0.4, 0.9]} c="#5f739a" />
+        </group>
+        {/* 窓の外は夜 → 明け方へ（時間がたっていく） */}
+        <Box p={[1.2, 1.7, -2.54]} s={[1.6, 1.4, 0.02]} c={f < 110 ? '#141c34' : '#3a4a70'} e={f < 110 ? '#1c2848' : '#5a6a90'} ei={0.5} />
+        <Her position={[0.1, sitY, SOFA_Z + 0.1]} p={{...herP, spine: herP.spine + 0.15 * slump, head: herP.head + 0.2 * slump}} rHand={<HandPhone />} />
+        {/* スマホの光が顔を照らす */}
+        <pointLight position={[0.15, 1.1, SOFA_Z + 0.5]} intensity={0.45} distance={1.4} color="#9fc8ff" />
       </Stage>
-      <Bubbles id="b5_day120" f={f} cam={cam} him={[0.2, 1.85, 0]} her={[-0.55, 1.7, 0.3]} />
-      <Vignette strength={0.3} />
+      <PhoneScreen f={f} />
+      <Bubbles id="b5_day120" f={f} cam={CAM_5} him={[0, 0, 0]} her={[0.1, 1.25, SOFA_Z + 0.1]} />
+      <Vignette strength={0.45} />
     </AbsoluteFill>
   );
 };

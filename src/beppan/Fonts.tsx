@@ -14,7 +14,7 @@ const ALL_TEXT =
   THEME.hook.join('') +
   THEME.top +
   DISCLAIMER +
-  '0123456789,.+−-▶付き合って日目' + SCENES.flatMap((s) => (s as {bubbles?: {text: string}[]}).bubbles ?? []).map((b) => b.text).join('') + '記録調査報告書' + CLOCK_LABEL;
+  '0123456789,.+−-▶付き合って日目' + SCENES.flatMap((s) => (s as {bubbles?: {text: string}[]}).bubbles ?? []).map((b) => b.text).join('') + '記録調査報告書彼今どこ大丈夫？おーい生きてる発信中おかけになった電話は電波の届かない場所にあるか電源が入っていないためかかりません0123456789:' + CLOCK_LABEL;
 
 export const FontsBeppan: React.FC = () => {
   const [handle] = useState(() => delayRender('fonts'));

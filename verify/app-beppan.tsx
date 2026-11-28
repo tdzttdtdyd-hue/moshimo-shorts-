@@ -22,7 +22,7 @@ for (const s of SCENES) {
   (s.callouts ?? []).forEach((c, i) => checks.push({frame: st + Math.round((c.from + c.to) / 2), what: `${s.id} callout${i}`}));
 }
 // 場面内の独自テロップ（入浴バッジ・水ゲージ・アイコスの吹き出し・コメント・グラフ）
-for (const [id, fr] of [['b1_day1', 120], ['b2_day30', 90], ['b3_day60', 50], ['b3_day60', 120], ['b4_day90', 240], ['b5_day120', 40], ['b6_day180', 40], ['b6_day180', 170], ['b7_day365', 120], ['b8_end', 50], ['b8_end', 170]] as const) checks.push({frame: sceneStart(id) + fr, what: `${id} custom@${fr}`});
+for (const [id, fr] of [['b1_day1', 120], ['b2_day30', 90], ['b3_day60', 50], ['b3_day60', 120], ['b4_day90', 240], ['b5_day120', 130], ['b5_day120', 200], ['b5_day120', 260], ['b6_day180', 40], ['b6_day180', 170], ['b7_day365', 120], ['b8_end', 50], ['b8_end', 170]] as const) checks.push({frame: sceneStart(id) + fr, what: `${id} custom@${fr}`});
 window.__checks = checks.sort((a, b) => a.frame - b.frame);
 window.__safe = SAFE_BOX;
 

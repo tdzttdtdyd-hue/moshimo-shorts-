@@ -52,10 +52,10 @@ export const SCENES: SceneSpec[] = [
     id: 'b5_day120',
     duration: 300,
     clock: {value: '120日目'},
-    bubbles: [{who: 'him', kind: 'say', text: 'あれ？ 駅どっちだっけ', from: 10, to: 80}],
+    bubbles: [{who: 'her', kind: 'think', text: '……生きてるよね？', from: 236, to: 300}],
     captions: [
-      {from: 96, to: 190, lines: ['黒い服の男たちが現れた瞬間、', '*迷わず裏道へ*']},
-      {from: 196, to: 300, lines: ['方向音痴は、', '*演技だった*']},
+      {from: 20, to: 140, lines: ['出張中、メッセージは', '*既読にならない*']},
+      {from: 146, to: 230, lines: ['電話も、', '*まったくつながらない*']},
     ],
   },
   {
