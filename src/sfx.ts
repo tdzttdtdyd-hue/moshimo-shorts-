@@ -341,3 +341,23 @@ export const SFX_SPIN: {at: number; file: string; vol?: number; dur?: number}[] 
   {at: 1200, file: 'pop', vol: 0.45, dur: 10},
   {at: 1286, file: 'pop', vol: 0.45, dur: 10},
 ];
+
+// もしも気圧がどんどん上がっていったら
+// 場面の開始：0 / 150 / 300 / 480 / 660 / 840 / 990 / 1170
+export const SFX_PRESSURE: {at: number; file: string; vol?: number; dur?: number}[] = [
+  {at: 66, file: 'pop', vol: 0.45, dur: 10},
+  {at: 170, file: 'whoosh', vol: 0.4, dur: 25},
+  {at: 340, file: 'ding', vol: 0.45, dur: 25},
+  {at: 516, file: 'hit', vol: 0.6, dur: 20},
+  {at: 550, file: 'ding', vol: 0.45, dur: 25},
+  {at: 700, file: 'ding', vol: 0.45, dur: 25},
+  {at: 860, file: 'whoosh', vol: 0.4, dur: 25},
+  {at: 1005, file: 'hit', vol: 0.4, dur: 20},
+  {at: 1017, file: 'hit', vol: 0.4, dur: 20},
+  {at: 1029, file: 'hit', vol: 0.4, dur: 20},
+  {at: 1040, file: 'rumble', vol: 0.4, dur: 120},
+  {at: 1200, file: 'whoosh', vol: 0.5, dur: 25},
+  {at: 1228, file: 'boom', vol: 0.7, dur: 45},
+  {at: 1230, file: 'glass', vol: 0.4, dur: 40},
+  {at: 1296, file: 'pop', vol: 0.45, dur: 10},
+];
