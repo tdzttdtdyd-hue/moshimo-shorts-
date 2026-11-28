@@ -425,3 +425,27 @@ export const SFX_HEART: {at: number; file: string; vol?: number; dur?: number}[]
   {at: 1506, file: 'ding', vol: 0.5, dur: 30},
   {at: 1506, file: 'pop', vol: 0.4, dur: 10},
 ];
+
+// もしもブラックホールが東京に5秒間現れたら
+// 場面の開始：0 / 210 / 450 / 690 / 990 / 1290 / 1500 / 1710
+export const SFX_BH: {at: number; file: string; vol?: number; dur?: number}[] = [
+  {at: 0, file: 'wind', vol: 0.25, dur: 150},
+  {at: 150, file: 'boom', vol: 0.6, dur: 45},
+  {at: 152, file: 'whoosh', vol: 0.5, dur: 25},
+  {at: 234, file: 'pop', vol: 0.4, dur: 10},
+  {at: 450, file: 'rumble', vol: 0.5, dur: 240},
+  {at: 456, file: 'whoosh', vol: 0.6, dur: 25},
+  {at: 690, file: 'rumble', vol: 0.6, dur: 300},
+  {at: 802, file: 'pop', vol: 0.4, dur: 10},
+  {at: 896, file: 'pop', vol: 0.4, dur: 10},
+  {at: 990, file: 'rumble', vol: 0.6, dur: 300},
+  {at: 1140, file: 'hit', vol: 0.5, dur: 20},
+  {at: 1156, file: 'pop', vol: 0.4, dur: 10},
+  {at: 1290, file: 'rumble', vol: 0.6, dur: 150},
+  {at: 1440, file: 'boom', vol: 0.9, dur: 60},
+  {at: 1442, file: 'glass', vol: 0.4, dur: 40},
+  {at: 1500, file: 'wind', vol: 0.4, dur: 200},
+  {at: 1500, file: 'rumble', vol: 0.4, dur: 200},
+  {at: 1710, file: 'wind', vol: 0.35, dur: 210},
+  {at: 1816, file: 'ding', vol: 0.45, dur: 30},
+];
